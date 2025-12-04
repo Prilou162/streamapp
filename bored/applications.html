@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mis postulaciones – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+    }
+
+    /* LAYOUT */
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.25), transparent 60%),
+        #05050b;
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .12em;
+    }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: .15s;
+      position: relative;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #181a2e;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.3), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 10;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .topbar-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(123,107,255,0.85);
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.5), rgba(9,9,30,0.95));
+      color: #f4f4fb;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.7);
+      white-space: nowrap;
+    }
+
+    /* CONTENT */
+    .content {
+      display: flex;
+      gap: 22px;
+      padding: 22px;
+    }
+
+    .main-column { flex: 1.9; display: flex; flex-direction: column; gap: 18px; }
+    .side-column { flex: 1; max-width: 360px; display: flex; flex-direction: column; gap: 18px; }
+
+    /* CARD */
+    .card {
+      background:
+        linear-gradient(130deg, rgba(255,255,255,0.02), transparent 40%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 34px rgba(0,0,0,.55);
+    }
+
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card-sub { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; }
+
+    /* RESUMEN DE ESTADO */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .summary-box {
+      background: #15172b;
+      border-radius: 14px;
+      padding: 9px 10px;
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+    }
+
+    .summary-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 2px;
+    }
+
+    .summary-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .summary-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    /* TABS DE FILTRO */
+    .tabs-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #101123;
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 10px;
+    }
+
+    .tab-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: var(--text-soft);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: .15s ease;
+      background: transparent;
+    }
+
+    .tab-pill:hover {
+      color: #fff;
+    }
+
+    .tab-pill.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.4), transparent 60%),
+        #191b35;
+      color: #f4f4fb;
+      border-color: rgba(123,107,255,0.9);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+    }
+
+    /* LISTA DE POSTULACIONES */
+    .applications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .application-item {
+      background: #15172b;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 10px 11px;
+      display: grid;
+      grid-template-columns: 1.9fr 1.1fr 0.9fr;
+      gap: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .application-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(91,75,255,.8);
+      box-shadow: 0 10px 24px rgba(0,0,0,.85);
+    }
+
+    .application-item.selected {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.32), transparent 60%),
+        #171731;
+      border-color: rgba(91,75,255,.95);
+      box-shadow: 0 14px 30px rgba(0,0,0,.9);
+    }
+
+    .application-main-title {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .application-brand {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .application-meta {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .application-meta strong {
+      color: #fff;
+    }
+
+    .status-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      justify-content: flex-end;
+      white-space: nowrap;
+    }
+
+    .status-pill.review {
+      border: 1px solid #ffc857;
+      color: #ffc857;
+      background: rgba(255,200,87,0.08);
+    }
+
+    .status-pill.accepted {
+      border: 1px solid var(--success);
+      color: var(--success);
+      background: rgba(91,255,148,0.08);
+    }
+
+    .status-pill.rejected {
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      background: rgba(255,91,125,0.08);
+    }
+
+    .status-pill.other {
+      border: 1px solid var(--border-soft);
+      color: var(--text-soft);
+      background: rgba(20,21,41,0.8);
+    }
+
+    .date-hint {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    /* SIDE – RESUMEN DE POSTULACIÓN */
+    .side-highlight {
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.2), rgba(91,255,148,0.16)),
+        var(--bg-soft);
+      border-radius: 22px;
+      border: 1px solid rgba(91,75,255,0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .side-label {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .side-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .side-brand {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .side-status-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .side-fee {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .side-fee span {
+      font-size: 12px;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    .side-list {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+    }
+
+    .side-list li {
+      margin-bottom: 4px;
+    }
+
+    .side-note {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .btn-ghost {
+      margin-top: 10px;
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      color: var(--text-soft);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(123,107,255,0.9);
+      color: #fff;
+    }
+
+    /* SIDE – QUÉ VE LA MARCA / TIPS */
+    .brand-view-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .brand-view-list li {
+      margin-bottom: 3px;
+    }
+
+    @media (max-width: 1120px) {
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .content { flex-direction: column; padding: 16px; }
+      .main-column, .side-column { max-width: 100%; }
+      .application-item {
+        grid-template-columns: 1.8fr 1.2fr;
+        grid-template-rows: auto auto;
+      }
+      .date-hint {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .application-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navegación</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item"><a href="campaigns.html">🎯 Campañas</a></div>
+        <div class="nav-item active"><a href="applications.html">📩 Mis postulaciones</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Cuenta</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="profile.html">🧑‍💻 Perfil</a></div>
+        <div class="nav-item">⚙️ Configuración</div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">Mis postulaciones</div>
+        <div class="topbar-sub">Seguimiento de ejemplo de tus campañas aplicadas (demo).</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-tag">
+          <i class="fa-solid fa-flask"></i> Versión demo
+        </span>
+        <span class="topbar-sub">Historial ficticio para explicar el flujo</span>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- MAIN COLUMN -->
+      <div class="main-column">
+
+        <!-- RESUMEN -->
+        <div class="card">
+          <div class="card-title">Resumen de estado</div>
+          <div class="card-sub">
+            Muestra rápida de cómo podrían verse tus números reales.
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-box">
+              <div class="summary-label">Postulaciones totales</div>
+              <div class="summary-value" id="sumTotal">7</div>
+              <div class="summary-sub">Últimos 90 días (demo)</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">En revisión</div>
+              <div class="summary-value" id="sumReview">3</div>
+              <div class="summary-sub">Esperando respuesta</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Aceptadas</div>
+              <div class="summary-value" id="sumAccepted">2</div>
+              <div class="summary-sub">Buen ratio para tu tamaño</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Rechazadas / no avanzó</div>
+              <div class="summary-value" id="sumRejected">2</div>
+              <div class="summary-sub">Normal en campañas puntuales</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LISTA DE POSTULACIONES -->
+        <div class="card">
+          <div class="card-title">Postulaciones recientes</div>
+          <div class="card-sub">
+            Ejemplos de cómo se verían tus campañas aplicadas.
+          </div>
+
+          <div class="tabs-row">
+            <button class="tab-pill active" data-filter="all">Todas</button>
+            <button class="tab-pill" data-filter="review">En revisión</button>
+            <button class="tab-pill" data-filter="accepted">Aceptadas</button>
+            <button class="tab-pill" data-filter="rejected">Rechazadas</button>
+          </div>
+
+          <div class="applications-list" id="applicationsList">
+
+            <!-- APP 1 -->
+            <div
+              class="application-item"
+              data-status="review"
+              data-title="Headset Pro LATAM · Mención en stream"
+              data-brand="Headset Pro"
+              data-category="Hardware / periféricos gamer"
+              data-fee="USD 50 + producto"
+              data-status-label="En revisión"
+              data-status-type="review"
+              data-date="Te postulaste hace 3 días"
+              data-summary="1 stream en Twitch usando el headset + menciones naturales."
+              data-next="La marca está revisando tu perfil. Podrían pedirte ejemplos de clips o VODs."
+              data-tip="Si en unos días no hay respuesta, podés mandar un mensaje corto y profesional para dar contexto de tu canal."
+            >
+              <div>
+                <div class="application-main-title">Headset Pro LATAM · Mención en stream</div>
+                <div class="application-brand">Headset Pro · Hardware gamer</div>
+              </div>
+
+              <div class="application-meta">
+                Rango requerido: <strong>80–300 viewers</strong><br />
+                Duración: 1 stream · 7 días de ventana
+              </div>
+
+              <div style="text-align:right;">
+                <div class="status-pill review">
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  En revisión
+                </div>
+                <div class="date-hint">Te postulaste hace 3 días</div>
+              </div>
+            </div>
+
+            <!-- APP 2 -->
+            <div
+              class="application-item"
+              data-status="accepted"
+              data-title="App financiera LATAM · Mención + panel"
+              data-brand="Fintech LATAM"
+              data-category="Pagos digitales"
+              data-fee="USD 30 / mes"
+              data-status-label="Aceptada (demo)"
+              data-status-type="accepted"
+              data-date="Confirmada hace 2 semanas"
+              data-summary="Panel fijo con link + 1 mención semanal en stream."
+              data-next="La campaña está activa. Mientras mantengas el panel y las menciones, seguís cobrando el fee mensual."
+              data-tip="Guardá capturas o clips donde se vea la integración, eso suma mucho para futuras marcas."
+            >
+              <div>
+                <div class="application-main-title">App financiera LATAM · Mención + panel</div>
+                <div class="application-brand">Fintech LATAM · Pagos digitales</div>
+              </div>
+
+              <div class="application-meta">
+                Contrato: <strong>mensual</strong><br />
+                Formato: panel + mención semanal
+              </div>
+
+              <div style="text-align:right;">
+                <div class="status-pill accepted">
+                  <i class="fa-solid fa-circle-check"></i>
+                  Aceptada (demo)
+                </div>
+                <div class="date-hint">Confirmada hace 2 semanas</div>
+              </div>
+            </div>
+
+            <!-- APP 3 -->
+            <div
+              class="application-item"
+              data-status="review"
+              data-title="Snacks Gamer · Mención casual en stream"
+              data-brand="SnackBoost"
+              data-category="Comida / snacks"
+              data-fee="USD 20 + productos"
+              data-status-label="En revisión"
+              data-status-type="review"
+              data-date="Te postulaste ayer"
+              data-summary="Pack de snacks a cambio de menciones casuales mientras jugás o charlás."
+              data-next="La marca está chequeando si tu audiencia encaja con su público objetivo."
+              data-tip="Si aceptan, podés sumar un comando de chat con código para medir resultados."
+            >
+              <div>
+                <div class="application-main-title">Snacks Gamer · Mención casual en stream</div>
+                <div class="application-brand">SnackBoost · Comida / Snacks</div>
+              </div>
+
+              <div class="application-meta">
+                Ideal para: <strong>streams largos</strong><br />
+                Comunidad cercana de 50–150 viewers
+              </div>
+
+              <div style="text-align:right;">
+                <div class="status-pill review">
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  En revisión
+                </div>
+                <div class="date-hint">Te postulaste ayer</div>
+              </div>
+            </div>
+
+            <!-- APP 4 -->
+            <div
+              class="application-item"
+              data-status="rejected"
+              data-title="Campaña “Energy Drink LATAM”"
+              data-brand="Energy Drink Co."
+              data-category="Bebidas energéticas"
+              data-fee="USD 80 + producto"
+              data-status-label="No avanzó esta vez"
+              data-status-type="rejected"
+              data-date="Hace 1 mes"
+              data-summary="Campaña corta con varios streamers al mismo tiempo para lanzamiento regional."
+              data-next="La marca buscaba canales con un rango promedio de 200+ viewers."
+              data-tip="No es algo personal: muchas veces se define por tamaño de canal o segmentación puntual."
+            >
+              <div>
+                <div class="application-main-title">Campaña “Energy Drink LATAM”</div>
+                <div class="application-brand">Energy Drink Co. · Bebidas</div>
+              </div>
+
+              <div class="application-meta">
+                Requería: <strong>200+ viewers promedio</strong><br />
+                Tu canal quedó cerca del rango
+              </div>
+
+              <div style="text-align:right;">
+                <div class="status-pill rejected">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  No avanzó esta vez
+                </div>
+                <div class="date-hint">Hace 1 mes</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE COLUMN -->
+      <aside class="side-column">
+
+        <!-- RESUMEN DE POSTULACIÓN -->
+        <div class="card side-highlight" id="appPreviewCard">
+          <div class="side-label">Resumen de la postulación (demo)</div>
+          <div class="side-title" id="pvTitle">Seleccioná una postulación</div>
+          <div class="side-brand" id="pvBrand">Marca · Categoría</div>
+
+          <div class="side-status-row">
+            <div id="pvStatusText">
+              Estado: —
+            </div>
+            <div id="pvStatusPill" class="status-pill other">
+              —
+            </div>
+          </div>
+
+          <div class="side-fee" id="pvFee">
+            <!-- Fee -->
+          </div>
+
+          <ul class="side-list">
+            <li id="pvSummary">Resumen rápido de qué incluye la campaña.</li>
+            <li id="pvNext">Próximos pasos esperados para esta postulación.</li>
+            <li id="pvTip">Tip corto para mejorar tus chances en este tipo de campañas.</li>
+          </ul>
+
+          <button
+            class="btn-ghost"
+            onclick="window.location.href='campaigns.html'"
+          >
+            <i class="fa-solid fa-arrow-left"></i>
+            Ver campañas disponibles
+          </button>
+
+          <div class="side-note">
+            En una versión real, este panel se sincronizaría con las campañas que
+            aplicaste desde tu cuenta.
+          </div>
+        </div>
+
+        <!-- QUÉ VE LA MARCA -->
+        <div class="card">
+          <div class="card-title">Qué ve la marca cuando revisa tu postulación</div>
+          <div class="card-sub">
+            Esta tarjeta resume un ejemplo simplificado de la info clave.
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Viewers promedio y categoría principal en la que streameás.</li>
+            <li>Región, idioma y zona horaria para coordinar activaciones.</li>
+            <li>Historial básico de campañas anteriores (si ya trabajaste con marcas).</li>
+            <li>Redes sociales conectadas y alcance fuera de Twitch.</li>
+          </ul>
+
+          <div class="side-note">
+            Podés usar este ejemplo en la demo para contarle a un streamer:
+            “Esto es lo que ve una marca del otro lado cuando aplicás”.
+          </div>
+        </div>
+
+        <!-- TIPS -->
+        <div class="card">
+          <div class="card-title">Tips para mejorar tus chances</div>
+          <div class="card-sub">
+            Ideas rápidas que suelen ayudar cuando las campañas son competitivas.
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Postulate solo a campañas alineadas a tu contenido y comunidad.</li>
+            <li>Completá bien tu perfil: categorías, horarios, redes.</li>
+            <li>Respondé los mensajes de la marca con claridad y rapidez.</li>
+            <li>
+              Si una campaña no avanza, no es algo personal: muchas veces es puro ajuste de alcance.
+            </li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </section>
+  </main>
+</div>
+
+<script>
+  // --------- Tabs de filtro ----------
+  const tabs = document.querySelectorAll(".tab-pill");
+  const appItems = document.querySelectorAll(".application-item");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const filter = tab.dataset.filter || "all";
+
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      appItems.forEach(item => {
+        const status = item.dataset.status;
+        if (filter === "all" || filter === status) {
+          item.style.display = "";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    });
+  });
+
+  // --------- Preview de la postulación ----------
+  const pvTitle = document.getElementById("pvTitle");
+  const pvBrand = document.getElementById("pvBrand");
+  const pvStatusText = document.getElementById("pvStatusText");
+  const pvStatusPill = document.getElementById("pvStatusPill");
+  const pvFee = document.getElementById("pvFee");
+  const pvSummary = document.getElementById("pvSummary");
+  const pvNext = document.getElementById("pvNext");
+  const pvTip = document.getElementById("pvTip");
+
+  function applyStatusStyle(type) {
+    pvStatusPill.className = "status-pill other";
+    if (type === "review") pvStatusPill.classList.add("review");
+    else if (type === "accepted") pvStatusPill.classList.add("accepted");
+    else if (type === "rejected") pvStatusPill.classList.add("rejected");
+  }
+
+  function updateAppPreview(item) {
+    appItems.forEach(i => i.classList.remove("selected"));
+    item.classList.add("selected");
+
+    const title = item.dataset.title || "Campaña demo";
+    const brand = item.dataset.brand || "Marca demo";
+    const category = item.dataset.category || "";
+    const fee = item.dataset.fee || "";
+    const statusLabel = item.dataset.statusLabel || "—";
+    const statusType = item.dataset.statusType || "other";
+    const date = item.dataset.date || "";
+    const summary = item.dataset.summary || "";
+    const next = item.dataset.next || "";
+    const tip = item.dataset.tip || "";
+
+    pvTitle.textContent = title;
+    pvBrand.textContent = `${brand}${category ? " · " + category : ""}`;
+    pvStatusText.textContent = date ? `Estado: ${statusLabel}` : `Estado: ${statusLabel}`;
+    pvStatusPill.textContent = statusLabel;
+    applyStatusStyle(statusType);
+
+    pvFee.textContent = fee ? fee : "";
+    if (fee) {
+      const span = document.createElement("span");
+      span.textContent = " · Modo demo";
+      pvFee.appendChild(span);
+    }
+
+    pvSummary.textContent = summary;
+    pvNext.textContent = next;
+    pvTip.textContent = tip;
+  }
+
+  if (appItems.length > 0) {
+    updateAppPreview(appItems[0]);
+  }
+
+  appItems.forEach(item => {
+    item.addEventListener("click", () => updateAppPreview(item));
+  });
+</script>
+
+</body>
+</html>
