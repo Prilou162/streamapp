@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil público – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.14), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      padding-bottom: 40px;
+    }
+
+    .wrapper {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 24px 18px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .avatar-lg {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: conic-gradient(from 210deg, #5b4bff, #5bff94, #ffc857, #ff5b7d, #5b4bff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 0 22px rgba(0,0,0,0.55);
+    }
+
+    .header-name {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: .4px;
+    }
+
+    .header-tagline {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    /* TAGLINE PITCH */
+    .pitch {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-soft);
+    }
+
+    /* GRID MÉTRICAS */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 14px;
+    }
+
+    .metric-box {
+      background: var(--bg-card);
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+      transition: .15s ease;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* HORARIOS */
+    .schedule-card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 18px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .schedule-row {
+      background: #15172b;
+      padding: 8px 11px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* REDES */
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 12px;
+    }
+
+    .social-card {
+      background: #15172b;
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .social-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .social-value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .social-name {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    /* CAMPAÑAS */
+    .history-card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 18px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    }
+
+    .history-row {
+      background: #15172b;
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .history-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .history-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .history-meta {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .pill-status {
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid var(--success);
+      color: var(--success);
+      background: rgba(91,255,148,0.08);
+    }
+
+    @media (max-width: 720px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .social-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar-lg" id="pubAvatar">F</div>
+    <div>
+      <div class="header-name" id="pubName">FrancoDota</div>
+      <div class="header-tagline" id="pubRegion">LATAM (AR) · Español</div>
+    </div>
+  </div>
+
+  <!-- PITCH / TAGLINE -->
+  <div class="pitch" id="pubPitch">
+    Streamer de Dota, gaming y charlas LATAM. Comunidad cercana y crecimiento estable. 
+    Ideal para campañas de hardware, fintech y lifestyle enfocadas en audiencia gamer.
+  </div>
+
+  <!-- MÉTRICAS -->
+  <div class="metrics-grid">
+    <div class="metric-box">
+      <div class="metric-label">Viewers promedio</div>
+      <div class="metric-value" id="pubViewers">145</div>
+      <div class="metric-sub">Últimos 30 días</div>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric-label">Categorías principales</div>
+      <div class="metric-value" id="pubCategories">Dota 2 · Just Chatting</div>
+    </div>
+
+    <div class="metric-box">
+      <div class="metric-label">Zona horaria</div>
+      <div class="metric-value" id="pubTimezone">ART</div>
+    </div>
+  </div>
+
+  <!-- HISTORIAL DE CAMPAÑAS -->
+  <div class="history-card">
+    <div class="card-title">Campañas destacadas</div>
+    <div class="card-sub">Muestras reales del estilo de integración que realiza el streamer.</div>
+
+    <div id="pubHistory"></div>
+  </div>
+
+  <!-- HORARIOS -->
+  <div class="schedule-card">
+    <div class="card-title">Horarios habituales</div>
+    <div class="card-sub">Momentos donde suele encontrarse la mayor audiencia en vivo.</div>
+
+    <div class="schedule-list">
+      <div class="schedule-row">
+        <span>Lunes a viernes</span>
+        <span id="pubSched1">20:00 – 00:00 (ART)</span>
+      </div>
+      <div class="schedule-row">
+        <span>Sábados</span>
+        <span id="pubSched2">Streams flexibles · tarde / noche</span>
+      </div>
+      <div class="schedule-row">
+        <span>Domingos</span>
+        <span id="pubSched3">Generalmente off</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REDES -->
+  <div class="schedule-card">
+    <div class="card-title">Alcance en redes</div>
+    <div class="card-sub">Números públicos principales que ayudan a evaluar alcance fuera de Twitch.</div>
+
+    <div class="social-grid">
+
+      <div class="social-card">
+        <div class="social-icon" style="background:#e1306c">
+          <i class="fa-brands fa-instagram"></i>
+        </div>
+        <div class="social-value" id="pubIG">3.2K</div>
+        <div class="social-name">Instagram</div>
+      </div>
+
+      <div class="social-card">
+        <div class="social-icon" style="background:#ff0050">
+          <i class="fa-brands fa-tiktok"></i>
+        </div>
+        <div class="social-value" id="pubTT">8.7K</div>
+        <div class="social-name">TikTok</div>
+      </div>
+
+      <div class="social-card">
+        <div class="social-icon" style="background:#ff0000">
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+        <div class="social-value" id="pubYT">1.1K</div>
+        <div class="social-name">YouTube</div>
+      </div>
+
+      <div class="social-card">
+        <div class="social-icon" style="background:#1d9bf0">
+          <i class="fa-brands fa-x-twitter"></i>
+        </div>
+        <div class="social-value" id="pubTW">950</div>
+        <div class="social-name">X (Twitter)</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Cargar datos desde localStorage (mismo sistema del dashboard)
+  function getBase() {
+    try {
+      const data = JSON.parse(localStorage.getItem("streamerBaseData"));
+      return data || {};
+    } catch {
+      return {};
+    }
+  }
+
+  const base = getBase();
+
+  function apply(id, value) {
+    const el = document.getElementById(id);
+    if (el && value) el.textContent = value;
+  }
+
+  apply("pubName", base.name);
+  apply("pubAvatar", base.name ? base.name.charAt(0).toUpperCase() : "S");
+  apply("pubRegion", base.region);
+  apply("pubViewers", base.viewers);
+  apply("pubCategories", base.categories);
+  apply("pubTimezone", base.timezone);
+
+  // Redes (futuro: reemplazar por backend)
+  apply("pubIG", "3.2K");
+  apply("pubTT", "8.7K");
+  apply("pubYT", "1.1K");
+  apply("pubTW", "950");
+
+  // Historial demo
+  const history = [
+    { name: "Headset Pro LATAM · Mención", meta: "1 stream · Hardware", status:"Completada" },
+    { name: "EnergyDrink Rush · Pack gamer", meta: "Fin de semana · Bebidas", status:"Completada" },
+    { name: "App financiera LATAM · CTA", meta: "1 mes · Fintech", status:"En revisión" },
+  ];
+
+  const wrap = document.getElementById("pubHistory");
+
+  history.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "history-row";
+
+    row.innerHTML = `
+      <div class="history-main">
+        <div class="history-name">${c.name}</div>
+        <div class="history-meta">${c.meta}</div>
+      </div>
+      <span class="pill-status">${c.status}</span>
+    `;
+
+    wrap.appendChild(row);
+  });
+</script>
+
+</body>
+</html>

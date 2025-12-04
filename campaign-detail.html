@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Detalle de campaña – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      animation: fadeBody 0.3s ease-out;
+    }
+
+    .app-shell {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR (alineada con el resto) */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.25), transparent 60%),
+        #05050b;
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .12em;
+    }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: .15s;
+      position: relative;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #181a2e;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* TOPBAR (alineada con el resto) */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.3), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .pill-small {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pill-small i { font-size: 10px; }
+
+    /* CONTENT LAYOUT */
+    .content {
+      display: flex;
+      gap: 22px;
+      padding: 22px;
+    }
+
+    .main-column {
+      flex: 1.8;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .side-column {
+      flex: 1.1;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .card {
+      background:
+        linear-gradient(130deg, rgba(255,255,255,0.02), transparent 40%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      transition: 0.22s ease;
+      animation: fadeCardUp 0.35s ease both;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 34px rgba(0,0,0,.60);
+      transform: translateY(-1px);
+      border-color: rgba(123,107,255,0.6);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    /* HEADER DE CAMPAÑA */
+    .campaign-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .brand-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .brand-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 210deg, #5b4bff, #5bff94, #ffc857, #ff5b7d, #5b4bff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(0,0,0,0.6);
+      flex-shrink: 0;
+    }
+
+    .campaign-title-main {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .campaign-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-soft);
+      transition: 0.18s ease;
+    }
+
+    .pill i {
+      font-size: 11px;
+    }
+
+    .pill.success {
+      border-color: var(--success);
+      color: var(--success);
+      background: rgba(91,255,148,0.06);
+    }
+
+    .pill:hover {
+      border-color: rgba(123,107,255,0.8);
+      color: #fff;
+    }
+
+    /* GRID PRINCIPAL DETALLE */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.1fr;
+      gap: 18px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .detail-block-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .detail-text {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .bullet-list {
+      font-size: 13px;
+      color: var(--text-soft);
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .bullet-list li {
+      margin-bottom: 4px;
+    }
+
+    .info-tagline {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* PASOS */
+    .steps-card {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255,255,255,0.07);
+    }
+
+    .steps-list {
+      counter-reset: stepCount;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-item {
+      counter-increment: stepCount;
+      position: relative;
+      padding-left: 26px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .step-item::before {
+      content: counter(stepCount);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #fff;
+    }
+
+    /* SIDE – RESUMEN / CTA */
+    .side-highlight {
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.22), rgba(91,255,148,0.16)),
+        var(--bg-soft);
+      border-radius: 22px;
+      border: 1px solid rgba(91,75,255,0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .side-fee {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .side-fee span {
+      font-size: 13px;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    .side-conditions {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 6px;
+    }
+
+    .side-meta-list {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .side-meta-item i {
+      margin-right: 6px;
+    }
+
+    .btn-primary {
+      margin-top: 12px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #5b4bff, #7b6bff);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+      transition: 0.2s ease;
+    }
+
+    .btn-primary i {
+      font-size: 12px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.85);
+    }
+
+    .btn-ghost {
+      margin-top: 8px;
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      color: var(--text-soft);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: 0.18s ease;
+    }
+
+    .btn-ghost i {
+      font-size: 12px;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(123,107,255,0.9);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .side-note {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    /* CARD PERFIL PÚBLICO (lado marca) */
+    .brand-view-card .card-sub {
+      margin-bottom: 8px;
+    }
+
+    .brand-view-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .brand-view-list li {
+      margin-bottom: 3px;
+    }
+
+    /* ANIMACIONES */
+    @keyframes fadeBody {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeCardUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .content {
+        flex-direction: column;
+        padding: 16px;
+      }
+      .main-column,
+      .side-column {
+        max-width: 100%;
+      }
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .topbar-right {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navegación</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item active"><a href="campaigns.html">🎯 Campañas</a></div>
+        <div class="nav-item"><a href="applications.html">📩 Mis postulaciones</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Cuenta</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="profile.html">🧑‍💻 Perfil</a></div>
+        <div class="nav-item">⚙️ Configuración</div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">Headset Pro LATAM · Mención en stream</div>
+        <div class="topbar-sub">
+          Detalle de la campaña demo. Así podría verlo un streamer antes de aplicar.
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="pill-small">
+          <i class="fa-solid fa-earth-americas"></i> LATAM
+        </span>
+        <span class="pill-small">
+          <i class="fa-brands fa-twitch"></i> Twitch
+        </span>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- MAIN COLUMN -->
+      <div class="main-column">
+
+        <div class="card">
+          <div class="campaign-header">
+            <div class="brand-line">
+              <div class="brand-avatar">H</div>
+              <div>
+                <div class="campaign-title-main">
+                  Headset Pro LATAM · Mención en stream
+                </div>
+                <div class="campaign-subtitle">
+                  Marca: Headset Pro · Categoría: Hardware / periféricos gamer
+                </div>
+                <div class="tag-row">
+                  <span class="pill success">
+                    <i class="fa-solid fa-dollar-sign"></i> USD 50 + producto
+                  </span>
+                  <span class="pill">
+                    <i class="fa-brands fa-twitch"></i> Mención en vivo
+                  </span>
+                  <span class="pill">
+                    <i class="fa-solid fa-clock"></i> 1 stream · campaña corta
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <!-- Qué espera la marca / acción -->
+            <div>
+              <div class="detail-block-title">Qué espera la marca</div>
+              <div class="detail-text">
+                Headset Pro busca una integración natural en tu stream: que el headset
+                sea parte visible de tu setup y que tu comunidad entienda por qué lo usás.
+              </div>
+              <ul class="bullet-list">
+                <li>Usar el headset en cámara durante el stream acordado.</li>
+                <li>Realizar 1–2 menciones naturales explicando por qué lo elegís.</li>
+                <li>Mantener un panel o comando con el link de la marca.</li>
+              </ul>
+
+              <div class="steps-card">
+                <div class="detail-block-title">Flujo de campaña (demo)</div>
+                <div class="steps-list">
+                  <div class="step-item">
+                    Aplicás a la campaña desde la lista y se comparte tu perfil público.
+                  </div>
+                  <div class="step-item">
+                    La marca revisa tus métricas y, si encajás, coordina fecha y lineamientos.
+                  </div>
+                  <div class="step-item">
+                    Hacés el stream, cumplís las menciones acordadas y se aprueba la campaña.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Requisitos & condiciones -->
+            <div>
+              <div class="detail-block-title">Requisitos & condiciones</div>
+              <div class="detail-text">
+                Esta campaña está pensada para streamers en crecimiento con comunidad
+                estable y afinidad con público gamer.
+              </div>
+              <ul class="bullet-list">
+                <li>Viewers recomendados: 80–300 concurrentes promedio.</li>
+                <li>Idioma principal: español (LATAM).</li>
+                <li>Plataforma: Twitch (otros casos se pueden evaluar).</li>
+              </ul>
+              <div class="info-tagline">
+                En una versión real, acá se adjuntaría también la letra chica completa
+                o un PDF descargable con los términos.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE COLUMN -->
+      <aside class="side-column">
+
+        <!-- RESUMEN / CTA -->
+        <div class="card side-highlight">
+          <div class="card-title">Resumen rápido para aplicar</div>
+          <div class="card-sub">
+            Lo esencial de la campaña en formato simple, como si fueras un streamer evaluando si te sirve.
+          </div>
+
+          <div class="side-fee">
+            USD 50 <span>+ headset gamer enviado a tu domicilio</span>
+          </div>
+          <div class="side-conditions">
+            Pago vía PayPal o similar (demo). Envíos a LATAM estimados en 7–10 días hábiles.
+          </div>
+
+          <div class="side-meta-list">
+            <div class="side-meta-item">
+              <i class="fa-solid fa-users-line"></i>
+              Recomendado para 80–300 viewers concurrentes.
+            </div>
+            <div class="side-meta-item">
+              <i class="fa-solid fa-language"></i>
+              Español LATAM · audiencia gamer.
+            </div>
+            <div class="side-meta-item">
+              <i class="fa-solid fa-calendar-week"></i>
+              1 stream dentro de un plazo de 7 días desde la aprobación.
+            </div>
+          </div>
+
+          <button class="btn-primary">
+            <i class="fa-solid fa-paper-plane"></i>
+            Aplicar a esta campaña (demo)
+          </button>
+
+          <button
+            class="btn-ghost"
+            onclick="window.location.href='campaigns.html'">
+            <i class="fa-solid fa-arrow-left"></i>
+            Volver a la lista de campañas
+          </button>
+
+          <div class="side-note">
+            En la demo, este botón no envía nada, pero sirve para explicar
+            el flujo a un streamer o a una marca.
+          </div>
+        </div>
+
+        <!-- PERFIL PÚBLICO -->
+        <div class="card brand-view-card">
+          <div class="card-title">Cómo vería tu perfil la marca</div>
+          <div class="card-sub">
+            Podés abrir tu perfil público demo, que usa los mismos datos que cargaste
+            en tu perfil y en el dashboard.
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Nombre del canal, viewers, categorías y región.</li>
+            <li>Horarios habituales de stream y zona horaria.</li>
+            <li>Números de redes sociales principales (IG, TikTok, YouTube, X).</li>
+          </ul>
+
+          <a
+            href="profile-public.html"
+            target="_blank"
+            class="btn-ghost">
+            <i class="fa-solid fa-up-right-from-square"></i>
+            Abrir perfil público demo
+          </a>
+
+          <div class="side-note">
+            Esto te sirve para mostrar: “Así se verá tu ficha cuando
+            una marca quiera revisar tu canal”.
+          </div>
+        </div>
+
+      </aside>
+
+    </section>
+  </main>
+</div>
+
+</body>
+</html>
