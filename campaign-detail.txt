@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campaign detail – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --warning: #ffc857;
+
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      animation: fadeBody 0.3s ease-out;
+    }
+
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.25), transparent 60%),
+        #05050b;
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .12em;
+    }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: .15s;
+      position: relative;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #181a2e;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* MAIN */
+    .main-area { flex: 1; min-width: 0; }
+
+    /* TOPBAR */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.3), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      gap: 12px;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .pill-small {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .pill-small.ok {
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.08);
+      color: #bfffd5;
+    }
+
+    .pill-small.warn {
+      border-color: rgba(255,200,87,0.6);
+      background: rgba(255,200,87,0.08);
+      color: #ffe2a6;
+    }
+
+    .pill-small.bad {
+      border-color: rgba(255,91,125,0.55);
+      background: rgba(255,91,125,0.08);
+      color: #ffd0d9;
+    }
+
+    .pill-small i { font-size: 10px; }
+
+    /* CONTENT */
+    .content {
+      display: flex;
+      gap: 22px;
+      padding: 22px;
+      max-width: 1280px;
+    }
+
+    .main-column {
+      flex: 1.8;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .side-column {
+      flex: 1.1;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: 0.22s ease;
+      animation: fadeCardUp 0.35s ease both;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 34px rgba(0,0,0,.60);
+      transform: translateY(-1px);
+      border-color: rgba(123,107,255,0.6);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 28px;
+      height: 2px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.95;
+    }
+
+    /* HEADER */
+    .campaign-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .brand-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .brand-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 210deg, #5b4bff, #5bff94, #ffc857, #ff5b7d, #5b4bff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(0,0,0,0.6);
+      flex-shrink: 0;
+    }
+
+    .campaign-title-main { font-size: 18px; font-weight: 600; }
+    .campaign-subtitle { font-size: 12px; color: var(--text-soft); }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      transition: 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .pill i { font-size: 11px; }
+
+    .pill.success {
+      border-color: rgba(91,255,148,0.75);
+      color: var(--success);
+      background: rgba(91,255,148,0.06);
+    }
+
+    .pill.warn {
+      border-color: rgba(255,200,87,0.7);
+      color: var(--warning);
+      background: rgba(255,200,87,0.06);
+    }
+
+    .pill:hover {
+      border-color: rgba(123,107,255,0.8);
+      color: #fff;
+    }
+
+    /* GRID */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.1fr;
+      gap: 18px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .detail-block-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .detail-text {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .bullet-list {
+      font-size: 13px;
+      color: var(--text-soft);
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+    .bullet-list li { margin-bottom: 4px; }
+
+    .info-tagline {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.35;
+    }
+
+    /* STEPS */
+    .steps-card {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255,255,255,0.07);
+    }
+
+    .steps-list {
+      counter-reset: stepCount;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-item {
+      counter-increment: stepCount;
+      position: relative;
+      padding-left: 26px;
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.35;
+    }
+
+    .step-item::before {
+      content: counter(stepCount);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #fff;
+    }
+
+    /* SIDE */
+    .side-highlight {
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.22), rgba(91,255,148,0.16)),
+        var(--bg-soft);
+      border-radius: 22px;
+      border: 1px solid rgba(91,75,255,0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+
+    .side-fee {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .side-fee span {
+      font-size: 13px;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    .side-conditions {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+
+    .side-meta-list {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .side-meta-item i { margin-right: 6px; }
+
+    .side-badge {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-soft);
+      font-size: 11px;
+      line-height: 1.35;
+      display: none;
+    }
+    .side-badge.show { display: block; }
+
+    /* Buttons */
+    .btn-primary {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.10);
+      color: #d8ffe7;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition:
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease,
+        border-color 0.18s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    .btn-primary i { font-size: 12px; }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      background: rgba(91,255,148,0.14);
+      border-color: rgba(91,255,148,0.75);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.85);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.72;
+      cursor: not-allowed;
+      filter: saturate(0.9);
+    }
+
+    .btn-ghost {
+      margin-top: 8px;
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition:
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.16);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    .side-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.35;
+    }
+
+    .brand-view-card .card-sub { margin-bottom: 8px; }
+
+    .brand-view-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+    .brand-view-list li { margin-bottom: 3px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 320px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-sub {
+      margin-top: 4px;
+      color: var(--text-soft);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    @keyframes fadeBody {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeCardUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .content { flex-direction: column; padding: 16px; }
+      .main-column, .side-column { max-width: 100%; }
+      .detail-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .topbar { flex-direction: column; align-items: flex-start; gap: 6px; }
+      .topbar-right { align-self: flex-end; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item active"><a href="campaigns.html">🎯 Campaigns</a></div>
+        <div class="nav-item"><a href="applications.html">📩 My applications</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Account</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="profile.html">🧑‍💻 Profile</a></div>
+        <div class="nav-item">⚙️ Settings</div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title" id="tbTitle">Campaign detail</div>
+        <div class="topbar-sub" id="tbSub">
+          Demo campaign detail. This is what a streamer would see before applying.
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="pill-small" id="tbRegionPill"><i class="fa-solid fa-earth-americas"></i> LATAM</span>
+        <span class="pill-small" id="tbPlatformPill"><i class="fa-brands fa-twitch"></i> Twitch</span>
+        <span class="pill-small" id="tbFitPill"><i class="fa-solid fa-signal"></i> Fit: —</span>
+        <span class="pill-small ok" id="tbStatusPill"><i class="fa-solid fa-flask"></i> Demo</span>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- MAIN COLUMN -->
+      <div class="main-column">
+
+        <div class="card">
+          <div class="campaign-header">
+            <div class="brand-line">
+              <div class="brand-avatar" id="brandAvatar">B</div>
+              <div>
+                <div class="campaign-title-main" id="titleMain">Campaign title</div>
+                <div class="campaign-subtitle" id="subtitle">
+                  Brand: — · Category: —
+                </div>
+                <div class="tag-row" id="tagRow">
+                  <span class="pill success" id="feePill">
+                    <i class="fa-solid fa-dollar-sign"></i> —
+                  </span>
+                  <span class="pill" id="typePill">
+                    <i class="fa-solid fa-bullhorn"></i> —
+                  </span>
+                  <span class="pill" id="durationPill">
+                    <i class="fa-solid fa-clock"></i> —
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <!-- Brand expectations / action -->
+            <div>
+              <div class="detail-block-title">What the brand expects</div>
+              <div class="detail-text" id="expectText">—</div>
+              <ul class="bullet-list" id="expectList"><li>—</li></ul>
+
+              <div class="steps-card">
+                <div class="detail-block-title">Campaign flow (demo)</div>
+                <div class="steps-list">
+                  <div class="step-item">You apply from the campaign list and your public profile is shared.</div>
+                  <div class="step-item">The brand reviews your metrics and confirms schedule + guidelines.</div>
+                  <div class="step-item">You run the stream, complete the deliverables, and the campaign gets approved.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Requirements & conditions -->
+            <div>
+              <div class="detail-block-title">Requirements & conditions</div>
+              <div class="detail-text" id="reqText">—</div>
+              <ul class="bullet-list" id="reqList"><li>—</li></ul>
+              <div class="info-tagline" id="finePrint">
+                In a real version, full terms (or a PDF) would be attached here.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE COLUMN -->
+      <aside class="side-column">
+
+        <!-- SUMMARY / CTA -->
+        <div class="card side-highlight">
+          <div class="card-title">Quick apply summary</div>
+          <div class="card-sub">
+            The essentials, simplified—like a streamer deciding if it’s worth applying.
+          </div>
+
+          <div class="side-fee" id="sideFee">—</div>
+          <div class="side-conditions" id="sideConditions">—</div>
+
+          <div class="side-meta-list" id="sideMeta">
+            <div class="side-meta-item"><i class="fa-solid fa-users-line"></i> —</div>
+            <div class="side-meta-item"><i class="fa-solid fa-language"></i> —</div>
+            <div class="side-meta-item"><i class="fa-solid fa-calendar-week"></i> —</div>
+          </div>
+
+          <button class="btn-primary" id="applyBtn" type="button">
+            <i class="fa-solid fa-paper-plane"></i>
+            Apply to this campaign (demo)
+          </button>
+
+          <button class="btn-ghost" id="backBtn" type="button">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to campaigns
+          </button>
+
+          <div class="side-badge" id="savedBadge">
+            <b>Saved locally (demo)</b><br/>
+            This application was stored in <b>localStorage</b> so you can show the full flow.
+          </div>
+
+          <div class="side-note" id="sideNote">
+            In the demo, this doesn’t send anything—it's here to explain the flow.
+          </div>
+        </div>
+
+        <!-- PUBLIC PROFILE -->
+        <div class="card brand-view-card">
+          <div class="card-title">What the brand sees about you</div>
+          <div class="card-sub">
+            Open your public profile demo (it uses the same local data from your Profile & Dashboard).
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Channel name, average viewers, categories, and region.</li>
+            <li>Typical schedule and timezone.</li>
+            <li>Basic social reach (IG, TikTok, YouTube, X).</li>
+          </ul>
+
+          <!-- IMPORTANT: campaign context will be injected in JS -->
+          <a href="profile-public.html?campaignId=c1" target="_blank" class="btn-ghost" id="openPublicProfile">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            Open public profile
+          </a>
+
+          <div class="side-note">
+            Useful to explain: “This is how your card looks when a brand reviews your channel.”
+          </div>
+        </div>
+
+      </aside>
+
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <div id="toastTitle">Saved locally (demo)</div>
+  <div class="toast-sub" id="toastSub">—</div>
+</div>
+
+<script>
+  // ---------- Demo dataset (fallback) ----------
+  const DEMO_CAMPAIGNS = {
+    c1: {
+      id: "c1",
+      title: "Headset Pro LATAM · Stream mention",
+      brand: "Headset Pro",
+      categoryLabel: "Hardware / gamer peripherals",
+      fee: "USD 50 + product",
+      feeLine: "USD 50 + a gaming headset shipped to you",
+      typeLabel: "Live mention",
+      platform: "Twitch",
+      region: "LATAM",
+      durationLabel: "1 stream · short campaign",
+      duration: "1 stream within 7 days after approval",
+      conditions: "Payment via PayPal or similar (demo). LATAM shipping ~7–10 business days.",
+      expectsText:
+        "Headset Pro wants a natural integration: the headset is visible in your setup and your audience understands why you use it.",
+      expectsList: [
+        "Use the headset on-camera during the agreed stream.",
+        "Do 1–2 natural mentions explaining the value.",
+        "Keep a panel link or command with the brand link (optional in demo)."
+      ],
+      reqText:
+        "Built for growing streamers with a stable community and a gaming audience fit.",
+      reqList: [
+        "Recommended viewers: 80–300 average concurrent.",
+        "Primary language: Spanish (LATAM).",
+        "Platform: Twitch (others could be considered)."
+      ],
+      meta: {
+        viewers: "Recommended for 80–300 avg viewers.",
+        language: "Spanish LATAM · gaming audience.",
+        timeline: "Run 1 stream within 7 days after approval."
+      },
+      recommendedMin: 80,
+      recommendedMax: 300
+    },
+    c2: {
+      id: "c2",
+      title: "LATAM finance app · Mention + panel link",
+      brand: "Fintech LATAM",
+      categoryLabel: "Digital payments",
+      fee: "USD 30 / month",
+      feeLine: "USD 30 / month (while active)",
+      typeLabel: "Panel + weekly mention",
+      platform: "Twitch",
+      region: "LATAM",
+      durationLabel: "Monthly contract",
+      duration: "Monthly contract (renewable)",
+      conditions: "Payment method agreed with the brand (demo).",
+      expectsText:
+        "Fintech LATAM wants steady exposure: a panel link plus consistent weekly mentions.",
+      expectsList: [
+        "Add a panel link to the brand landing page.",
+        "Do 1 mention per week (light script provided).",
+        "Keep the link active for the duration of the month."
+      ],
+      reqText:
+        "Great for community-driven channels where trust and repeated exposure matters.",
+      reqList: [
+        "Ideal viewers: 50–200 average concurrent.",
+        "LATAM community focus.",
+        "Clear call-to-action delivery (link + short pitch)."
+      ],
+      meta: {
+        viewers: "Recommended for 50–200 avg viewers.",
+        language: "Spanish/Portuguese (LATAM).",
+        timeline: "Monthly contract, reviewed every 30 days."
+      },
+      recommendedMin: 50,
+      recommendedMax: 200
+    },
+    c3: {
+      id: "c3",
+      title: "Gamer snacks · Casual mention",
+      brand: "SnackBoost",
+      categoryLabel: "Food / snacks",
+      fee: "USD 20 + products",
+      feeLine: "USD 20 + snack pack shipped",
+      typeLabel: "Casual mention",
+      platform: "Twitch",
+      region: "Argentina",
+      durationLabel: "1–2 mentions / week",
+      duration: "1–2 mentions within one week",
+      conditions: "Often product-first campaigns (demo). Delivery times vary by region.",
+      expectsText:
+        "SnackBoost wants a casual, authentic moment: you try the snacks live and share honest reactions.",
+      expectsList: [
+        "Try the snacks during the stream (on-cam if possible).",
+        "Do a casual mention + show the packaging.",
+        "Optional: a chat command with a discount code."
+      ],
+      reqText:
+        "Best for long sessions and chatty streams where product moments feel natural.",
+      reqList: [
+        "Target viewers: 50–150 average concurrent.",
+        "Community-first engagement (active chat).",
+        "No heavy scripting required."
+      ],
+      meta: {
+        viewers: "Recommended for 50–150 avg viewers.",
+        language: "Spanish (AR) · casual tone.",
+        timeline: "Complete in 7 days after receiving product (demo)."
+      },
+      recommendedMin: 50,
+      recommendedMax: 150
+    }
+  };
+
+  // ---------- Local applications storage (shared with applications page) ----------
+  const APPLICATIONS_KEY = "streamlatamApplicationsDemo";
+
+  function safeJsonParse(str) { try { return JSON.parse(str); } catch { return null; } }
+
+  function getApplications() {
+    const data = safeJsonParse(localStorage.getItem(APPLICATIONS_KEY));
+    return Array.isArray(data) ? data : [];
+  }
+  function setApplications(arr) {
+    localStorage.setItem(APPLICATIONS_KEY, JSON.stringify(arr));
+  }
+  function isApplied(campaignId) {
+    if (!campaignId) return false;
+    return getApplications().some(a => a && a.campaignId === campaignId);
+  }
+
+  // ---------- Base data (for Fit chip) ----------
+  function parseViewers(v) {
+    if (!v) return 0;
+    const cleaned = String(v).replace(/[^\d]/g, "");
+    const n = parseInt(cleaned, 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  const baseDefaults = { viewers: "145" };
+  const storedBase = safeJsonParse(localStorage.getItem("streamerBaseData"));
+  const base = (storedBase && typeof storedBase === "object") ? { ...baseDefaults, ...storedBase } : baseDefaults;
+  const viewersNum = parseViewers(base.viewers);
+
+  function computeFit(c) {
+    const min = Number.isFinite(c.recommendedMin) ? c.recommendedMin : 0;
+    const max = Number.isFinite(c.recommendedMax) ? c.recommendedMax : 999999;
+    if (!viewersNum) return { label: "—", type: "warn" };
+
+    if (viewersNum >= min && viewersNum <= max) return { label: "High", type: "ok" };
+
+    // Soft fit (close-ish)
+    const within = 30; // +-30 viewers threshold for "Medium"
+    if ((viewersNum >= (min - within) && viewersNum < min) || (viewersNum > max && viewersNum <= (max + within))) {
+      return { label: "Medium", type: "warn" };
+    }
+    return { label: "Low", type: "bad" };
+  }
+
+  // ---------- Query params ----------
+  function getCampaignIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id") || "c1";
+  }
+
+  // ---------- UI refs ----------
+  const tbTitle = document.getElementById("tbTitle");
+  const tbRegionPill = document.getElementById("tbRegionPill");
+  const tbPlatformPill = document.getElementById("tbPlatformPill");
+  const tbFitPill = document.getElementById("tbFitPill");
+
+  const brandAvatar = document.getElementById("brandAvatar");
+  const titleMain = document.getElementById("titleMain");
+  const subtitle = document.getElementById("subtitle");
+  const feePill = document.getElementById("feePill");
+  const typePill = document.getElementById("typePill");
+  const durationPill = document.getElementById("durationPill");
+
+  const expectText = document.getElementById("expectText");
+  const expectList = document.getElementById("expectList");
+
+  const reqText = document.getElementById("reqText");
+  const reqList = document.getElementById("reqList");
+
+  const sideFee = document.getElementById("sideFee");
+  const sideConditions = document.getElementById("sideConditions");
+  const sideMeta = document.getElementById("sideMeta");
+  const savedBadge = document.getElementById("savedBadge");
+
+  const applyBtn = document.getElementById("applyBtn");
+  const backBtn = document.getElementById("backBtn");
+
+  const openPublicProfile = document.getElementById("openPublicProfile");
+
+  const toast = document.getElementById("toast");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+
+  let currentId = getCampaignIdFromUrl();
+  let current = DEMO_CAMPAIGNS[currentId] || DEMO_CAMPAIGNS.c1;
+
+  function showToast(title, sub) {
+    if (!toast) return;
+    if (toastTitle) toastTitle.textContent = title || "Saved locally (demo)";
+    if (toastSub) toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  function setList(el, items) {
+    if (!el) return;
+    el.innerHTML = "";
+    (items || []).forEach(txt => {
+      const li = document.createElement("li");
+      li.textContent = txt;
+      el.appendChild(li);
+    });
+  }
+
+  // ---------- NEW: platform icon mapping ----------
+  function platformIconHtml(platform){
+    const p = String(platform || "").toLowerCase();
+    if (p === "twitch") return `<i class="fa-brands fa-twitch"></i>`;
+    if (p === "youtube") return `<i class="fa-brands fa-youtube"></i>`;
+    if (p === "kick") return `<i class="fa-solid fa-bolt"></i>`;
+    if (p === "trovo") return `<i class="fa-solid fa-tv"></i>`;
+    return `<i class="fa-solid fa-tv"></i>`;
+  }
+
+  // ---------- NEW: set brand view link with campaign context ----------
+  function setPublicProfileLink(c){
+    if (!openPublicProfile) return;
+    openPublicProfile.href = `profile-public.html?campaignId=${encodeURIComponent(c.id)}`;
+  }
+
+  function setFitPillForCampaign(c) {
+    if (!tbFitPill) return;
+    const fit = computeFit(c);
+
+    tbFitPill.classList.remove("ok", "warn", "bad");
+    tbFitPill.classList.add(fit.type);
+
+    const icon = fit.type === "ok" ? "fa-signal" : (fit.type === "warn" ? "fa-circle-info" : "fa-triangle-exclamation");
+    tbFitPill.innerHTML = `<i class="fa-solid ${icon}"></i> Fit: ${fit.label}`;
+  }
+
+  function renderCampaign(c) {
+    // Topbar
+    if (tbTitle) tbTitle.textContent = c.title;
+    if (tbRegionPill) tbRegionPill.innerHTML = `<i class="fa-solid fa-earth-americas"></i> ${c.region || "LATAM"}`;
+    if (tbPlatformPill) tbPlatformPill.innerHTML = `${platformIconHtml(c.platform)} ${c.platform || "Twitch"}`;
+    setFitPillForCampaign(c);
+
+    // Header
+    if (brandAvatar) brandAvatar.textContent = (c.brand || "B").trim().charAt(0).toUpperCase() || "B";
+    if (titleMain) titleMain.textContent = c.title;
+    if (subtitle) subtitle.textContent = `Brand: ${c.brand} · Category: ${c.categoryLabel}`;
+
+    if (feePill) feePill.innerHTML = `<i class="fa-solid fa-dollar-sign"></i> ${c.fee}`;
+    if (typePill) typePill.innerHTML = `<i class="fa-solid fa-bullhorn"></i> ${c.typeLabel}`;
+    if (durationPill) durationPill.innerHTML = `<i class="fa-solid fa-clock"></i> ${c.durationLabel}`;
+
+    // Details
+    if (expectText) expectText.textContent = c.expectsText;
+    setList(expectList, c.expectsList);
+
+    if (reqText) reqText.textContent = c.reqText;
+    setList(reqList, c.reqList);
+
+    // Side
+    if (sideFee) sideFee.innerHTML = `${c.feeLine} <span></span>`;
+    if (sideConditions) sideConditions.textContent = c.conditions;
+
+    if (sideMeta && c.meta) {
+      sideMeta.innerHTML = `
+        <div class="side-meta-item"><i class="fa-solid fa-users-line"></i> ${c.meta.viewers || "—"}</div>
+        <div class="side-meta-item"><i class="fa-solid fa-language"></i> ${c.meta.language || "—"}</div>
+        <div class="side-meta-item"><i class="fa-solid fa-calendar-week"></i> ${c.meta.timeline || c.duration || "—"}</div>
+      `;
+    }
+
+    // Apply button state
+    const already = isApplied(c.id);
+    if (applyBtn) {
+      applyBtn.disabled = already;
+      applyBtn.style.opacity = already ? "0.75" : "1";
+      applyBtn.style.cursor = already ? "not-allowed" : "pointer";
+      applyBtn.innerHTML = already
+        ? `<i class="fa-solid fa-check"></i> Applied (demo)`
+        : `<i class="fa-solid fa-paper-plane"></i> Apply to this campaign (demo)`;
+    }
+
+    if (savedBadge) savedBadge.classList.toggle("show", already);
+
+    // NEW: keep brand view link synced with campaign
+    setPublicProfileLink(c);
+  }
+
+  renderCampaign(current);
+
+  // Apply (demo): save locally as "In review"
+  function applyToCampaign(c) {
+    const list = getApplications();
+    if (list.some(a => a && a.campaignId === c.id)) return;
+
+    const now = new Date();
+    list.unshift({
+      campaignId: c.id,
+      title: c.title,
+      brand: c.brand,
+      category: c.categoryLabel,   // IMPORTANT for applications.html
+      fee: c.fee,
+      status: "In review",
+      createdAt: now.toISOString()
+    });
+    setApplications(list);
+
+    showToast("Applied (demo)", "Saved locally. Check “My applications”.");
+    renderCampaign(c);
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", () => {
+      applyToCampaign(current);
+      // NEW: open brand view with campaign context
+      window.open(`profile-public.html?campaignId=${encodeURIComponent(current.id)}`, "_blank", "noopener");
+    });
+  }
+
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      // Go back preserving current campaign selection (nice demo UX)
+      window.location.href = `campaigns.html?id=${encodeURIComponent(currentId || "c1")}`;
+    });
+  }
+
+  // If URL id changes via manual edits (rare), keep in sync
+  window.addEventListener("popstate", () => {
+    currentId = getCampaignIdFromUrl();
+    current = DEMO_CAMPAIGNS[currentId] || DEMO_CAMPAIGNS.c1;
+    renderCampaign(current);
+  });
+</script>
+
+</body>
+</html>

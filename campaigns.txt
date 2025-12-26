@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Campaigns – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --warning: #ffc857;
+
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      animation: fadeBody 0.25s ease-out;
+    }
+
+    @keyframes fadeBody {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LAYOUT */
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.25), transparent 60%),
+        #05050b;
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .12em;
+    }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: .15s;
+      position: relative;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #181a2e;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* MAIN */
+    .main-area { flex: 1; min-width: 0; }
+
+    /* TOPBAR */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.3), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 10;
+      gap: 12px;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); line-height: 1.35; }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .topbar-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(123,107,255,0.85);
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.5), rgba(9,9,30,0.95));
+      color: #f4f4fb;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.7);
+      white-space: nowrap;
+    }
+
+    .pill-small {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .pill-small.ok {
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.08);
+      color: #bfffd5;
+    }
+
+    /* Buttons (for topbar demo actions) */
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      width: fit-content;
+      transition:
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease,
+        border-color 0.18s ease;
+    }
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.16);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    .btn-danger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,91,125,0.45);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+    .btn-danger:hover {
+      transform: translateY(-1px);
+      background: rgba(255,91,125,0.12);
+      border-color: rgba(255,91,125,0.65);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    /* CONTENT */
+    .content {
+      display: flex;
+      gap: 22px;
+      padding: 22px;
+      max-width: 1280px;
+    }
+
+    .main-column { flex: 1.9; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .side-column { flex: 1; max-width: 350px; min-width: 0; }
+
+    /* CARD */
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: 0.2s ease;
+      animation: fadeInUp 0.2s ease-out;
+    }
+
+    .card:hover { box-shadow: 0 12px 34px rgba(0,0,0,.62); }
+
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card-sub { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.45; }
+
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 28px;
+      height: 2px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.95;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FILTERS */
+    .filters-top {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label { font-size: 11px; color: var(--text-soft); }
+
+    .search-input {
+      background: #141529;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      padding: 8px 12px 8px 34px;
+      font-size: 12px;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease;
+      width: 100%;
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus {
+      border-color: rgba(123,107,255,0.95);
+      box-shadow: 0 0 0 3px rgba(91,75,255,0.12);
+    }
+
+    .search-icon { position: relative; }
+    .search-icon i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .filters-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .filter-group { display: flex; flex-direction: column; gap: 3px; min-width: 160px; }
+
+    /* DROPDOWN CUSTOM */
+    .filter-select { position: relative; font-size: 12px; }
+
+    .filter-trigger {
+      width: 100%;
+      padding: 7px 26px 7px 10px;
+      border-radius: 999px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .filter-trigger span { pointer-events: none; }
+    .filter-trigger i { font-size: 10px; transition: 0.2s ease; pointer-events: none; }
+
+    .filter-select.open .filter-trigger {
+      transform: translateY(-1px);
+      background: radial-gradient(circle at top left, rgba(91,75,255,0.35), transparent 60%);
+      border-color: var(--accent-soft);
+      color: #f4f4fb;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.7);
+    }
+
+    .filter-select.open .filter-trigger i { transform: rotate(180deg); }
+
+    .filter-options {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: #0e1021;
+      border-radius: 14px;
+      border: 1px solid #222543;
+      box-shadow: 0 18px 30px rgba(0,0,0,0.85);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        max-height 0.26s ease,
+        opacity 0.18s ease,
+        transform 0.18s ease;
+      z-index: 20;
+    }
+
+    .filter-select.open .filter-options {
+      max-height: 260px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .filter-option {
+      padding: 7px 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .filter-option:hover {
+      background: rgba(91,75,255,0.16);
+      color: #f4f4fb;
+    }
+
+    .filter-option.active {
+      background: rgba(91,75,255,0.24);
+      color: #f4f4fb;
+    }
+
+    .filter-toggle {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      user-select: none;
+    }
+
+    .filter-toggle input { accent-color: #7b6bff; }
+
+    .filter-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+
+    .results-pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    /* CAMPAIGN LIST */
+    .campaign-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .campaign-item {
+      background: #15172b;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 0.9fr;
+      gap: 14px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .campaign-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(91,75,255,.8);
+      box-shadow: 0 12px 28px rgba(0,0,0,.8);
+    }
+
+    .campaign-item.selected {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.32), transparent 60%),
+        #171731;
+      border-color: rgba(91,75,255,.95);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.9);
+    }
+
+    .campaign-title {
+      font-size: 13px;
+      font-weight: 500;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .campaign-brand { font-size: 11px; color: var(--text-soft); }
+
+    .campaign-tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #141529;
+      border: 1px solid var(--border-soft);
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .pill.success { border-color: rgba(91,255,148,0.75); color: var(--success); background: rgba(91,255,148,0.06); }
+    .pill.warn { border-color: rgba(255,200,87,0.7); color: var(--warning); background: rgba(255,200,87,0.06); }
+
+    .campaign-meta { font-size: 12px; color: var(--text-soft); line-height: 1.3; }
+    .campaign-meta strong { color: #fff; }
+
+    .campaign-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .campaign-fee { font-size: 14px; font-weight: 600; }
+    .campaign-fee .currency { font-size: 11px; color: var(--text-soft); margin-right: 2px; }
+
+    .btn-detail {
+      padding: 7px 10px;
+      background: linear-gradient(135deg, #5b4bff, #7b6bff);
+      border-radius: 999px;
+      font-size: 12px;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: .15s ease;
+      white-space: nowrap;
+      border: 0;
+    }
+    .btn-detail:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0,0,0,.75);
+      filter: brightness(1.05);
+    }
+
+    /* SIDE PREVIEW */
+    #campaign-preview-card {
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.14), rgba(20,20,35,0.42)),
+        var(--bg-soft);
+      border: 1px solid rgba(91,75,255,0.25);
+      border-radius: 26px;
+      padding: 0;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+      overflow: hidden;
+      position: sticky;
+      top: 86px;
+    }
+
+    .preview-header {
+      background: linear-gradient(135deg, rgba(91,75,255,0.55), rgba(91,255,148,0.25));
+      padding: 16px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .preview-title { font-size: 17px; font-weight: 600; }
+
+    .preview-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .preview-body {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeIn .12s ease;
+    }
+
+    .preview-brand-row {
+      display: flex;
+      gap: 8px;
+      color: var(--text-soft);
+      font-size: 12px;
+      align-items: center;
+      line-height: 1.25;
+    }
+
+    .preview-pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+
+    .preview-fee { font-size: 18px; font-weight: 600; margin-top: 6px; }
+
+    ul.preview-list { padding-left: 18px; font-size: 12px; color: var(--text-soft); }
+    .preview-list li { margin-bottom: 4px; line-height: 1.35; }
+
+    /* BRAND CARD */
+    .brand-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.4), transparent 60%),
+        #0e1020;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background:
+        conic-gradient(from 210deg, #5b4bff, #5bff94, #ffc857, #ff5b7d, #5b4bff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 18px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.6);
+      flex-shrink: 0;
+    }
+
+    .brand-info { display: flex; flex-direction: column; gap: 2px; }
+    .brand-name { font-size: 13px; font-weight: 600; }
+    .brand-note { font-size: 11px; color: var(--text-soft); }
+
+    .preview-cta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.10);
+      color: #d8ffe7;
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      width: fit-content;
+      transition:
+        background 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.18s ease,
+        border-color 0.18s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      background: rgba(91,255,148,0.14);
+      border-color: rgba(91,255,148,0.75);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    .muted-note { font-size: 11px; color: var(--text-soft); line-height: 1.35; }
+
+    @keyframes fadeIn { from {opacity:0} to {opacity:1} }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 360px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-sub { margin-top: 4px; color: var(--text-soft); font-size: 11px; line-height: 1.35; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    .modal {
+      width: min(520px, 100%);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.10), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        #0f1020;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.80);
+      padding: 14px 14px 12px;
+    }
+    .modal-title { font-weight: 700; font-size: 14px; }
+    .modal-sub { margin-top: 6px; color: var(--text-soft); font-size: 12px; line-height: 1.45; }
+    .modal-actions { margin-top: 12px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+    /* Guided tour overlay */
+    .tour-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      pointer-events: auto;
+    }
+    .tour-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.60);
+      backdrop-filter: blur(6px);
+    }
+    .tour-highlight {
+      position: absolute;
+      border-radius: 16px;
+      border: 1px solid rgba(123,107,255,0.9);
+      box-shadow:
+        0 0 0 9999px rgba(0,0,0,0.60),
+        0 16px 50px rgba(0,0,0,0.85),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      background: rgba(91,75,255,0.06);
+      pointer-events: none;
+      transition: all 0.18s ease;
+    }
+    .tour-tooltip {
+      position: absolute;
+      width: min(420px, calc(100vw - 32px));
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.12), transparent 60%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        #0f1020;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.80);
+    }
+    .tour-topline { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .tour-step { font-size: 11px; color: var(--text-soft); }
+    .tour-title { margin-top: 6px; font-weight: 750; font-size: 14px; }
+    .tour-body { margin-top: 6px; color: var(--text-soft); font-size: 12px; line-height: 1.45; }
+    .tour-actions { margin-top: 10px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+    .tour-btn {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.18s ease;
+    }
+    .tour-btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.16); }
+    .tour-btn.primary { border-color: rgba(91,75,255,0.60); background: rgba(91,75,255,0.14); }
+    .tour-btn.primary:hover { background: rgba(91,75,255,0.18); border-color: rgba(123,107,255,0.80); }
+    .tour-btn.danger {
+      border-color: rgba(255,91,125,0.45);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+    }
+    .tour-btn.danger:hover { background: rgba(255,91,125,0.12); border-color: rgba(255,91,125,0.65); }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .content { flex-direction: column; }
+      .side-column { max-width: 100%; }
+      #campaign-preview-card { position: relative; top: 0; }
+      .campaign-item {
+        grid-template-columns: 1.6fr 1.1fr;
+        grid-template-rows: auto auto;
+      }
+      .campaign-actions { align-items: flex-start; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .topbar-right { align-self: flex-end; }
+    }
+
+    @media (max-width: 720px) {
+      .campaign-item { grid-template-columns: 1fr; }
+      .filters-top { gap: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" id="tourNavDashboard"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item active" id="tourNavCampaigns"><a href="campaigns.html">🎯 Campaigns</a></div>
+        <div class="nav-item" id="tourNavApps"><a href="applications.html">📩 My applications</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Account</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" id="tourNavProfile"><a href="profile.html">🧑‍💻 Profile</a></div>
+        <div class="nav-item">⚙️ Settings</div>
+      </nav>
+    </div>
+
+    <!-- Demo tools in sidebar (added) -->
+    <div style="margin-top:auto;">
+      <div class="sidebar-section-title">Demo tools</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" id="tourStartBtnSide" style="justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-route"></i> Demo tour
+          </span>
+          <span class="pill-small ok"><i class="fa-solid fa-play"></i> Start</span>
+        </div>
+
+        <div class="nav-item" id="resetDemoBtnSide" style="justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-rotate"></i> Reset demo
+          </span>
+          <span class="pill-small"><i class="fa-solid fa-broom"></i> Seed</span>
+        </div>
+      </nav>
+
+      <div style="margin-top:10px; font-size:11px; color: var(--text-muted); line-height:1.35;">
+        No backend. Everything runs on <b>localStorage</b> to show the end-to-end flow.
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar" id="tourTopbar">
+      <div>
+        <div class="topbar-title">Available campaigns</div>
+        <div class="topbar-sub" id="topbarSub">Suggested based on your current metrics (demo)</div>
+      </div>
+      <div class="topbar-right" id="tourTopbarRight">
+        <span class="topbar-tag"><i class="fa-solid fa-flask"></i> Demo build</span>
+        <span class="pill-small ok" id="fitPill"><i class="fa-solid fa-signal"></i> Fit: Medium</span>
+        <span class="topbar-sub" id="updatedText">Updated: just now (local demo)</span>
+
+        <!-- Added: tour + reset in topbar -->
+        <button class="btn-ghost" id="tourStartBtnTop" type="button">
+          <i class="fa-solid fa-route"></i>
+          Demo tour
+        </button>
+        <button class="btn-danger" id="resetDemoBtnTop" type="button">
+          <i class="fa-solid fa-rotate"></i>
+          Reset demo
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- MAIN COLUMN -->
+      <div class="main-column">
+
+        <!-- FILTER CARD -->
+        <div class="card" id="tourFilters">
+          <div class="card-title">Filter campaigns</div>
+          <div class="card-sub">Search and refine results. This is a frontend-only demo.</div>
+
+          <div class="filters-top">
+            <div class="search-wrap">
+              <span class="filter-label">Search</span>
+              <div class="search-icon">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="searchInput" class="search-input" type="text" placeholder="Search by campaign, brand, category..." />
+              </div>
+            </div>
+
+            <button class="btn-ghost" id="resetBtn" type="button">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+
+          <div class="filters-row">
+
+            <div class="filter-group">
+              <span class="filter-label">Country / region</span>
+              <div class="filter-select" data-filter="region" data-placeholder="All LATAM" data-options="All LATAM|Argentina|Brazil|Mexico"></div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">Payment type</span>
+              <div class="filter-select" data-filter="payment" data-placeholder="USD · Any method" data-options="USD · Any method|USD · PayPal|Local currency|Product only"></div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">Campaign type</span>
+              <div class="filter-select" data-filter="type" data-placeholder="All types" data-options="All types|Product + fee|Stream mention|Panel link"></div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">Category</span>
+              <div class="filter-select" data-filter="category" data-placeholder="Any category" data-options="Any category|Gaming|Tech|Food"></div>
+            </div>
+
+          </div>
+
+          <label class="filter-toggle">
+            <input id="recommendedToggle" type="checkbox" checked />
+            Show recommended campaigns for your viewer range (demo)
+          </label>
+
+          <div class="filter-actions">
+            <span class="results-pill" id="resultsPill"><i class="fa-solid fa-list"></i> Showing 3 campaigns</span>
+            <span class="results-pill" id="hintPill"><i class="fa-solid fa-circle-info"></i> Tip: click a campaign to preview</span>
+          </div>
+        </div>
+
+        <!-- CAMPAIGN LIST -->
+        <div class="card" id="tourList">
+          <div class="card-title">Demo results</div>
+          <div class="card-sub">Click to see a quick summary on the right. “View details” opens the detailed page.</div>
+
+          <div class="campaign-list" id="campaignList">
+
+            <!-- CAMPAIGN 1 -->
+            <div
+              class="campaign-item"
+              data-id="c1"
+              data-title="Headset Pro LATAM · Stream mention"
+              data-brand="Headset Pro"
+              data-category="Tech"
+              data-category-label="Hardware / peripherals"
+              data-fee="USD 50 + product"
+              data-fee-usd="50"
+              data-type="Product + fee"
+              data-type-label="Product + fixed fee"
+              data-platform="Twitch · Stream mention"
+              data-duration="1 stream · 7 days"
+              data-action="Use the headset and mention it naturally during the stream."
+              data-reward="You receive the product + USD 50 after approval."
+              data-req="Recommended for 80–300 avg viewers, Spanish-speaking audience."
+              data-region="All LATAM"
+              data-payment="USD · PayPal"
+              data-min="80"
+              data-max="300"
+              data-tags="Tech|Gaming"
+            >
+              <div>
+                <div class="campaign-title" title="Headset Pro LATAM · Stream mention">Headset Pro LATAM · Stream mention</div>
+                <div class="campaign-brand">Headset Pro · Hardware</div>
+                <div class="campaign-tags">
+                  <span class="pill success"><i class="fa-solid fa-dollar-sign"></i> USD 50</span>
+                  <span class="pill"><i class="fa-brands fa-twitch"></i> Mention</span>
+                  <span class="pill"><i class="fa-solid fa-earth-americas"></i> LATAM</span>
+                </div>
+              </div>
+
+              <div class="campaign-meta">
+                Requirements: <strong>80–300 viewers</strong> · Spanish
+              </div>
+
+              <div class="campaign-actions">
+                <div class="campaign-fee"><span class="currency">USD</span>50</div>
+                <a href="campaign-detail.html" class="btn-detail" onclick="event.stopPropagation();">
+                  View details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- CAMPAIGN 2 -->
+            <div
+              class="campaign-item"
+              data-id="c2"
+              data-title="LATAM finance app · Mention + panel link"
+              data-brand="Fintech LATAM"
+              data-category="Tech"
+              data-category-label="Digital payments"
+              data-fee="USD 30 / month"
+              data-fee-usd="30"
+              data-type="Panel link"
+              data-type-label="Panel + weekly mention"
+              data-platform="Twitch · Panel link"
+              data-duration="Monthly contract"
+              data-action="Add a panel link + 1 mention per week."
+              data-reward="USD 30 monthly while active."
+              data-req="Ideal for 50–200 avg viewers · LATAM community."
+              data-region="All LATAM"
+              data-payment="USD · Any method"
+              data-min="50"
+              data-max="200"
+              data-tags="Tech"
+            >
+              <div>
+                <div class="campaign-title" title="LATAM finance app · Mention + panel link">LATAM finance app · Mention + panel link</div>
+                <div class="campaign-brand">Fintech LATAM · Payments</div>
+                <div class="campaign-tags">
+                  <span class="pill success"><i class="fa-solid fa-dollar-sign"></i> USD 30 / mo</span>
+                  <span class="pill"><i class="fa-solid fa-link"></i> Panel</span>
+                </div>
+              </div>
+
+              <div class="campaign-meta">
+                Requirements: <strong>50–200 viewers</strong> · LATAM
+              </div>
+
+              <div class="campaign-actions">
+                <div class="campaign-fee"><span class="currency">USD</span>30</div>
+                <a href="campaign-detail.html" class="btn-detail" onclick="event.stopPropagation();">
+                  View details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- CAMPAIGN 3 -->
+            <div
+              class="campaign-item"
+              data-id="c3"
+              data-title="Gamer snacks · Casual mention"
+              data-brand="SnackBoost"
+              data-category="Food"
+              data-category-label="Food / snacks"
+              data-fee="USD 20 + products"
+              data-fee-usd="20"
+              data-type="Stream mention"
+              data-type-label="Casual mention"
+              data-platform="Twitch · Long streams"
+              data-duration="1–2 mentions in a week"
+              data-action="Try the snacks live and comment while playing or chatting."
+              data-reward="Product pack + a small fee for the campaign."
+              data-req="Built for close-knit communities: 50–150 avg viewers."
+              data-region="Argentina"
+              data-payment="Product only"
+              data-min="50"
+              data-max="150"
+              data-tags="Food|Gaming"
+            >
+              <div>
+                <div class="campaign-title" title="Gamer snacks · Casual mention">Gamer snacks · Casual mention</div>
+                <div class="campaign-brand">SnackBoost · Food</div>
+                <div class="campaign-tags">
+                  <span class="pill success"><i class="fa-solid fa-dollar-sign"></i> USD 20 + product</span>
+                  <span class="pill"><i class="fa-solid fa-gamepad"></i> Long streams</span>
+                </div>
+              </div>
+
+              <div class="campaign-meta">
+                Requirements: <strong>50–150 viewers</strong> · Community-first
+              </div>
+
+              <div class="campaign-actions">
+                <div class="campaign-fee"><span class="currency">USD</span>20</div>
+                <a href="campaign-detail.html" class="btn-detail" onclick="event.stopPropagation();">
+                  View details <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE PREVIEW -->
+      <aside class="side-column">
+        <div class="card" id="campaign-preview-card">
+
+          <div class="preview-header" id="tourPreviewHeader">
+            <div class="preview-title" id="pv-title">Select a campaign</div>
+            <div class="preview-actions">
+              <button class="btn-ghost" id="tourStartBtnPreview" type="button">
+                <i class="fa-solid fa-route"></i> Tour
+              </button>
+            </div>
+          </div>
+
+          <div class="preview-body" id="tourPreviewBody">
+            <div class="preview-brand-row" id="pv-brand-row">
+              <i class="fa-solid fa-tag"></i>
+              <span id="pv-brand-cat">Brand · Category</span>
+            </div>
+
+            <div class="preview-pill-row">
+              <span class="pill" id="pv-type">Type</span>
+              <span class="pill" id="pv-platform">Platform</span>
+              <span class="pill" id="pv-duration">Duration</span>
+            </div>
+
+            <div class="preview-fee" id="pv-fee"></div>
+
+            <ul class="preview-list">
+              <li id="pv-action">Action</li>
+              <li id="pv-reward">Reward</li>
+              <li id="pv-req">Requirements</li>
+            </ul>
+
+            <div class="brand-card" id="pv-brand-card">
+              <div class="brand-avatar" id="pv-brand-avatar">B</div>
+              <div class="brand-info">
+                <div class="brand-name" id="pv-brand-name">Brand</div>
+                <div class="brand-note" id="pv-brand-note">This is a demo preview</div>
+              </div>
+            </div>
+
+            <div class="preview-cta" id="tourCta">
+              <button class="btn-primary" id="applyBtn" type="button">
+                <i class="fa-solid fa-paper-plane"></i> Apply (demo)
+              </button>
+              <a class="btn-ghost" id="openDetailBtn" href="campaign-detail.html" onclick="event.stopPropagation();">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open details
+              </a>
+            </div>
+
+            <div class="muted-note" id="applyNote">
+              Applying is simulated locally. In the real product, this would create an application record.
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </section>
+  </main>
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <div class="modal-title">Reset demo?</div>
+    <div class="modal-sub">
+      This will clear local demo data and re-seed the MVP with clean, pitch-ready values.
+      You’ll keep a consistent experience when showing it to buyers.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelResetBtn" type="button">
+        <i class="fa-solid fa-xmark"></i> Cancel
+      </button>
+      <button class="btn-danger" id="confirmResetBtn" type="button">
+        <i class="fa-solid fa-rotate"></i> Reset + seed
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div id="toastTitle">Done (demo)</div>
+  <div class="toast-sub" id="toastSub">—</div>
+</div>
+
+<!-- TOUR -->
+<div class="tour-overlay" id="tourOverlay" aria-hidden="true">
+  <div class="tour-dim"></div>
+  <div class="tour-highlight" id="tourHighlight"></div>
+  <div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-topline">
+      <div class="tour-step" id="tourStep">Step 1/5</div>
+      <button class="tour-btn danger" id="tourSkipBtn" type="button">
+        <i class="fa-solid fa-xmark"></i> Skip
+      </button>
+    </div>
+    <div class="tour-title" id="tourTitle">—</div>
+    <div class="tour-body" id="tourBody">—</div>
+    <div class="tour-actions">
+      <button class="tour-btn" id="tourBackBtn" type="button">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </button>
+      <button class="tour-btn primary" id="tourNextBtn" type="button">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------------- Keys (shared across pages) ----------------
+  const APPLICATIONS_KEY = "streamlatamApplicationsDemo"; // matches your campaign-detail/applications
+  const PROFILE_KEY = "streamlatamProfileDemo";           // used in dashboard seed
+  const STREAMER_BASE_KEY = "streamerBaseData";           // your existing campaigns logic uses this
+  const TOUR_SEEN_KEY = "streamlatamTourSeen";
+
+  // ---------------- Demo seed ----------------
+  const DEMO_PROFILE = {
+    channelName: "FranPlays",
+    region: "LATAM",
+    language: "Spanish",
+    avgViewers: 145,
+    categories: ["Valorant", "Just Chatting", "Dota 2"],
+    schedule: "Mon–Fri · 9pm (GMT-3)",
+    socials: { ig: "@franplays", tiktok: "@franplays", yt: "FranPlays" }
+  };
+
+  const DEMO_BASE = { viewers: "145" };
+
+  const DEMO_APPLICATIONS = [
+    {
+      campaignId: "c1",
+      title: "Headset Pro LATAM · Stream mention",
+      brand: "Headset Pro",
+      fee: "USD 50 + product",
+      status: "In review",
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c2",
+      title: "LATAM finance app · Mention + panel link",
+      brand: "Fintech LATAM",
+      fee: "USD 30 / month",
+      status: "Accepted",
+      createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
+    }
+  ];
+
+  function safeJsonParse(str) { try { return JSON.parse(str); } catch { return null; } }
+  function setProfile(obj) { localStorage.setItem(PROFILE_KEY, JSON.stringify(obj)); }
+  function setBase(obj) { localStorage.setItem(STREAMER_BASE_KEY, JSON.stringify(obj)); }
+  function setApplications(arr) { localStorage.setItem(APPLICATIONS_KEY, JSON.stringify(arr)); }
+
+  function ensureSeeded() {
+    const p = safeJsonParse(localStorage.getItem(PROFILE_KEY));
+    if (!p || typeof p !== "object") setProfile(DEMO_PROFILE);
+
+    const b = safeJsonParse(localStorage.getItem(STREAMER_BASE_KEY));
+    if (!b || typeof b !== "object") setBase(DEMO_BASE);
+
+    const a = safeJsonParse(localStorage.getItem(APPLICATIONS_KEY));
+    if (!Array.isArray(a) || a.length === 0) setApplications(DEMO_APPLICATIONS);
+  }
+
+  // ---------------- Toast ----------------
+  const toast = document.getElementById("toast");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+  function showToast(title, sub) {
+    if (!toast) return;
+    toastTitle.textContent = title || "Done (demo)";
+    toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  // --- Helpers ---
+  function parseViewers(v) {
+    if (!v) return 0;
+    const cleaned = String(v).replace(/[^\d]/g, "");
+    const n = parseInt(cleaned, 10);
+    return isNaN(n) ? 0 : n;
+  }
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+  // Seed (so Fit pill and recommended filtering behave)
+  ensureSeeded();
+
+  // --- Pull base data (viewer range) to support "recommended" toggle + fit pill ---
+  const baseDefaults = { viewers: "145" };
+  const storedBase = safeJsonParse(localStorage.getItem(STREAMER_BASE_KEY));
+  const base = (storedBase && typeof storedBase === "object") ? { ...baseDefaults, ...storedBase } : baseDefaults;
+  const viewersNum = parseViewers(base.viewers);
+
+  // Fit pill logic (simple)
+  const fitPill = document.getElementById("fitPill");
+  function setFitPill() {
+    if (!fitPill) return;
+    let fit = "Low";
+    if (viewersNum >= 50 && viewersNum < 120) fit = "Medium";
+    else if (viewersNum >= 120) fit = "High";
+    fitPill.innerHTML = `<i class="fa-solid fa-signal"></i> Fit: ${fit}`;
+    fitPill.classList.toggle("ok", fit !== "Low");
+  }
+  setFitPill();
+
+  // Updated text (local demo)
+  const updatedText = document.getElementById("updatedText");
+  if (updatedText) {
+    const now = new Date();
+    const stamp = now.toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
+    updatedText.textContent = `Updated: ${stamp} (local demo)`;
+  }
+
+  // --- Campaign selection & preview ---
+  const items = Array.from(document.querySelectorAll(".campaign-item"));
+
+  const pvTitle = document.getElementById("pv-title");
+  const pvBrandCat = document.getElementById("pv-brand-cat");
+  const pvType = document.getElementById("pv-type");
+  const pvPlatform = document.getElementById("pv-platform");
+  const pvDuration = document.getElementById("pv-duration");
+  const pvFee = document.getElementById("pv-fee");
+  const pvAction = document.getElementById("pv-action");
+  const pvReward = document.getElementById("pv-reward");
+  const pvReq = document.getElementById("pv-req");
+  const pvBrandAvatar = document.getElementById("pv-brand-avatar");
+  const pvBrandName = document.getElementById("pv-brand-name");
+  const pvBrandNote = document.getElementById("pv-brand-note");
+
+  const applyBtn = document.getElementById("applyBtn");
+  const openDetailBtn = document.getElementById("openDetailBtn");
+  const applyNote = document.getElementById("applyNote");
+
+  let selectedId = null;
+
+  function getApplications() {
+    const data = safeJsonParse(localStorage.getItem(APPLICATIONS_KEY));
+    return Array.isArray(data) ? data : [];
+  }
+
+  function isApplied(campaignId) {
+    if (!campaignId) return false;
+    return getApplications().some(a => a && a.campaignId === campaignId);
+  }
+
+  function updatePreview(it) {
+    items.forEach(i => i.classList.remove("selected"));
+    it.classList.add("selected");
+
+    selectedId = it.dataset.id || null;
+
+    const brand = it.dataset.brand || "Demo brand";
+    const categoryLabel = it.dataset.categoryLabel || it.dataset.category || "Category";
+
+    if (pvTitle) pvTitle.textContent = it.dataset.title || "Campaign";
+    if (pvBrandCat) pvBrandCat.textContent = `${brand} · ${categoryLabel}`;
+    if (pvType) pvType.textContent = it.dataset.typeLabel || it.dataset.type || "Type";
+    if (pvPlatform) pvPlatform.textContent = it.dataset.platform || "Platform";
+    if (pvDuration) pvDuration.textContent = it.dataset.duration || "Duration";
+    if (pvFee) pvFee.textContent = it.dataset.fee || "";
+    if (pvAction) pvAction.textContent = it.dataset.action || "";
+    if (pvReward) pvReward.textContent = it.dataset.reward || "";
+    if (pvReq) pvReq.textContent = it.dataset.req || "";
+
+    if (pvBrandName) pvBrandName.textContent = brand;
+    if (pvBrandAvatar) pvBrandAvatar.textContent = (brand.trim().charAt(0).toUpperCase() || "B");
+
+    const alreadyApplied = isApplied(selectedId);
+    if (applyBtn) {
+      applyBtn.innerHTML = alreadyApplied
+        ? `<i class="fa-solid fa-check"></i> Applied (demo)`
+        : `<i class="fa-solid fa-paper-plane"></i> Apply (demo)`;
+      applyBtn.disabled = alreadyApplied;
+      applyBtn.style.opacity = alreadyApplied ? "0.75" : "1";
+      applyBtn.style.cursor = alreadyApplied ? "not-allowed" : "pointer";
+    }
+
+    if (pvBrandNote) {
+      pvBrandNote.textContent = alreadyApplied
+        ? "You already applied to this campaign (demo)."
+        : "This is a demo preview.";
+    }
+
+    if (openDetailBtn) {
+      const baseHref = "campaign-detail.html";
+      openDetailBtn.href = selectedId ? `${baseHref}?id=${encodeURIComponent(selectedId)}` : baseHref;
+    }
+
+    const body = document.querySelector(".preview-body");
+    if (body) {
+      body.style.animation = "none";
+      void body.offsetWidth;
+      body.style.animation = "fadeIn .12s ease";
+    }
+  }
+
+  items.forEach(it => it.addEventListener("click", () => updatePreview(it)));
+
+  function applyToCampaign(campaignId) {
+    if (!campaignId) return;
+
+    const list = getApplications();
+    if (list.some(a => a && a.campaignId === campaignId)) return;
+
+    const it = items.find(x => x.dataset.id === campaignId);
+    const now = new Date();
+
+    list.unshift({
+      campaignId,
+      title: it?.dataset.title || "Campaign",
+      brand: it?.dataset.brand || "Brand",
+      fee: it?.dataset.fee || "",
+      status: "In review",
+      createdAt: now.toISOString()
+    });
+
+    setApplications(list);
+
+    if (applyNote) {
+      applyNote.textContent = "Applied! (demo) Saved locally. Show this in “My applications”.";
+    }
+
+    showToast("Applied (demo)", "Saved locally. Check “My applications”.");
+
+    // Update UI
+    if (applyBtn) {
+      applyBtn.innerHTML = `<i class="fa-solid fa-check"></i> Applied (demo)`;
+      applyBtn.disabled = true;
+      applyBtn.style.opacity = "0.75";
+      applyBtn.style.cursor = "not-allowed";
+    }
+    if (pvBrandNote) pvBrandNote.textContent = "You already applied to this campaign (demo).";
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", () => {
+      if (!selectedId) return;
+      applyToCampaign(selectedId);
+    });
+  }
+
+  // --- Filters (frontend-only) ---
+  const searchInput = document.getElementById("searchInput");
+  const recommendedToggle = document.getElementById("recommendedToggle");
+  const resultsPill = document.getElementById("resultsPill");
+  const resetBtn = document.getElementById("resetBtn");
+
+  const filterState = {
+    region: null,
+    payment: null,
+    type: null,
+    category: null,
+    query: ""
+  };
+
+  function normalize(s) { return String(s || "").toLowerCase().trim(); }
+
+  function matchesRecommended(it) {
+    const min = parseInt(it.dataset.min || "0", 10);
+    const max = parseInt(it.dataset.max || "999999", 10);
+    if (isNaN(min) || isNaN(max)) return true;
+    return viewersNum >= min && viewersNum <= max;
+  }
+
+  function matchesFilters(it) {
+    if (recommendedToggle && recommendedToggle.checked) {
+      if (!matchesRecommended(it)) return false;
+    }
+    if (filterState.region && filterState.region !== "All LATAM") {
+      if ((it.dataset.region || "All LATAM") !== filterState.region) return false;
+    }
+    if (filterState.payment && filterState.payment !== "USD · Any method") {
+      if ((it.dataset.payment || "") !== filterState.payment) return false;
+    }
+    if (filterState.type && filterState.type !== "All types") {
+      if ((it.dataset.type || "") !== filterState.type) return false;
+    }
+    if (filterState.category && filterState.category !== "Any category") {
+      if ((it.dataset.category || "") !== filterState.category) return false;
+    }
+
+    const q = normalize(filterState.query);
+    if (q) {
+      const hay = normalize([
+        it.dataset.title,
+        it.dataset.brand,
+        it.dataset.categoryLabel,
+        it.dataset.category,
+        it.dataset.fee,
+        it.dataset.typeLabel,
+        it.dataset.platform,
+        it.dataset.tags
+      ].join(" "));
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function applyListFiltering() {
+    let visibleCount = 0;
+    items.forEach(it => {
+      const ok = matchesFilters(it);
+      it.style.display = ok ? "" : "none";
+      if (ok) visibleCount += 1;
+    });
+
+    if (resultsPill) {
+      resultsPill.innerHTML = `<i class="fa-solid fa-list"></i> Showing ${visibleCount} campaign${visibleCount === 1 ? "" : "s"}`;
+    }
+
+    const selected = items.find(x => x.classList.contains("selected"));
+    if (!selected || selected.style.display === "none") {
+      const firstVisible = items.find(x => x.style.display !== "none");
+      if (firstVisible) updatePreview(firstVisible);
+      else {
+        if (pvTitle) pvTitle.textContent = "No results";
+        if (pvBrandCat) pvBrandCat.textContent = "Try adjusting filters";
+        if (pvFee) pvFee.textContent = "";
+        if (pvAction) pvAction.textContent = "—";
+        if (pvReward) pvReward.textContent = "—";
+        if (pvReq) pvReq.textContent = "—";
+        if (applyBtn) {
+          applyBtn.disabled = true;
+          applyBtn.innerHTML = `<i class="fa-solid fa-ban"></i> Apply`;
+          applyBtn.style.opacity = "0.6";
+          applyBtn.style.cursor = "not-allowed";
+        }
+      }
+    }
+  }
+
+  // --- Custom dropdowns (animated) ---
+  const filterSelects = document.querySelectorAll(".filter-select");
+
+  filterSelects.forEach(select => {
+    const placeholder = select.dataset.placeholder || "Select";
+    const optionsString = select.dataset.options || "";
+    const options = optionsString.split("|").map(o => o.trim()).filter(Boolean);
+    const key = select.dataset.filter;
+
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "filter-trigger";
+    trigger.innerHTML = `<span>${placeholder}</span><i class="fa-solid fa-chevron-down"></i>`;
+
+    const optionsContainer = document.createElement("div");
+    optionsContainer.className = "filter-options";
+
+    options.forEach((opt, index) => {
+      const optDiv = document.createElement("div");
+      optDiv.className = "filter-option" + (index === 0 ? " active" : "");
+      optDiv.textContent = opt;
+
+      optDiv.addEventListener("click", () => {
+        trigger.querySelector("span").textContent = opt;
+
+        optionsContainer.querySelectorAll(".filter-option").forEach(o => o.classList.remove("active"));
+        optDiv.classList.add("active");
+
+        if (key) filterState[key] = opt;
+
+        select.classList.remove("open");
+        applyListFiltering();
+      });
+
+      optionsContainer.appendChild(optDiv);
+    });
+
+    trigger.addEventListener("click", () => {
+      const isOpen = select.classList.contains("open");
+      filterSelects.forEach(s => s.classList.remove("open"));
+      if (!isOpen) select.classList.add("open");
+    });
+
+    select.appendChild(trigger);
+    select.appendChild(optionsContainer);
+
+    if (key) filterState[key] = options[0] || null;
+  });
+
+  document.addEventListener("click", (e) => {
+    const isDropdown = e.target.closest(".filter-select");
+    if (!isDropdown) filterSelects.forEach(s => s.classList.remove("open"));
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      filterState.query = searchInput.value || "";
+      applyListFiltering();
+    });
+  }
+
+  if (recommendedToggle) {
+    recommendedToggle.addEventListener("change", () => {
+      applyListFiltering();
+      if (applyNote) applyNote.textContent = "Applying is simulated locally. In the real product, this would create an application record.";
+    });
+  }
+
+  function resetFilters() {
+    if (searchInput) searchInput.value = "";
+    filterState.query = "";
+
+    filterSelects.forEach(select => {
+      const triggerSpan = select.querySelector(".filter-trigger span");
+      const firstOpt = select.querySelector(".filter-option");
+      const key = select.dataset.filter;
+
+      select.querySelectorAll(".filter-option").forEach(o => o.classList.remove("active"));
+      if (firstOpt) firstOpt.classList.add("active");
+
+      if (triggerSpan && firstOpt) triggerSpan.textContent = firstOpt.textContent;
+      if (key && firstOpt) filterState[key] = firstOpt.textContent;
+    });
+
+    if (recommendedToggle) recommendedToggle.checked = true;
+    applyListFiltering();
+  }
+
+  if (resetBtn) resetBtn.addEventListener("click", resetFilters);
+
+  // Initial preview + filtering
+  if (items.length > 0) updatePreview(items[0]);
+  applyListFiltering();
+
+  // ---------------- Reset demo (modal) ----------------
+  const resetModal = document.getElementById("resetModal");
+  const cancelResetBtn = document.getElementById("cancelResetBtn");
+  const confirmResetBtn = document.getElementById("confirmResetBtn");
+
+  function openResetModal() { if (resetModal) resetModal.style.display = "flex"; }
+  function closeResetModal() { if (resetModal) resetModal.style.display = "none"; }
+
+  function resetAndSeed() {
+    localStorage.clear();
+    // Re-seed minimal keys so the demo always works
+    setProfile(DEMO_PROFILE);
+    setBase(DEMO_BASE);
+    setApplications(DEMO_APPLICATIONS);
+    localStorage.removeItem(TOUR_SEEN_KEY);
+
+    showToast("Reset complete (demo)", "Local data cleared and re-seeded.");
+    // refresh page to re-bind everything cleanly
+    setTimeout(() => window.location.reload(), 250);
+  }
+
+  const resetDemoBtnTop = document.getElementById("resetDemoBtnTop");
+  const resetDemoBtnSide = document.getElementById("resetDemoBtnSide");
+
+  if (resetDemoBtnTop) resetDemoBtnTop.addEventListener("click", openResetModal);
+  if (resetDemoBtnSide) resetDemoBtnSide.addEventListener("click", openResetModal);
+
+  if (cancelResetBtn) cancelResetBtn.addEventListener("click", closeResetModal);
+  if (resetModal) resetModal.addEventListener("click", (e) => { if (e.target === resetModal) closeResetModal(); });
+
+  if (confirmResetBtn) confirmResetBtn.addEventListener("click", () => {
+    closeResetModal();
+    resetAndSeed();
+  });
+
+  // ---------------- Guided demo tour (Campaigns page) ----------------
+  const tourOverlay = document.getElementById("tourOverlay");
+  const tourHighlight = document.getElementById("tourHighlight");
+  const tourTooltip = document.getElementById("tourTooltip");
+  const tourStep = document.getElementById("tourStep");
+  const tourTitle = document.getElementById("tourTitle");
+  const tourBody = document.getElementById("tourBody");
+  const tourBackBtn = document.getElementById("tourBackBtn");
+  const tourNextBtn = document.getElementById("tourNextBtn");
+  const tourSkipBtn = document.getElementById("tourSkipBtn");
+
+  const tourStartBtnTop = document.getElementById("tourStartBtnTop");
+  const tourStartBtnSide = document.getElementById("tourStartBtnSide");
+  const tourStartBtnPreview = document.getElementById("tourStartBtnPreview");
+
+  const TOUR_STEPS = [
+    {
+      selector: "#tourFilters",
+      title: "Filter the marketplace",
+      body: "Search and refine campaigns. It’s a demo, but the UX shows how discovery will work."
+    },
+    {
+      selector: "#tourList",
+      title: "Campaign list",
+      body: "Click any campaign to preview it. This keeps the decision fast for streamers."
+    },
+    {
+      selector: "#tourPreviewBody",
+      title: "Preview summary",
+      body: "A clean summary (fee, type, requirements). This is what sells the value quickly."
+    },
+    {
+      selector: "#tourCta",
+      title: "Apply in one click (demo)",
+      body: "Click Apply to save an application locally. Then open “My applications” to show the record."
+    },
+    {
+      selector: "#tourNavApps",
+      title: "Show the outcome",
+      body: "The application appears in “My applications”. That’s the end-to-end proof buyers want."
+    }
+  ];
+
+  let tourIndex = 0;
+
+  function getRectFor(el) {
+    const r = el.getBoundingClientRect();
+    const pad = 10;
+    return { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 };
+  }
+
+  function positionTooltip(rect) {
+    const margin = 12;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let left = rect.left + rect.width + margin;
+    let top = rect.top;
+
+    const tt = tourTooltip.getBoundingClientRect();
+
+    if (left + tt.width > vw - margin) left = rect.left - tt.width - margin;
+    if (left < margin) { left = clamp(rect.left, margin, vw - tt.width - margin); top = rect.top + rect.height + margin; }
+    if (top + tt.height > vh - margin) top = clamp(vh - tt.height - margin, margin, vh - tt.height - margin);
+    top = clamp(top, margin, vh - tt.height - margin);
+
+    tourTooltip.style.left = `${left}px`;
+    tourTooltip.style.top = `${top}px`;
+  }
+
+  function renderTourStep() {
+    const step = TOUR_STEPS[tourIndex];
+    const el = document.querySelector(step.selector);
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    setTimeout(() => {
+      const rect = getRectFor(el);
+      tourHighlight.style.left = `${rect.left}px`;
+      tourHighlight.style.top = `${rect.top}px`;
+      tourHighlight.style.width = `${rect.width}px`;
+      tourHighlight.style.height = `${rect.height}px`;
+
+      tourStep.textContent = `Step ${tourIndex + 1}/${TOUR_STEPS.length}`;
+      tourTitle.textContent = step.title;
+      tourBody.textContent = step.body;
+
+      tourBackBtn.style.opacity = (tourIndex === 0) ? "0.55" : "1";
+      tourBackBtn.style.pointerEvents = (tourIndex === 0) ? "none" : "auto";
+
+      tourNextBtn.innerHTML = (tourIndex === TOUR_STEPS.length - 1)
+        ? `Finish <i class="fa-solid fa-check"></i>`
+        : `Next <i class="fa-solid fa-arrow-right"></i>`;
+
+      positionTooltip(rect);
+    }, 220);
+  }
+
+  function openTour() {
+    tourIndex = 0;
+    tourOverlay.style.display = "block";
+    tourOverlay.setAttribute("aria-hidden", "false");
+    renderTourStep();
+  }
+
+  function closeTour(markSeen) {
+    tourOverlay.style.display = "none";
+    tourOverlay.setAttribute("aria-hidden", "true");
+    if (markSeen) localStorage.setItem(TOUR_SEEN_KEY, "1");
+  }
+
+  function nextTour() {
+    if (tourIndex >= TOUR_STEPS.length - 1) {
+      closeTour(true);
+      showToast("Tour complete", "Now apply to a campaign to demonstrate the full flow.");
+      return;
+    }
+    tourIndex++;
+    renderTourStep();
+  }
+
+  function backTour() {
+    tourIndex = Math.max(0, tourIndex - 1);
+    renderTourStep();
+  }
+
+  if (tourNextBtn) tourNextBtn.addEventListener("click", nextTour);
+  if (tourBackBtn) tourBackBtn.addEventListener("click", backTour);
+  if (tourSkipBtn) tourSkipBtn.addEventListener("click", () => closeTour(false));
+
+  if (tourStartBtnTop) tourStartBtnTop.addEventListener("click", openTour);
+  if (tourStartBtnSide) tourStartBtnSide.addEventListener("click", openTour);
+  if (tourStartBtnPreview) tourStartBtnPreview.addEventListener("click", openTour);
+
+  window.addEventListener("resize", () => {
+    if (tourOverlay && tourOverlay.style.display === "block") renderTourStep();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (!tourOverlay || tourOverlay.style.display !== "block") return;
+    if (e.key === "Escape") closeTour(false);
+    if (e.key === "ArrowRight" || e.key === "Enter") nextTour();
+    if (e.key === "ArrowLeft") backTour();
+  });
+</script>
+
+</body>
+</html>

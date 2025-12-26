@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Public profile – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root{
+      --bg:#05060a;
+      --bg-elevated:#080816;
+      --bg-card:#101222;
+      --bg-soft:#181a2f;
+      --border-soft:#1f213a;
+      --border-subtle:#141626;
+      --text-main:#f4f4fb;
+      --text-soft:#9c9fc2;
+      --text-muted:#7a7ea5;
+      --accent:#5b4bff;
+      --accent-soft:#7b6bff;
+      --success:#5bff94;
+      --danger:#ff5b7d;
+      --warning:#ffc857;
+      --radius-lg:20px;
+      --radius-md:14px;
+      --shadow-soft:0 18px 45px rgba(0,0,0,0.65);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,Inter,sans-serif;}
+    html{scroll-behavior:smooth;}
+    body{
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color:var(--text-main);
+      animation: fadeBody .28s ease-out;
+    }
+
+    .wrap{max-width:1120px;margin:0 auto;padding:22px;}
+
+    /* TOPBAR */
+    .topbar{
+      position:sticky;top:0;z-index:20;
+      padding:14px 18px;
+      border:1px solid var(--border-subtle);
+      border-radius:18px;
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.32), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      box-shadow:0 16px 44px rgba(0,0,0,0.55);
+    }
+
+    .brand{
+      display:flex;flex-direction:column;gap:2px;
+      min-width:0;
+    }
+    .brand .logo{
+      font-weight:800;letter-spacing:.12em;font-size:13px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .brand .logo span{color:var(--accent-soft);}
+    .brand .subline{
+      font-size:11px;color:var(--text-soft);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+
+    .top-right{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+    .pill{
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      font-size:11px;color:var(--text-soft);
+      display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+    }
+    .pill.ok{
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.08);
+      color: #bfffd5;
+    }
+    .pill.warn{
+      border-color: rgba(255,200,87,0.65);
+      background: rgba(255,200,87,0.08);
+      color: #ffe1a6;
+    }
+    .pill.bad{
+      border-color: rgba(255,91,125,0.6);
+      background: rgba(255,91,125,0.08);
+      color: #ffd0d9;
+    }
+
+    /* LAYOUT */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap:18px;
+    }
+
+    .stack{display:flex;flex-direction:column;gap:18px;}
+
+    .card{
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        var(--bg-card);
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:var(--radius-lg);
+      padding:18px 20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,0.04);
+      transition:.2s ease;
+      animation: fadeCardUp .33s ease both;
+    }
+    .card:hover{
+      transform: translateY(-1px);
+      border-color: rgba(123,107,255,0.6);
+      box-shadow:0 14px 38px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .title{
+      font-size:16px;font-weight:800;line-height:1.2;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+    }
+    .title small{
+      font-size:11px;color:var(--text-soft);font-weight:600;
+      display:inline-flex;align-items:center;gap:6px;
+      border:1px solid rgba(123,107,255,0.6);
+      background: linear-gradient(135deg, rgba(91,75,255,0.28), rgba(9,9,30,0.85));
+      padding:4px 10px;border-radius:999px;
+      white-space:nowrap;
+      box-shadow:0 10px 26px rgba(0,0,0,0.65);
+    }
+    .sub{margin-top:6px;font-size:12px;color:var(--text-soft);line-height:1.45;}
+    .title::after{
+      content:"";display:block;width:32px;height:2px;margin-top:8px;border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),transparent);
+      opacity:.95;
+    }
+
+    /* PROFILE HEADER */
+    .profile-row{display:flex;gap:12px;align-items:center;margin-top:12px;}
+    .avatar{
+      width:58px;height:58px;border-radius:999px;
+      background:conic-gradient(from 210deg,#5b4bff,#5bff94,#ffc857,#ff5b7d,#5b4bff);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;color:#fff;font-size:22px;
+      box-shadow:0 0 16px rgba(0,0,0,0.6);
+      flex-shrink:0;
+    }
+    .name{font-size:17px;font-weight:900;}
+    .meta{font-size:12px;color:var(--text-soft);margin-top:2px;line-height:1.35;}
+    .meta b{color:var(--text-main);font-weight:700}
+
+    /* KPI GRID */
+    .grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:10px;
+    }
+    .kpi{
+      background:#15172b;border:1px solid var(--border-subtle);
+      border-radius:14px;padding:10px 11px;
+    }
+    .kpi-label{font-size:11px;color:var(--text-soft);display:flex;align-items:center;gap:6px;}
+    .kpi-value{margin-top:3px;font-size:16px;font-weight:900}
+    .kpi-sub{margin-top:2px;font-size:11px;color:var(--text-soft);line-height:1.35;}
+
+    /* SECTIONS */
+    .list{display:flex;flex-direction:column;gap:10px;}
+    .row{
+      background:#15172b;border:1px solid var(--border-subtle);
+      border-radius:16px;padding:12px;
+      display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
+    }
+    .row-left{min-width:0}
+    .row-title{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .row-sub{margin-top:3px;font-size:11px;color:var(--text-soft);line-height:1.35;}
+    .tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;}
+    .tag{
+      padding:3px 8px;border-radius:999px;font-size:11px;
+      background:#141529;border:1px solid var(--border-soft);
+      color:var(--text-soft);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+    }
+    .tag.ok{
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.07);
+      color:#c9ffe0;
+    }
+    .tag.warn{
+      border-color: rgba(255,200,87,0.6);
+      background: rgba(255,200,87,0.06);
+      color:#ffe2ab;
+    }
+    .tag.bad{
+      border-color: rgba(255,91,125,0.6);
+      background: rgba(255,91,125,0.06);
+      color:#ffd0d9;
+    }
+
+    /* CTAs */
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:var(--text-main);
+      padding:9px 12px;border-radius:14px;
+      font-size:12px;cursor:pointer;text-decoration:none;
+      transition:.18s ease;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,0.05);box-shadow:0 12px 30px rgba(0,0,0,0.75);}
+    .btn.primary{
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.10);
+      color:#d8ffe7;
+    }
+    .btn.primary:hover{background: rgba(91,255,148,0.14); border-color: rgba(91,255,148,0.75);}
+    .btn.small{padding:8px 10px;font-size:11px;border-radius:12px}
+
+    .note{
+      margin-top:12px;
+      border:1px dashed rgba(255,255,255,0.14);
+      background:rgba(255,255,255,0.02);
+      border-radius:16px;
+      padding:12px;
+      font-size:12px;color:var(--text-soft);line-height:1.45;
+    }
+    .note strong{color:var(--text-main);}
+
+    /* SOCIAL LINKS */
+    .social-grid{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .social-item{
+      background:#15172b;border:1px solid var(--border-subtle);
+      border-radius:14px;padding:10px 11px;
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+      min-width:0;
+    }
+    .social-left{display:flex;align-items:center;gap:10px;min-width:0;}
+    .social-ico{
+      width:30px;height:30px;border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
+    .social-name{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .social-link{
+      font-size:11px;color:var(--text-soft);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      max-width: 180px;
+    }
+    .social-link a{color:#dcdcff;text-decoration:none;border-bottom:1px dashed rgba(123,107,255,0.45);}
+    .social-link a:hover{border-bottom-color: rgba(123,107,255,0.9);}
+    .social-empty{font-size:11px;color:var(--text-muted);}
+
+    /* TOAST */
+    .toast{
+      position:fixed;right:18px;bottom:18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 340px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 999;
+    }
+    .toast.show{opacity:1;transform:translateY(0);}
+    .toast-sub{margin-top:4px;color:var(--text-soft);font-size:11px;line-height:1.35;}
+
+    @keyframes fadeBody{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeCardUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns: repeat(2, minmax(0,1fr));}
+      .social-grid{grid-template-columns:1fr;}
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns:1fr;}
+      .topbar{border-radius:16px}
+      .social-link{max-width: 140px;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">STREAM<span>LATAM</span> · Public</div>
+        <div class="subline" id="brandSub">Brand view · Shareable demo profile</div>
+      </div>
+      <div class="top-right">
+        <span class="pill"><i class="fa-solid fa-globe"></i> Public profile</span>
+        <span class="pill ok" id="dataPill"><i class="fa-solid fa-database"></i> Data: loaded</span>
+        <span class="pill" id="fitPill" title="Demo heuristic. Fit can be configured per campaign."><i class="fa-solid fa-signal"></i> Fit: —</span>
+        <span class="pill" id="updatedPill"><i class="fa-solid fa-clock"></i> Updated: —</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <!-- LEFT -->
+      <div class="stack">
+        <div class="card">
+          <div class="title">
+            Streamer profile
+            <small><i class="fa-solid fa-badge-check"></i> Brand-ready</small>
+          </div>
+          <div class="sub">
+            Brand-friendly profile view. Default loads from <b>localStorage</b>. Use <b>?id=s1</b> to preview a shareable demo.
+          </div>
+
+          <div class="profile-row">
+            <div class="avatar" id="avatar">S</div>
+            <div>
+              <div class="name" id="name">Streamer</div>
+              <div class="meta" id="metaLine">LATAM · Spanish · <b>UTC-3</b> · Live on Twitch</div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="kpi">
+              <div class="kpi-label"><i class="fa-solid fa-users"></i> Avg viewers</div>
+              <div class="kpi-value" id="kpiViewers">—</div>
+              <div class="kpi-sub">Core metric for campaign fit (demo)</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label"><i class="fa-solid fa-gamepad"></i> Main category</div>
+              <div class="kpi-value" id="kpiCategory">—</div>
+              <div class="kpi-sub">Primary content focus</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label"><i class="fa-solid fa-calendar-day"></i> Schedule</div>
+              <div class="kpi-value" id="kpiSchedule">—</div>
+              <div class="kpi-sub">Typical streaming time window</div>
+            </div>
+          </div>
+
+          <div class="cta">
+            <button class="btn primary" id="copyBtn" type="button" aria-label="Copy public profile link">
+              <i class="fa-solid fa-link"></i> Copy public link
+            </button>
+            <a class="btn" href="campaigns.html" aria-label="Open campaigns">
+              <i class="fa-solid fa-bullseye"></i> Open campaigns
+            </a>
+            <a class="btn" href="profile.html" aria-label="Edit streamer profile">
+              <i class="fa-solid fa-user-pen"></i> Edit profile
+            </a>
+          </div>
+
+          <div class="note" id="missingNote" style="display:none;">
+            <strong>No data found.</strong><br/>
+            Save your profile first in <b>Profile</b> (local demo), then refresh.<br/><br/>
+            Or preview a shareable demo with <code>?id=s1</code> / <code>?id=s2</code>.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">
+            Audience snapshot
+            <small><i class="fa-solid fa-chart-line"></i> Scannable</small>
+          </div>
+          <div class="sub">A brand-friendly summary of who you reach and when.</div>
+
+          <div class="list">
+            <div class="row">
+              <div class="row-left">
+                <div class="row-title">Audience</div>
+                <div class="row-sub" id="audLine">—</div>
+                <div class="tags" id="audTags"></div>
+              </div>
+              <div class="tag"><i class="fa-solid fa-users"></i> Demo</div>
+            </div>
+
+            <div class="row">
+              <div class="row-left">
+                <div class="row-title">Region & language</div>
+                <div class="row-sub" id="regLine">—</div>
+                <div class="tags" id="regTags"></div>
+              </div>
+              <div class="tag"><i class="fa-solid fa-earth-americas"></i> LATAM</div>
+            </div>
+
+            <div class="row">
+              <div class="row-left">
+                <div class="row-title">Reliability</div>
+                <div class="row-sub" id="relLine">—</div>
+                <div class="tags" id="relTags"></div>
+              </div>
+              <div class="tag" title="Demo proxy (schedule + social completeness)."><i class="fa-solid fa-shield"></i> Demo</div>
+            </div>
+          </div>
+
+          <div class="note">
+            <strong>Note:</strong> Fit + Reliability are <b>demo heuristics</b> (configurable per campaign in a real product).
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="stack">
+        <div class="card">
+          <div class="title">
+            Social reach
+            <small><i class="fa-solid fa-link"></i> Optional</small>
+          </div>
+          <div class="sub">Clickable links help brands validate you quickly.</div>
+
+          <div class="social-grid" id="socialGrid"></div>
+
+          <div class="note" id="socialNote">
+            <strong>Demo note:</strong> if socials are empty, we display “Not provided” (still looks clean).
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="title">
+            About & pitch
+            <small><i class="fa-solid fa-microphone"></i> 1-liner</small>
+          </div>
+          <div class="sub">A short pitch that makes the profile feel “real”.</div>
+
+          <div class="row" style="align-items:center;">
+            <div class="row-left">
+              <div class="row-title" id="pitchTitle">Creator summary</div>
+              <div class="row-sub" id="pitchText">—</div>
+              <div class="tags" id="pitchTags"></div>
+            </div>
+            <div class="tag ok"><i class="fa-solid fa-star"></i> Premium</div>
+          </div>
+
+          <div class="cta">
+            <a class="btn small" href="campaign-detail.html?id=c1" aria-label="Open a campaign detail">
+              <i class="fa-solid fa-eye"></i> Open a campaign detail
+            </a>
+            <a class="btn small" href="applications.html" aria-label="View applications">
+              <i class="fa-solid fa-inbox"></i> View applications
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div id="toastTitle">Done</div>
+    <div class="toast-sub" id="toastSub">—</div>
+  </div>
+
+<script>
+  /**
+   * FIX: public profile must reflect profile.html saves.
+   * Some versions save under "streamerBaseData", others under "streamerbasedata".
+   * We now:
+   *  - read from BOTH keys (first match wins)
+   *  - normalize the profile.html schema (name/viewers/categories string/region combined, etc.)
+   *  - re-render automatically if localStorage changes (when profile is saved in another tab)
+   */
+  const STREAMER_BASE_KEYS = ["streamerBaseData", "streamerbasedata"];
+
+  // Shareable demo registry (only used if ?id= matches)
+  const DEMO_PROFILES = {
+    s1: {
+      schemaVersion: 1,
+      displayName: "SofiGamer",
+      platform: "twitch",
+      avgViewers: 140,
+      categories: ["Valorant", "Just Chatting"],
+      region: "LATAM",
+      language: "Spanish",
+      timezone: "UTC-3",
+      schedule: "Mon–Fri · 20:00–23:00",
+      socials: {
+        twitch: "sofigamer",
+        instagram: "@sofi.gamer",
+        youtube: "youtube.com/@sofigamer",
+        tiktok: "@sofigamer",
+        x: "@sofi_gamer"
+      },
+      updatedAt: new Date().toISOString(),
+      tagline: "Competitive + community-driven streams with high chat engagement."
+    },
+    s2: {
+      schemaVersion: 1,
+      displayName: "NicoFPS",
+      platform: "youtube",
+      avgViewers: 95,
+      categories: ["Warzone", "FPS"],
+      region: "LATAM",
+      language: "Spanish",
+      timezone: "UTC-3",
+      schedule: "Tue/Thu/Sat · 21:00–01:00",
+      socials: {
+        twitch: "",
+        instagram: "@nicofps",
+        youtube: "@NicoFPS",
+        tiktok: "",
+        x: ""
+      },
+      updatedAt: new Date().toISOString(),
+      tagline: "High-intensity FPS content, tournament mindset, brand-safe vibe."
+    }
+  };
+
+  function safeJsonParse(str){ try{ return JSON.parse(str); } catch { return null; } }
+  function norm(s){ return String(s || "").trim(); }
+  function numViewers(v){
+    const n = parseInt(String(v || "").replace(/[^\d]/g,""),10);
+    return isNaN(n) ? 0 : n;
+  }
+  function showToast(title, sub){
+    const toast = document.getElementById("toast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastSub = document.getElementById("toastSub");
+    if (!toast) return;
+    toastTitle.textContent = title || "Done";
+    toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  const PLATFORM_LABELS = {
+    twitch: { label: "Twitch", icon: "fa-brands fa-twitch" },
+    youtube: { label: "YouTube", icon: "fa-brands fa-youtube" },
+    kick: { label: "Kick", icon: "fa-solid fa-k" },
+    trovo: { label: "Trovo", icon: "fa-solid fa-play" }
+  };
+  function platformLabel(val){
+    const k = norm(val).toLowerCase();
+    return (PLATFORM_LABELS[k] && PLATFORM_LABELS[k].label) ? PLATFORM_LABELS[k].label : "Twitch";
+  }
+
+  function splitRegionLanguage(str) {
+    const s = norm(str);
+    if (!s) return { region: "LATAM", language: "Spanish" };
+    // Accept "LATAM (AR) · Español" or "LATAM | Spanish"
+    const parts = s.split(/·|\||—|-/).map(x => x.trim()).filter(Boolean);
+    if (parts.length >= 2) return { region: parts[0], language: parts.slice(1).join(" · ") };
+    return { region: parts[0], language: "Spanish" };
+  }
+
+  function normalizeCategories(input){
+    if (Array.isArray(input)) return input.map(x => norm(x)).filter(Boolean).slice(0, 6);
+    const raw = norm(input);
+    if (!raw) return [];
+    return raw.split(/·|,|\/|\||;/).map(x => x.trim()).filter(Boolean).slice(0, 6);
+  }
+
+  function formatUpdated(val){
+    const iso = norm(val);
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (!isFinite(d.getTime())) return "";
+    return d.toLocaleString("en-US", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
+  }
+
+  function getQueryParam(name){
+    const params = new URLSearchParams(window.location.search || "");
+    return norm(params.get(name) || "");
+  }
+
+  function normalizeBase(raw){
+    if (!raw || typeof raw !== "object") return null;
+
+    // Support profile.html schema (common):
+    // { name, viewers, categories (string), region (string), timezone, platform, tagline, updatedAt, socials? }
+    // Also support legacy schema: displayName, avgViewers, categories(array), language, etc.
+
+    const displayName = norm(
+      raw.displayName ||
+      raw.channelName ||
+      raw.name ||
+      raw.handle
+    ) || "Streamer";
+
+    const platform = norm(raw.platform || raw.platformRaw) || "twitch";
+
+    const avgViewers =
+      (Number.isFinite(raw.avgViewers) ? raw.avgViewers : null) ??
+      (Number.isFinite(raw.viewersAvg) ? raw.viewersAvg : null) ??
+      (Number.isFinite(raw.viewers) ? raw.viewers : null) ??
+      numViewers(raw.viewers) ??
+      numViewers(raw.avgViewers) ??
+      numViewers(raw.viewersAvg) ??
+      0;
+
+    const cats = normalizeCategories(raw.categories || raw.category || "");
+    const category = norm(raw.category || cats[0] || "") || "—";
+
+    // Region + language:
+    // If raw.language exists, use it.
+    // If raw.region looks like "LATAM · Español", split it.
+    let region = norm(raw.region);
+    let language = norm(raw.language);
+
+    if (!language && region) {
+      const split = splitRegionLanguage(region);
+      // If region contained both, use split results
+      region = split.region || region;
+      language = split.language || "Spanish";
+    }
+    if (!region) region = "LATAM";
+    if (!language) language = "Spanish";
+
+    const schedule = norm(raw.schedule) || "—";
+    const timezone = norm(raw.timezone || raw.timezoneLabel) || "ART";
+
+    // Socials: accept both "socials" object or flat fields (twitch/instagram/etc)
+    const socialsObj = (raw.socials && typeof raw.socials === "object") ? raw.socials : {};
+    const twitch = norm(raw.twitch || socialsObj.twitch || "");
+    const instagram = norm(raw.instagram || socialsObj.instagram || "");
+    const youtube = norm(raw.youtube || socialsObj.youtube || "");
+    const tiktok = norm(raw.tiktok || socialsObj.tiktok || "");
+    const x = norm(raw.x || socialsObj.x || socialsObj.twitter || "");
+
+    const updatedAt = raw.updatedAt || raw.lastUpdated || raw.updated || "";
+
+    return {
+      schemaVersion: Number.isFinite(raw.schemaVersion) ? raw.schemaVersion : 1,
+      displayName,
+      platform,
+      platformLabel: platformLabel(platform),
+      region,
+      language,
+      timezone,
+      avgViewers,
+      viewersRaw: String(raw.avgViewers ?? raw.viewers ?? raw.viewersAvg ?? avgViewers ?? "—"),
+      categories: cats,
+      category,
+      schedule,
+      updatedAt,
+      socials: { twitch, instagram, youtube, tiktok, x },
+      tagline: norm(raw.tagline || "")
+    };
+  }
+
+  function loadFromLocalStorage(){
+    for (const key of STREAMER_BASE_KEYS){
+      const raw = safeJsonParse(localStorage.getItem(key));
+      if (raw) {
+        const n = normalizeBase(raw);
+        if (n) return { ...n, _mode: "local", _key: key };
+      }
+    }
+    return null;
+  }
+
+  // Default -> localStorage. Only use DEMO_PROFILES if ?id matches explicitly.
+  function loadBase(){
+    const id = getQueryParam("id");
+    if (id && DEMO_PROFILES[id]){
+      const n = normalizeBase(DEMO_PROFILES[id]);
+      return n ? { ...n, _mode: "link", _id: id } : null;
+    }
+    return loadFromLocalStorage();
+  }
+
+  function setUpdated(data){
+    const stamp = data && formatUpdated(data.updatedAt);
+    const now = new Date().toLocaleString("en-US", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
+    const updatedPill = document.getElementById("updatedPill");
+    if (updatedPill) updatedPill.innerHTML = `<i class="fa-solid fa-clock"></i> Updated: ${stamp || now}`;
+  }
+
+  const recommendedMin = 80;
+  const recommendedMax = 300;
+
+  function setFit(viewers){
+    const fitPill = document.getElementById("fitPill");
+    if (!fitPill) return;
+
+    fitPill.classList.remove("ok","warn","bad");
+
+    if (!viewers){
+      fitPill.classList.add("warn");
+      fitPill.innerHTML = `<i class="fa-solid fa-circle-info"></i> Fit: —`;
+      fitPill.title = "Demo heuristic. Fit can be configured per campaign.";
+      return;
+    }
+    let label = "Medium";
+    let cls = "warn";
+    if (viewers >= recommendedMin && viewers <= recommendedMax){ label = "Strong"; cls="ok"; }
+    else if (viewers < recommendedMin - 30 || viewers > recommendedMax + 30){ label = "Low"; cls="bad"; }
+
+    fitPill.classList.add(cls);
+    const icon = cls==="ok" ? "fa-signal" : (cls==="warn" ? "fa-circle-info" : "fa-triangle-exclamation");
+    fitPill.innerHTML = `<i class="fa-solid ${icon}"></i> Fit: ${label}`;
+    fitPill.title = `Demo heuristic: Strong if ${recommendedMin}-${recommendedMax} avg viewers. Configurable per campaign.`;
+  }
+
+  function tag(text, icon, extraClass){
+    const span = document.createElement("span");
+    span.className = "tag" + (extraClass ? " " + extraClass : "");
+    span.innerHTML = `${icon ? `<i class="fa-solid ${icon}"></i>` : ""}${text}`;
+    return span;
+  }
+
+  function ensureHttp(url){
+    const v = norm(url);
+    if (!v) return "";
+    if (v.startsWith("http://") || v.startsWith("https://")) return v;
+    return `https://${v.replace(/^\/+/, "")}`;
+  }
+
+  function buildSocialUrl(kind, raw){
+    const v = norm(raw);
+    if (!v) return "";
+
+    if (v.includes(".") && (v.startsWith("http") || v.startsWith("www.") || v.includes("youtube.com") || v.includes("youtu.be"))){
+      return ensureHttp(v.replace(/^@/, ""));
+    }
+
+    const handle = v.replace("@","");
+
+    if (kind === "twitch") return `https://twitch.tv/${handle}`;
+    if (kind === "instagram") return `https://instagram.com/${handle}`;
+    if (kind === "tiktok") return `https://tiktok.com/@${handle}`;
+    if (kind === "youtube") {
+      if (v.startsWith("@")) return `https://youtube.com/${v}`;
+      return `https://youtube.com/${handle}`;
+    }
+    if (kind === "x") return `https://x.com/${handle}`;
+    return ensureHttp(v);
+  }
+
+  function socialItem(kind, label, icon, raw){
+    const value = norm(raw);
+    const url = buildSocialUrl(kind, value);
+
+    const el = document.createElement("div");
+    el.className = "social-item";
+
+    const left = document.createElement("div");
+    left.className = "social-left";
+
+    const ico = document.createElement("div");
+    ico.className = "social-ico";
+    ico.innerHTML = `<i class="${icon}"></i>`;
+
+    const texts = document.createElement("div");
+    texts.style.minWidth = "0";
+
+    const nm = document.createElement("div");
+    nm.className = "social-name";
+    nm.textContent = label;
+
+    const ln = document.createElement("div");
+    ln.className = "social-link";
+
+    if (!value){
+      ln.innerHTML = `<span class="social-empty">Not provided</span>`;
+    } else {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = value;
+      a.setAttribute("aria-label", `${label} link`);
+      ln.appendChild(a);
+    }
+
+    texts.appendChild(nm);
+    texts.appendChild(ln);
+
+    left.appendChild(ico);
+    left.appendChild(texts);
+
+    const rightTag = document.createElement("span");
+    rightTag.className = "tag";
+    rightTag.innerHTML = `<i class="fa-solid fa-link"></i>${value ? "Link" : "Optional"}`;
+
+    el.appendChild(left);
+    el.appendChild(rightTag);
+
+    return el;
+  }
+
+  function buildShareUrl(mode, id){
+    // If viewing a demo (?id=s1), copy that share link.
+    // If viewing localStorage, copy the clean URL (no id) so it always uses your saved profile data.
+    const url = new URL(window.location.href);
+    if (mode === "link" && id){
+      url.searchParams.set("id", id);
+    } else {
+      url.searchParams.delete("id");
+    }
+    return url.toString();
+  }
+
+  function render(){
+    const dataPill = document.getElementById("dataPill");
+    const brandSub = document.getElementById("brandSub");
+
+    const nameEl = document.getElementById("name");
+    const metaLine = document.getElementById("metaLine");
+    const avatar = document.getElementById("avatar");
+
+    const kpiViewers = document.getElementById("kpiViewers");
+    const kpiCategory = document.getElementById("kpiCategory");
+    const kpiSchedule = document.getElementById("kpiSchedule");
+
+    const missingNote = document.getElementById("missingNote");
+
+    const audLine = document.getElementById("audLine");
+    const regLine = document.getElementById("regLine");
+    const relLine = document.getElementById("relLine");
+
+    const audTags = document.getElementById("audTags");
+    const regTags = document.getElementById("regTags");
+    const relTags = document.getElementById("relTags");
+
+    const socialGrid = document.getElementById("socialGrid");
+
+    const pitchText = document.getElementById("pitchText");
+    const pitchTags = document.getElementById("pitchTags");
+
+    const copyBtn = document.getElementById("copyBtn");
+
+    const data = loadBase();
+    setUpdated(data);
+
+    if (!data){
+      if (dataPill){
+        dataPill.classList.remove("ok","bad");
+        dataPill.classList.add("warn");
+        dataPill.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Data: missing`;
+        dataPill.title = `No profile found in localStorage. Expected one of: ${STREAMER_BASE_KEYS.join(", ")}.`;
+      }
+      if (missingNote) missingNote.style.display = "block";
+      if (brandSub) brandSub.textContent = "Brand view · Missing demo data";
+      setFit(0);
+      return;
+    }
+
+    const nm = data.displayName || "Streamer";
+    const rg = data.region || "LATAM";
+    const lang = data.language || "Spanish";
+    const tz = data.timezone || "ART";
+    const viewersRaw = String(data.avgViewers ?? data.viewersRaw ?? "—");
+    const viewersN = numViewers(viewersRaw);
+    const cat = (data.category && data.category !== "—") ? data.category : ((data.categories && data.categories[0]) || "—");
+    const sch = data.schedule || "—";
+    const plat = data.platformLabel || "Twitch";
+
+    if (dataPill){
+      dataPill.classList.remove("warn","bad");
+      dataPill.classList.add("ok");
+      const mode = data._mode || "local";
+      const keyNote = data._key ? ` · key: ${data._key}` : "";
+      dataPill.innerHTML = `<i class="fa-solid fa-database"></i> Data: loaded (${mode})`;
+      dataPill.title = mode === "link"
+        ? "Loaded from shareable demo link (?id=...)"
+        : `Loaded from localStorage (saved in profile.html)${keyNote}`;
+    }
+    if (missingNote) missingNote.style.display = "none";
+
+    if (nameEl) nameEl.textContent = nm;
+    if (metaLine) metaLine.innerHTML = `${rg} · ${lang} · <b>${tz}</b> · Live on ${plat}`;
+    if (avatar) avatar.textContent = (nm.trim().charAt(0).toUpperCase() || "S");
+    if (brandSub) brandSub.textContent = `Brand view · ${nm} · ${rg} · schema v${data.schemaVersion || 1}`;
+
+    if (kpiViewers) kpiViewers.textContent = viewersRaw || "—";
+    if (kpiCategory) kpiCategory.textContent = cat || "—";
+    if (kpiSchedule) kpiSchedule.textContent = sch || "—";
+
+    setFit(viewersN);
+
+    if (audLine) audLine.textContent = `Avg viewers: ${viewersRaw} · Main: ${cat}`;
+    if (regLine) regLine.textContent = `${rg} · ${lang} · ${tz}`;
+
+    if (audTags){
+      audTags.innerHTML = "";
+      audTags.appendChild(tag(`${viewersRaw} avg`, "fa-users"));
+      audTags.appendChild(tag(cat || "Category", "fa-gamepad"));
+      audTags.appendChild(tag(plat, "fa-tv"));
+    }
+
+    if (regTags){
+      regTags.innerHTML = "";
+      regTags.appendChild(tag(rg, "fa-earth-americas"));
+      regTags.appendChild(tag(lang, "fa-language"));
+      regTags.appendChild(tag(tz, "fa-clock"));
+    }
+
+    const s = data.socials || {};
+    const socialsFilled = ["twitch","youtube","instagram","tiktok","x"].filter(k => norm(s[k]));
+    const hasSchedule = !!norm(sch) && sch !== "—";
+
+    let rel = "Medium";
+    if (hasSchedule && socialsFilled.length >= 2) rel="High";
+    if (!hasSchedule && socialsFilled.length === 0) rel="Low";
+
+    if (relLine) relLine.textContent = `Reliability: ${rel} (demo proxy) · Based on schedule + social completeness`;
+    if (relTags){
+      relTags.innerHTML = "";
+      relTags.appendChild(tag(`Schedule: ${hasSchedule ? "set" : "missing"}`, "fa-calendar-day", hasSchedule ? "ok" : "bad"));
+      relTags.appendChild(tag(`Socials: ${socialsFilled.length}/5`, "fa-link", socialsFilled.length >= 2 ? "ok" : (socialsFilled.length ? "warn" : "bad")));
+      relTags.appendChild(tag(`Updated: ${formatUpdated(data.updatedAt) || "now"}`, "fa-clock", data.updatedAt ? "ok" : "warn"));
+    }
+
+    if (socialGrid){
+      socialGrid.innerHTML = "";
+      socialGrid.appendChild(socialItem("twitch","Twitch","fa-brands fa-twitch", s.twitch));
+      socialGrid.appendChild(socialItem("youtube","YouTube","fa-brands fa-youtube", s.youtube));
+      socialGrid.appendChild(socialItem("instagram","Instagram","fa-brands fa-instagram", s.instagram));
+      socialGrid.appendChild(socialItem("tiktok","TikTok","fa-brands fa-tiktok", s.tiktok));
+      socialGrid.appendChild(socialItem("x","X (Twitter)","fa-brands fa-x-twitter", s.x));
+    }
+
+    const pitch = data.tagline
+      ? data.tagline
+      : `I stream ${cat} on ${plat} for a ${lang}-speaking community in ${rg}. Typical schedule: ${sch}.`;
+    if (pitchText) pitchText.textContent = pitch;
+
+    if (pitchTags){
+      pitchTags.innerHTML = "";
+      pitchTags.appendChild(tag(`Platform: ${plat}`, "fa-tv"));
+      pitchTags.appendChild(tag(`Category: ${cat}`, "fa-gamepad"));
+      pitchTags.appendChild(tag(`Region: ${rg}`, "fa-earth-americas"));
+      pitchTags.appendChild(tag(`Timezone: ${tz}`, "fa-clock"));
+      pitchTags.appendChild(tag(`Schema v${data.schemaVersion || 1}`, "fa-code"));
+    }
+
+    if (copyBtn){
+      copyBtn.onclick = async () => {
+        const mode = data._mode || "local";
+        const id = data._id || "";
+        const link = buildShareUrl(mode, id);
+        try{
+          await navigator.clipboard.writeText(link);
+          showToast("Copied", mode === "link" ? "Shareable demo link copied." : "Local profile link copied (uses saved data).");
+        }catch{
+          showToast("Copy failed", "Your browser blocked clipboard. Copy the URL manually.");
+        }
+      };
+    }
+  }
+
+  // Initial render
+  render();
+
+  // Auto-refresh if profile is saved in another tab/window (profile.html)
+  window.addEventListener("storage", (e) => {
+    if (!e) return;
+    if (STREAMER_BASE_KEYS.includes(e.key)) {
+      render();
+      showToast("Updated", "Profile data changed. Public profile refreshed.");
+    }
+  });
+
+  // Also refresh when tab becomes active (covers same-tab navigation quirks)
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) render();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --warning: #ffc857;
+
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+
+      /* Premium UI additions */
+      --glass: rgba(5,5,12,0.78);
+      --glass-strong: rgba(5,5,12,0.90);
+      --outline: rgba(123,107,255,0.55);
+      --outline-soft: rgba(255,255,255,0.10);
+
+      --shadow-1: 0 10px 26px rgba(0,0,0,0.55);
+      --shadow-2: 0 18px 55px rgba(0,0,0,0.72);
+
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --dur: 220ms;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, Inter, sans-serif; }
+    html { scroll-behavior: smooth; }
+    a { color: inherit; text-decoration: none; }
+
+    ::selection { background: rgba(91,75,255,0.35); }
+
+    :focus-visible {
+      outline: 2px solid var(--outline);
+      outline-offset: 2px;
+      border-radius: 12px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+
+    /* (Optional) Scrollbar */
+    *::-webkit-scrollbar { height: 10px; width: 10px; }
+    *::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.10);
+      border: 2px solid rgba(0,0,0,0);
+      background-clip: padding-box;
+      border-radius: 999px;
+    }
+    *::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      animation: fadeBody 0.3s var(--ease);
+    }
+
+    .app-shell { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.22), transparent 60%),
+        rgba(5,5,12,0.88);
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo { font-size: 19px; font-weight: 600; letter-spacing: .12em; }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: transform var(--dur) var(--ease), background var(--dur) var(--ease), color var(--dur) var(--ease);
+      position: relative;
+    }
+    .nav-item a { width: 100%; display: flex; align-items: center; gap: 10px; }
+
+    .nav-item:hover { background: #181a2e; color: #fff; transform: translateY(-1px); }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* MAIN */
+    .main-area { flex: 1; min-width: 0; }
+
+    /* TOPBAR */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.34), transparent 60%),
+        var(--glass-strong);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      gap: 12px;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); line-height: 1.35; }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .pill-small {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+    .pill-small.ok {
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.08);
+      color: #bfffd5;
+    }
+    .pill-small.warn {
+      border-color: rgba(255,200,87,0.70);
+      background: rgba(255,200,87,0.08);
+      color: #ffe6b1;
+    }
+    .pill-small.bad {
+      border-color: rgba(255,91,125,0.60);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+    }
+    .pill-small i { font-size: 10px; }
+
+    /* CONTENT */
+    .content {
+      padding: 22px;
+      max-width: 1280px;
+    }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; margin-top: 14px; }
+
+    /* Premium card */
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.10), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.06), transparent 60%),
+        linear-gradient(130deg, rgba(255,255,255,0.04), transparent 45%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-1), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+      animation: fadeCardUp 0.38s var(--ease) both;
+      min-width: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(circle at top left, rgba(123,107,255,0.18), transparent 45%);
+      opacity: .55;
+      pointer-events:none;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(123,107,255,0.55);
+      box-shadow: var(--shadow-2), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; position: relative; }
+    .card-sub { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.45; position: relative; }
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 26px;
+      height: 2px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.95;
+    }
+
+    .metric {
+      background: rgba(20,21,41,0.72);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 10px 9px;
+      position: relative;
+    }
+    .metric-label { font-size: 11px; color: var(--text-soft); margin-bottom: 2px; }
+    .metric-value { font-size: 16px; font-weight: 650; }
+    .metric-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.35; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; position: relative; }
+    .tag {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #111326;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      margin-top: 10px;
+      background: rgba(20,21,41,0.55);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 999px;
+      overflow: hidden;
+      height: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(91,75,255,0.95), rgba(91,255,148,0.80));
+      transition: width 0.35s var(--ease);
+    }
+    .progress-meta {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .list {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+    .list-item {
+      background: rgba(20,21,41,0.60);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 11px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+    }
+    .list-item:hover { transform: translateY(-1px); border-color: rgba(91,75,255,.65); box-shadow: 0 10px 24px rgba(0,0,0,.85); }
+    .li-title { font-size: 12px; font-weight: 600; }
+    .li-sub { font-size: 11px; color: var(--text-soft); margin-top: 2px; line-height: 1.3; }
+
+    .pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(20,21,41,0.75);
+      color: var(--text-soft);
+    }
+    .pill.success { border-color: rgba(91,255,148,0.65); background: rgba(91,255,148,0.08); color: #bfffd5; }
+    .pill.warn { border-color: rgba(255,200,87,0.75); background: rgba(255,200,87,0.08); color: #ffe6b1; }
+    .pill.bad { border-color: rgba(255,91,125,0.60); background: rgba(255,91,125,0.08); color: #ffd7df; }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+
+    .btn-primary {
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(91,75,255,0.55);
+      background: rgba(91,75,255,0.12);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+    }
+
+    .btn-ghost {
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.035);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-danger {
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,91,125,0.45);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Premium transitions for buttons */
+    .btn-primary, .btn-ghost, .btn-danger, .tour-btn {
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+      will-change: transform;
+    }
+    .btn-primary:hover, .btn-ghost:hover, .btn-danger:hover, .tour-btn:hover { transform: translateY(-1px); }
+    .btn-primary:active, .btn-ghost:active, .btn-danger:active, .tour-btn:active { transform: translateY(0px) scale(0.99); }
+
+    .btn-primary:hover { background: rgba(91,75,255,0.18); border-color: rgba(123,107,255,0.75); box-shadow: 0 16px 36px rgba(0,0,0,0.75); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.16); box-shadow: 0 12px 30px rgba(0,0,0,0.55); }
+    .btn-danger:hover { background: rgba(255,91,125,0.12); border-color: rgba(255,91,125,0.65); box-shadow: 0 12px 30px rgba(0,0,0,0.55); }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    .modal {
+      width: min(520px, 100%);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.10), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        #0f1020;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.80);
+      padding: 14px 14px 12px;
+    }
+    .modal-title { font-weight: 700; font-size: 14px; }
+    .modal-sub { margin-top: 6px; color: var(--text-soft); font-size: 12px; line-height: 1.45; }
+    .modal-actions { margin-top: 12px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 360px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s var(--ease);
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-sub { margin-top: 4px; color: var(--text-soft); font-size: 11px; line-height: 1.35; }
+
+    /* Guided tour overlay */
+    .tour-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      pointer-events: auto;
+    }
+    .tour-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.60);
+      backdrop-filter: blur(6px);
+    }
+    .tour-highlight {
+      position: absolute;
+      border-radius: 16px;
+      border: 1px solid rgba(123,107,255,0.9);
+      box-shadow:
+        0 0 0 9999px rgba(0,0,0,0.60),
+        0 16px 50px rgba(0,0,0,0.85),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      background: rgba(91,75,255,0.06);
+      pointer-events: none;
+      transition: all 0.18s var(--ease);
+    }
+    .tour-tooltip {
+      position: absolute;
+      width: min(420px, calc(100vw - 32px));
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.12), transparent 60%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        #0f1020;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.80);
+    }
+    .tour-topline { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .tour-step { font-size: 11px; color: var(--text-soft); }
+    .tour-title { margin-top: 6px; font-weight: 750; font-size: 14px; }
+    .tour-body { margin-top: 6px; color: var(--text-soft); font-size: 12px; line-height: 1.45; }
+    .tour-actions { margin-top: 10px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+    .tour-btn {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tour-btn:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.16); }
+    .tour-btn.primary {
+      border-color: rgba(91,75,255,0.60);
+      background: rgba(91,75,255,0.14);
+    }
+    .tour-btn.primary:hover { background: rgba(91,75,255,0.18); border-color: rgba(123,107,255,0.80); }
+    .tour-btn.danger {
+      border-color: rgba(255,91,125,0.45);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+    }
+    .tour-btn.danger:hover { background: rgba(255,91,125,0.12); border-color: rgba(255,91,125,0.65); }
+
+    @keyframes fadeBody {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeCardUp {
+      from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .content { padding: 16px; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .topbar-right { align-self: flex-end; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="tourSidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" id="tourNavDashboard"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item" id="tourNavCampaigns"><a href="campaigns.html">🎯 Campaigns</a></div>
+        <div class="nav-item" id="tourNavApps"><a href="applications.html">📩 My applications</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Account</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" id="tourNavProfile"><a href="profile.html">🧑‍💻 Profile</a></div>
+        <div class="nav-item">⚙️ Settings</div>
+      </nav>
+    </div>
+
+    <div style="margin-top:auto;">
+      <div class="sidebar-section-title">Demo tools</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item" id="tourStartBtnSide" style="justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-route"></i> Demo tour
+          </span>
+          <span class="pill-small ok"><i class="fa-solid fa-play"></i> Start</span>
+        </div>
+
+        <div class="nav-item" id="resetBtnSide" style="justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:10px;">
+            <i class="fa-solid fa-rotate"></i> Reset demo
+          </span>
+          <span class="pill-small"><i class="fa-solid fa-broom"></i> Seed</span>
+        </div>
+      </nav>
+
+      <div style="margin-top:10px; font-size:11px; color: var(--text-muted); line-height:1.35;">
+        No backend. Everything runs on <b>localStorage</b> to show the end-to-end flow.
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar" id="tourTopbar">
+      <div>
+        <div class="topbar-title">Streamer dashboard (demo)</div>
+        <div class="topbar-sub">
+          A clean snapshot that helps you pitch sponsorship-ready value in seconds.
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <span class="pill-small" id="dataStatusPill">
+          <i class="fa-solid fa-database"></i>
+          <span id="dataStatusText">Data: checking…</span>
+        </span>
+
+        <span class="pill-small" id="levelPill">
+          <i class="fa-solid fa-signal"></i>
+          <span id="levelText">Level: —</span>
+        </span>
+
+        <span class="pill-small" id="updatedPill">
+          <i class="fa-solid fa-clock"></i>
+          <span id="updatedText">Updated: —</span>
+        </span>
+
+        <span class="pill-small"><i class="fa-solid fa-earth-americas"></i> LATAM</span>
+        <span class="pill-small"><i class="fa-solid fa-flask"></i> Demo mode</span>
+
+        <!-- Moved quick actions here (since cards were removed) -->
+        <button class="btn-ghost" id="goProfileBtn" type="button">
+          <i class="fa-solid fa-user-pen"></i> Open profile
+        </button>
+        <button class="btn-ghost" id="goCampaignsBtn" type="button">
+          <i class="fa-solid fa-bullseye"></i> Browse campaigns
+        </button>
+        <button class="btn-ghost" id="openPublicBtn" type="button">
+          <i class="fa-solid fa-up-right-from-square"></i> Public profile
+        </button>
+
+        <button class="btn-ghost" id="tourStartBtnTop" type="button">
+          <i class="fa-solid fa-route"></i>
+          Demo tour
+        </button>
+
+        <button class="btn-danger" id="resetBtnTop" type="button">
+          <i class="fa-solid fa-rotate"></i>
+          Reset demo
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- TOP METRICS -->
+      <div class="grid-3" id="tourMetrics">
+        <div class="card">
+          <div class="card-title">Channel snapshot</div>
+          <div class="card-sub">What a brand wants to understand fast.</div>
+
+          <div class="metric">
+            <div class="metric-label">Channel</div>
+            <div class="metric-value" id="mChannel">—</div>
+            <div class="metric-sub" id="mChannelSub">—</div>
+          </div>
+
+          <div class="tag-row" id="mTags"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Monetization progress</div>
+          <div class="card-sub">Simple goal framing for sponsorship-readiness.</div>
+
+          <div class="metric">
+            <div class="metric-label">Goal (demo)</div>
+            <div class="metric-value" id="mGoal">2 campaigns approved</div>
+            <div class="metric-sub" id="mGoalSub">This month target to show traction.</div>
+          </div>
+
+          <div class="progress-wrap" aria-hidden="true">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <div class="progress-meta">
+            <span id="mProgLeft">0 approved</span>
+            <span id="mProgRight">0% complete</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Demo status</div>
+          <div class="card-sub">Quick proof that the MVP is reading live saved data.</div>
+
+          <div class="list">
+            <div class="list-item">
+              <div>
+                <div class="li-title">Source</div>
+                <div class="li-sub">We prioritize <b>streamerBaseData</b> when available.</div>
+              </div>
+              <span class="pill"><i class="fa-solid fa-database"></i> Live</span>
+            </div>
+
+            <div class="list-item">
+              <div>
+                <div class="li-title">Dynamic insights</div>
+                <div class="li-sub">Cards below update based on your profile fields.</div>
+              </div>
+              <span class="pill success"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto</span>
+            </div>
+
+            <div class="list-item">
+              <div>
+                <div class="li-title">Reset ready</div>
+                <div class="li-sub">Use reset before a buyer call for consistency.</div>
+              </div>
+              <span class="pill warn"><i class="fa-solid fa-rotate"></i> Demo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- (Removed) What this MVP proves + Demo health check -->
+
+      <!-- Dynamic dashboard -->
+      <div class="grid-3" style="margin-top:14px;" id="tourDynamicDash">
+        <div class="card" id="campaignTypesCard">
+          <div class="card-title">Recommended campaign types</div>
+          <div class="card-sub">Auto suggestions based on your size, category, and region.</div>
+          <div class="list" id="campaignTypesList"></div>
+        </div>
+
+        <div class="card" id="feeCard">
+          <div class="card-title">Suggested fee range (demo)</div>
+          <div class="card-sub">A simple heuristic to make the demo feel “real”.</div>
+
+          <div class="metric" style="margin-top:6px;">
+            <div class="metric-label">Suggested fee range</div>
+            <div class="metric-value" id="feeRange">—</div>
+            <div class="metric-sub" id="feeNote">—</div>
+          </div>
+
+          <div class="tag-row" id="feeTags"></div>
+        </div>
+
+        <div class="card" id="insightsCard">
+          <div class="card-title">Dynamic insights</div>
+          <div class="card-sub">3–6 automatic insights (best fit, pricing, checklist).</div>
+          <div class="list" id="insightsList"></div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <div class="modal-title">Reset demo?</div>
+    <div class="modal-sub">
+      This will clear local demo data and re-seed the MVP with clean, pitch-ready values.
+      You’ll keep a consistent experience when showing it to buyers.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelResetBtn" type="button">
+        <i class="fa-solid fa-xmark"></i> Cancel
+      </button>
+      <button class="btn-danger" id="confirmResetBtn" type="button">
+        <i class="fa-solid fa-rotate"></i> Reset + seed
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div id="toastTitle">Done (demo)</div>
+  <div class="toast-sub" id="toastSub">—</div>
+</div>
+
+<!-- TOUR -->
+<div class="tour-overlay" id="tourOverlay" aria-hidden="true">
+  <div class="tour-dim"></div>
+  <div class="tour-highlight" id="tourHighlight"></div>
+  <div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-topline">
+      <div class="tour-step" id="tourStep">Step 1/5</div>
+      <button class="tour-btn danger" id="tourSkipBtn" type="button">
+        <i class="fa-solid fa-xmark"></i> Skip
+      </button>
+    </div>
+    <div class="tour-title" id="tourTitle">—</div>
+    <div class="tour-body" id="tourBody">—</div>
+    <div class="tour-actions">
+      <button class="tour-btn" id="tourBackBtn" type="button">
+        <i class="fa-solid fa-arrow-left"></i> Back
+      </button>
+      <button class="tour-btn primary" id="tourNextBtn" type="button">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------------- Keys (shared across pages) ----------------
+  const APPLICATIONS_KEY = "streamlatamApplicationsDemo";
+  const PROFILE_KEY = "streamlatamProfileDemo";           // legacy demo seed (kept)
+  const STREAMER_BASE_KEY = "streamerBaseData";           // canonical (profile.html)
+  const TOUR_SEEN_KEY = "streamlatamTourSeen";
+
+  // ---------------- Demo seed ----------------
+  const DEMO_PROFILE = {
+    channelName: "FranPlays",
+    region: "LATAM",
+    language: "Spanish",
+    avgViewers: 145,
+    categories: ["Valorant", "Just Chatting", "Dota 2"],
+    schedule: "Mon–Fri · 9pm (GMT-3)",
+    socials: { ig: "@franplays", tiktok: "@franplays", yt: "FranPlays" }
+  };
+
+  // Canonical seed for streamerBaseData (matches profile.html)
+  const DEMO_STREAMER_BASE = {
+    name: "FranPlays",
+    viewers: "145",
+    categories: "Valorant · Just Chatting · Dota 2",
+    region: "LATAM (AR) · Español",
+    timezone: "ART",
+    platform: "twitch",
+    tagline: "Valorant + chill chats + LATAM community",
+    updatedAt: new Date().toISOString()
+  };
+
+  const DEMO_APPLICATIONS = [
+    {
+      campaignId: "c1",
+      title: "Headset Pro LATAM · Stream mention",
+      brand: "Headset Pro",
+      category: "Hardware / gamer peripherals",
+      fee: "USD 50 + product",
+      status: "In review",
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c2",
+      title: "LATAM finance app · Mention + panel link",
+      brand: "Fintech LATAM",
+      category: "Digital payments",
+      fee: "USD 30 / month",
+      status: "Accepted",
+      createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c4",
+      title: "Campaign “Energy Drink LATAM”",
+      brand: "Energy Drink Co.",
+      category: "Energy drinks",
+      fee: "USD 80 + product",
+      status: "Rejected",
+      createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    }
+  ];
+
+  function safeJsonParse(str) { try { return JSON.parse(str); } catch { return null; } }
+
+  function getApplications() {
+    const data = safeJsonParse(localStorage.getItem(APPLICATIONS_KEY));
+    return Array.isArray(data) ? data : [];
+  }
+  function setApplications(arr) {
+    localStorage.setItem(APPLICATIONS_KEY, JSON.stringify(arr));
+  }
+
+  function getProfile() {
+    const data = safeJsonParse(localStorage.getItem(PROFILE_KEY));
+    return data && typeof data === "object" ? data : null;
+  }
+  function setProfile(obj) {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(obj));
+  }
+
+  function getStreamerBaseData() {
+    const data = safeJsonParse(localStorage.getItem(STREAMER_BASE_KEY));
+    return data && typeof data === "object" ? data : null;
+  }
+  function setStreamerBaseData(obj) {
+    localStorage.setItem(STREAMER_BASE_KEY, JSON.stringify(obj));
+  }
+
+  function ensureSeeded() {
+    if (!getProfile()) setProfile(DEMO_PROFILE);
+    if (!getStreamerBaseData()) setStreamerBaseData(DEMO_STREAMER_BASE);
+    const apps = getApplications();
+    if (apps.length === 0) setApplications(DEMO_APPLICATIONS);
+  }
+
+  // ---------------- UI: toast ----------------
+  const toast = document.getElementById("toast");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+
+  function showToast(title, sub) {
+    if (!toast) return;
+    toastTitle.textContent = title || "Done (demo)";
+    toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  // ---------------- Helpers ----------------
+  function safeNum(v) {
+    if (v === null || v === undefined) return null;
+    const n = Number(String(v).replace(/[^\d.]/g, ""));
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function platformLabelFromValue(v) {
+    const val = String(v || "").toLowerCase();
+    if (val === "twitch") return "Twitch";
+    if (val === "youtube") return "YouTube";
+    if (val === "kick") return "Kick";
+    if (val === "trovo") return "Trovo";
+    return v ? String(v) : "—";
+  }
+
+  function fmtUpdated(ts) {
+    if (!ts) return "—";
+    try {
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) return "—";
+      return d.toLocaleString(undefined, { month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    } catch { return "—"; }
+  }
+
+  function computeLevel(avgViewers) {
+    const v = safeNum(avgViewers) ?? 0;
+    if (v < 50) return "early";
+    if (v < 150) return "small";
+    if (v < 400) return "niche";
+    return "serious";
+  }
+
+  function normalizeUnifiedProfile() {
+    // Priority: streamerBaseData (canonical) -> legacy profile -> demo
+    const base = getStreamerBaseData();
+    const legacy = getProfile();
+
+    if (base) {
+      // canonical from profile.html
+      const name = (base.name || base.displayName || base.channelName || base.handle || "—").toString();
+
+      const viewers =
+        safeNum(base.viewers) ??
+        safeNum(base.avgViewers) ??
+        safeNum(base.viewersAvg) ??
+        safeNum(base.averageViewers);
+
+      const cats = Array.isArray(base.categories)
+        ? base.categories
+        : (typeof base.categories === "string" ? base.categories.split("·").map(s => s.trim()).filter(Boolean) : []);
+      const category = (base.category || cats[0] || "—").toString();
+
+      return {
+        source: "streamerBaseData",
+        channelName: name,
+        region: (base.region || "—").toString(),
+        timezone: (base.timezone || "—").toString(),
+        platform: platformLabelFromValue(base.platform),
+        platformRaw: base.platform || null,
+        avgViewers: viewers,
+        categories: cats,
+        category,
+        tagline: (base.tagline || "").toString(),
+        updatedAt: base.updatedAt || base.lastUpdated || base.updated || null,
+        schedule: (base.schedule || "—").toString()
+      };
+    }
+
+    const p = legacy || DEMO_PROFILE;
+    const categories = Array.isArray(p.categories) ? p.categories : [];
+    return {
+      source: "streamlatamProfileDemo",
+      channelName: (p.channelName || "—").toString(),
+      region: (p.region || "—").toString(),
+      timezone: (p.timezone || "—").toString(),
+      platform: platformLabelFromValue(p.platform),
+      platformRaw: p.platform || null,
+      avgViewers: safeNum(p.avgViewers),
+      categories,
+      category: (categories[0] || "—").toString(),
+      tagline: (p.tagline || "").toString(),
+      schedule: (p.schedule || "—").toString(),
+      updatedAt: p.updatedAt || null
+    };
+  }
+
+  function computeCompleteness(u) {
+    const fields = [
+      ["channelName", u.channelName],
+      ["platform", u.platform],
+      ["avgViewers", u.avgViewers],
+      ["category", u.category],
+      ["region", u.region],
+      ["timezone", u.timezone]
+    ];
+    const isFilled = (v) => v !== null && v !== undefined && String(v).trim() !== "" && String(v).trim() !== "—";
+    const filled = fields.filter(([,v]) => isFilled(v)).length;
+    const total = fields.length;
+    const pct = Math.round((filled / total) * 100);
+    const missing = fields.filter(([,v]) => !isFilled(v)).map(([k]) => k);
+    return { pct, filled, total, missing };
+  }
+
+  function campaignTypeRecommendations(level, category, region) {
+    const cat = (category || "").toLowerCase();
+    const reg = (region || "").toLowerCase();
+
+    const out = [];
+    if (level === "early") out.push(["Affiliate / performance", "Low risk, easy to start, builds track record."]);
+    if (level === "small") out.push(["Product seeding", "Product + short mention + tracked link."]);
+    if (level === "niche") out.push(["Sponsored segment", "Short integration with clear CTA and proof."]);
+    if (level === "serious") out.push(["Full package", "Multi-stream + assets + reporting."]);
+
+    if (cat.includes("valorant") || cat.includes("fps") || cat.includes("cs")) {
+      out.push(["Gaming gear", "Peripherals, setups, chairs, monitors."]);
+    } else if (cat.includes("just") || cat.includes("chat")) {
+      out.push(["Apps / services", "Finance, productivity, education, lifestyle."]);
+    } else if (cat && cat !== "—") {
+      out.push(["Category-fit brands", "Pick brands your audience already uses."]);
+    }
+
+    if (reg.includes("latam") || reg.includes("arg") || reg.includes("mex") || reg.includes("bra") || reg.includes("col")) {
+      out.push(["LATAM regional bundles", "Localized pricing + coupons + shipping info."]);
+    } else if (region && region !== "—") {
+      out.push(["Localized CTAs", "Match language, time zones, and market norms."]);
+    }
+
+    const seen = new Set();
+    return out.filter(([t]) => (seen.has(t) ? false : (seen.add(t), true))).slice(0, 4);
+  }
+
+  function suggestedFeeRange(level, avgViewers) {
+    const v = safeNum(avgViewers) ?? 0;
+    const base = { early: 25, small: 75, niche: 180, serious: 450 }[level] ?? 75;
+    const adj = Math.max(0, Math.min(600, Math.round(v * 0.6)));
+
+    const min = Math.max(20, Math.min(1200, base + Math.round(adj * 0.35)));
+    const max = Math.max(40, Math.min(1800, base + Math.round(adj * 0.70) + 40));
+
+    let note = "Demo estimate: adjust based on deliverables (clips, exclusivity, usage rights).";
+    if (level === "early") note = "Early: prioritize performance/affiliate + simple packages.";
+    if (level === "serious") note = "Serious: package pricing (streams + assets + report) works best.";
+
+    return { min, max, note };
+  }
+
+  function buildInsights(u, level, completeness) {
+    const insights = [];
+    const v = safeNum(u.avgViewers) ?? 0;
+    const cat = (u.category || "").toLowerCase();
+
+    if (level === "early" || level === "small") {
+      insights.push(["Best fit: low-friction campaigns", "Start with affiliate, seeding, short mentions to build history.", "fa-bolt"]);
+    } else {
+      insights.push(["Best fit: packages + reporting", "Sell clear deliverables (stream + clip + post) and performance snapshots.", "fa-gem"]);
+    }
+
+    if (v && v < 80) {
+      insights.push(["Pricing tip", "Avoid high fees at first: propose performance + simple KPI (CTR/coupon).", "fa-tag"]);
+    } else {
+      insights.push(["Pricing tip", "Set a base fee + add-ons (exclusivity, extra clips, usage rights).", "fa-tag"]);
+    }
+
+    insights.push(["Next upgrade (optional)", "If you add schedule to streamerBaseData later, we can turn it into sponsor “inventory”.", "fa-calendar-days"]);
+
+    if (cat.includes("valorant") || cat.includes("fps") || cat.includes("cs")) {
+      insights.push(["FPS works great for hardware", "Quick “in-stream tests” increase conversion for gear campaigns.", "fa-crosshairs"]);
+    } else if (cat.includes("just") || cat.includes("chat")) {
+      insights.push(["Just Chatting works for apps", "Stories + demos + discount codes tend to convert well.", "fa-comments"]);
+    } else if (u.category && u.category !== "—") {
+      insights.push(["Category-fit improves approvals", "Match brand + audience context to reduce rejection risk.", "fa-layer-group"]);
+    }
+
+    if (completeness.pct < 80) {
+      const miss = completeness.missing.slice(0, 4).join(", ");
+      insights.push(["Profile completeness", `Incomplete profile. Missing: ${miss || "some fields"}.`, "fa-list-check"]);
+    } else {
+      insights.push(["Profile is brand-ready", "Next step: apply to campaigns to build visible history.", "fa-shield-heart"]);
+    }
+
+    return insights.slice(0, 6);
+  }
+
+  function setDataPills(u, completeness) {
+    const statusPill = document.getElementById("dataStatusPill");
+    const statusText = document.getElementById("dataStatusText");
+    const levelPill = document.getElementById("levelPill");
+    const levelText = document.getElementById("levelText");
+    const updatedText = document.getElementById("updatedText");
+    const updatedPill = document.getElementById("updatedPill");
+
+    const hasBase = !!getStreamerBaseData();
+    const hasAny = !!u;
+
+    if (!hasAny) {
+      statusPill.className = "pill-small bad";
+      statusText.textContent = "Data: missing";
+    } else if (!hasBase) {
+      statusPill.className = (completeness.pct < 60) ? "pill-small warn" : "pill-small ok";
+      statusText.textContent = "Data: loaded (legacy)";
+    } else {
+      statusPill.className = (completeness.pct < 60) ? "pill-small warn" : "pill-small ok";
+      statusText.textContent = (completeness.pct < 60) ? "Data: loaded (incomplete)" : "Data: loaded";
+    }
+
+    const level = computeLevel(u.avgViewers);
+    levelPill.className = "pill-small";
+    levelText.textContent = `Level: ${hasAny ? level : "—"}`;
+
+    updatedPill.className = "pill-small";
+    updatedText.textContent = `Updated: ${hasAny ? fmtUpdated(u.updatedAt) : "—"}`;
+  }
+
+  // ---------------- Dashboard render ----------------
+  const mChannel = document.getElementById("mChannel");
+  const mChannelSub = document.getElementById("mChannelSub");
+  const mTags = document.getElementById("mTags");
+
+  const progressBar = document.getElementById("progressBar");
+  const mProgLeft = document.getElementById("mProgLeft");
+  const mProgRight = document.getElementById("mProgRight");
+
+  const campaignTypesList = document.getElementById("campaignTypesList");
+  const feeRangeEl = document.getElementById("feeRange");
+  const feeNoteEl = document.getElementById("feeNote");
+  const feeTags = document.getElementById("feeTags");
+  const insightsList = document.getElementById("insightsList");
+
+  function countApproved(apps) {
+    return apps.filter(a => String(a.status || "").toLowerCase().includes("accept")).length;
+  }
+
+  function renderDynamicPanels(u, level, completeness) {
+    if (campaignTypesList) {
+      campaignTypesList.innerHTML = "";
+      const recs = campaignTypeRecommendations(level, u.category, u.region);
+      if (!recs.length) {
+        campaignTypesList.innerHTML = `
+          <div class="list-item">
+            <div>
+              <div class="li-title">No recommendations yet</div>
+              <div class="li-sub">Complete profile fields to unlock campaign suggestions.</div>
+            </div>
+            <span class="pill warn"><i class="fa-solid fa-triangle-exclamation"></i> Empty</span>
+          </div>`;
+      } else {
+        recs.forEach(([t, sub]) => {
+          const item = document.createElement("div");
+          item.className = "list-item";
+          item.innerHTML = `
+            <div>
+              <div class="li-title">${t}</div>
+              <div class="li-sub">${sub}</div>
+            </div>
+            <span class="pill"><i class="fa-solid fa-lightbulb"></i> Fit</span>`;
+          campaignTypesList.appendChild(item);
+        });
+      }
+    }
+
+    const fee = suggestedFeeRange(level, u.avgViewers);
+    if (feeRangeEl) feeRangeEl.textContent = `$${fee.min} – $${fee.max} USD / campaign`;
+    if (feeNoteEl) feeNoteEl.textContent = fee.note;
+
+    if (feeTags) {
+      feeTags.innerHTML = "";
+      const tags = [
+        { icon: "fa-solid fa-users", text: `${u.avgViewers ?? "—"} avg viewers` },
+        { icon: "fa-solid fa-layer-group", text: `${u.category || "—"}` },
+        { icon: "fa-solid fa-location-dot", text: `${u.region || "—"}` },
+        { icon: "fa-solid fa-clock", text: `${u.timezone || "—"}` }
+      ];
+      tags.forEach(t => {
+        const el = document.createElement("div");
+        el.className = "tag";
+        el.innerHTML = `<i class="${t.icon}"></i> ${t.text}`;
+        feeTags.appendChild(el);
+      });
+    }
+
+    if (insightsList) {
+      insightsList.innerHTML = "";
+      const ins = buildInsights(u, level, completeness);
+      ins.forEach(([title, body, icon]) => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML = `
+          <div>
+            <div class="li-title">${title}</div>
+            <div class="li-sub">${body}</div>
+          </div>
+          <span class="pill"><i class="fa-solid ${icon}"></i> Insight</span>`;
+        insightsList.appendChild(item);
+      });
+    }
+  }
+
+  function renderDashboard() {
+    const u = normalizeUnifiedProfile();
+    const apps = getApplications();
+
+    const completeness = computeCompleteness(u);
+    const level = computeLevel(u.avgViewers);
+
+    setDataPills(u, completeness);
+
+    if (mChannel) mChannel.textContent = u.channelName || "—";
+    if (mChannelSub) {
+      const viewers = (u.avgViewers != null) ? `${u.avgViewers} avg viewers` : "—";
+      mChannelSub.textContent = `${viewers} · ${u.region || "—"} · TZ: ${u.timezone || "—"}`;
+    }
+
+    if (mTags) {
+      mTags.innerHTML = "";
+      const tags = [
+        { icon: "fa-solid fa-database", text: `Source: ${u.source}` },
+        { icon: "fa-solid fa-users", text: `${u.avgViewers ?? "—"} avg viewers` },
+        { icon: "fa-solid fa-signal", text: `Level: ${level}` },
+        { icon: "fa-solid fa-tv", text: `${u.platform || "—"}` },
+        { icon: "fa-solid fa-clock", text: `${u.timezone || "—"}` },
+        ...(Array.isArray(u.categories) ? u.categories.slice(0,3).map(c => ({ icon: "fa-solid fa-gamepad", text: c })) : [])
+      ];
+      tags.forEach(t => {
+        const el = document.createElement("div");
+        el.className = "tag";
+        el.innerHTML = `<i class="${t.icon}"></i> ${t.text}`;
+        mTags.appendChild(el);
+      });
+    }
+
+    const approved = countApproved(apps);
+    const goal = 2;
+    const pct = Math.max(0, Math.min(100, Math.round((approved / goal) * 100)));
+    if (progressBar) progressBar.style.width = `${pct}%`;
+    if (mProgLeft) mProgLeft.textContent = `${approved} approved`;
+    if (mProgRight) mProgRight.textContent = `${pct}% complete`;
+
+    renderDynamicPanels(u, level, completeness);
+  }
+
+  // ---------------- Actions ----------------
+  const goProfileBtn = document.getElementById("goProfileBtn");
+  const goCampaignsBtn = document.getElementById("goCampaignsBtn");
+  const openPublicBtn = document.getElementById("openPublicBtn");
+  const refreshBtn = document.getElementById("refreshBtn"); // (no longer in DOM, kept safe)
+
+  if (goProfileBtn) goProfileBtn.addEventListener("click", () => window.location.href = "profile.html");
+  if (goCampaignsBtn) goCampaignsBtn.addEventListener("click", () => window.location.href = "campaigns.html");
+  if (openPublicBtn) openPublicBtn.addEventListener("click", () => window.open("profile-public.html", "_blank"));
+  if (refreshBtn) refreshBtn.addEventListener("click", () => { renderDashboard(); showToast("Refreshed", "Reloaded streamerBaseData + recalculated insights."); });
+
+  // ---------------- Reset demo (modal) ----------------
+  const resetModal = document.getElementById("resetModal");
+  const cancelResetBtn = document.getElementById("cancelResetBtn");
+  const confirmResetBtn = document.getElementById("confirmResetBtn");
+
+  function openResetModal() { if (resetModal) resetModal.style.display = "flex"; }
+  function closeResetModal() { if (resetModal) resetModal.style.display = "none"; }
+
+  function resetAndSeed() {
+    localStorage.clear();
+
+    setProfile(DEMO_PROFILE);
+    setStreamerBaseData(DEMO_STREAMER_BASE);
+    setApplications(DEMO_APPLICATIONS);
+
+    localStorage.removeItem(TOUR_SEEN_KEY);
+
+    renderDashboard();
+    showToast("Reset complete (demo)", "Local data was cleared and re-seeded.");
+  }
+
+  const resetBtnTop = document.getElementById("resetBtnTop");
+  const resetBtnSide = document.getElementById("resetBtnSide");
+  if (resetBtnTop) resetBtnTop.addEventListener("click", openResetModal);
+  if (resetBtnSide) resetBtnSide.addEventListener("click", openResetModal);
+  if (cancelResetBtn) cancelResetBtn.addEventListener("click", closeResetModal);
+  if (resetModal) resetModal.addEventListener("click", (e) => { if (e.target === resetModal) closeResetModal(); });
+  if (confirmResetBtn) confirmResetBtn.addEventListener("click", () => { closeResetModal(); resetAndSeed(); });
+
+  // ---------------- Guided Demo Tour ----------------
+  const tourOverlay = document.getElementById("tourOverlay");
+  const tourHighlight = document.getElementById("tourHighlight");
+  const tourTooltip = document.getElementById("tourTooltip");
+  const tourStep = document.getElementById("tourStep");
+  const tourTitle = document.getElementById("tourTitle");
+  const tourBody = document.getElementById("tourBody");
+  const tourBackBtn = document.getElementById("tourBackBtn");
+  const tourNextBtn = document.getElementById("tourNextBtn");
+  const tourSkipBtn = document.getElementById("tourSkipBtn");
+
+  const startTourBtnTop = document.getElementById("tourStartBtnTop");
+  const startTourBtnSide = document.getElementById("tourStartBtnSide");
+
+  // Updated tour steps (removed cards no longer exist)
+  const TOUR_STEPS = [
+    {
+      selector: "#tourMetrics",
+      title: "Snapshot first",
+      body: "This dashboard summarizes the channel in a sponsor-friendly way (viewers, region, timezone, categories)."
+    },
+    {
+      selector: "#tourDynamicDash",
+      title: "Dynamic dashboard",
+      body: "Recommendations, fee range, and insights are generated automatically from streamerBaseData."
+    },
+    {
+      selector: "#tourNavProfile",
+      title: "1) Open Profile",
+      body: "Update streamerBaseData (Save/Update). This powers the dashboard + public profile."
+    },
+    {
+      selector: "#tourNavCampaigns",
+      title: "2) Browse Campaigns",
+      body: "Pick a campaign, open its details, then click Apply. This simulates the core marketplace action."
+    },
+    {
+      selector: "#openPublicBtn",
+      title: "3) Show the brand view",
+      body: "Open the public profile to show what brands will review before approving a campaign."
+    }
+  ];
+
+  let tourIndex = 0;
+
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+
+  function getRectFor(el) {
+    const r = el.getBoundingClientRect();
+    const pad = 10;
+    return {
+      left: r.left - pad,
+      top: r.top - pad,
+      width: r.width + pad * 2,
+      height: r.height + pad * 2
+    };
+  }
+
+  function positionTooltip(rect) {
+    const margin = 12;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    let left = rect.left + rect.width + margin;
+    let top = rect.top;
+
+    if (window.innerWidth < 720) left = margin;
+
+    const tt = tourTooltip.getBoundingClientRect();
+
+    if (left + tt.width > vw - margin) {
+      left = rect.left - tt.width - margin;
+    }
+    if (left < margin) {
+      left = clamp(rect.left, margin, vw - tt.width - margin);
+      top = rect.top + rect.height + margin;
+    }
+    if (top + tt.height > vh - margin) {
+      top = clamp(vh - tt.height - margin, margin, vh - tt.height - margin);
+    }
+    top = clamp(top, margin, vh - tt.height - margin);
+
+    tourTooltip.style.left = `${left}px`;
+    tourTooltip.style.top = `${top}px`;
+  }
+
+  function renderTourStep() {
+    const step = TOUR_STEPS[tourIndex];
+    const el = document.querySelector(step.selector);
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    setTimeout(() => {
+      const rect = getRectFor(el);
+      tourHighlight.style.left = `${rect.left}px`;
+      tourHighlight.style.top = `${rect.top}px`;
+      tourHighlight.style.width = `${rect.width}px`;
+      tourHighlight.style.height = `${rect.height}px`;
+
+      tourStep.textContent = `Step ${tourIndex + 1}/${TOUR_STEPS.length}`;
+      tourTitle.textContent = step.title;
+      tourBody.textContent = step.body;
+
+      tourBackBtn.style.opacity = (tourIndex === 0) ? "0.55" : "1";
+      tourBackBtn.style.pointerEvents = (tourIndex === 0) ? "none" : "auto";
+
+      tourNextBtn.innerHTML = (tourIndex === TOUR_STEPS.length - 1)
+        ? `Finish <i class="fa-solid fa-check"></i>`
+        : `Next <i class="fa-solid fa-arrow-right"></i>`;
+
+      positionTooltip(rect);
+    }, 220);
+  }
+
+  function openTour() {
+    tourIndex = 0;
+    tourOverlay.style.display = "block";
+    tourOverlay.setAttribute("aria-hidden", "false");
+    renderTourStep();
+  }
+
+  function closeTour(markSeen) {
+    tourOverlay.style.display = "none";
+    tourOverlay.setAttribute("aria-hidden", "true");
+    if (markSeen) localStorage.setItem(TOUR_SEEN_KEY, "1");
+  }
+
+  function nextTour() {
+    if (tourIndex >= TOUR_STEPS.length - 1) {
+      closeTour(true);
+      showToast("Tour complete", "Now you can demo the full flow in ~60 seconds.");
+      return;
+    }
+    tourIndex++;
+    renderTourStep();
+  }
+
+  function backTour() {
+    tourIndex = Math.max(0, tourIndex - 1);
+    renderTourStep();
+  }
+
+  if (tourNextBtn) tourNextBtn.addEventListener("click", nextTour);
+  if (tourBackBtn) tourBackBtn.addEventListener("click", backTour);
+  if (tourSkipBtn) tourSkipBtn.addEventListener("click", () => closeTour(false));
+
+  if (startTourBtnTop) startTourBtnTop.addEventListener("click", openTour);
+  if (startTourBtnSide) startTourBtnSide.addEventListener("click", openTour);
+
+  window.addEventListener("resize", () => {
+    if (tourOverlay && tourOverlay.style.display === "block") renderTourStep();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (!tourOverlay || tourOverlay.style.display !== "block") return;
+    if (e.key === "Escape") closeTour(false);
+    if (e.key === "ArrowRight" || e.key === "Enter") nextTour();
+    if (e.key === "ArrowLeft") backTour();
+  });
+
+  // ---------------- Init ----------------
+  ensureSeeded();
+  renderDashboard();
+
+  // Optional: auto-run tour once (disabled by default)
+  // if (!localStorage.getItem(TOUR_SEEN_KEY)) openTour();
+</script>
+
+</body>
+</html>

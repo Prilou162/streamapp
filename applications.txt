@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My applications – STREAMLATAM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --warning: #ffc857;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.65);
+    }
+
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: system-ui, Inter, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.2), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.12), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+      animation: fadeBody 0.25s ease-out;
+    }
+
+    @keyframes fadeBody {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* LAYOUT */
+    .app-shell { display: flex; min-height: 100vh; }
+    .main-area { flex: 1; min-width: 0; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 260px;
+      background:
+        radial-gradient(circle at top, rgba(91,75,255,0.25), transparent 60%),
+        #05050b;
+      border-right: 1px solid var(--border-subtle);
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: .12em;
+    }
+    .sidebar-logo span { color: var(--accent-soft); }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #63678a;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+
+    .nav-item {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: .15s;
+      position: relative;
+    }
+
+    .nav-item a {
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #181a2e;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-item.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.38), transparent 60%),
+        #16182d;
+      box-shadow: 0 12px 32px rgba(0,0,0,.55);
+      color: #fff;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.3), transparent 60%),
+        rgba(5,5,12,0.92);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky; top: 0; z-index: 10;
+      gap: 12px;
+    }
+
+    .topbar-title { font-size: 17px; font-weight: 600; }
+    .topbar-sub { font-size: 12px; color: var(--text-soft); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .topbar-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(123,107,255,0.85);
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.5), rgba(9,9,30,0.95));
+      color: #f4f4fb;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.7);
+      white-space: nowrap;
+    }
+
+    .pill-small {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: #141529;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .pill-small.ok {
+      border-color: rgba(91,255,148,0.55);
+      background: rgba(91,255,148,0.08);
+      color: #bfffd5;
+    }
+
+    .btn-mini {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: 0.18s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    .btn-mini:hover {
+      transform: translateY(-1px);
+      border-color: rgba(123,107,255,0.6);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.75);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .btn-mini.danger {
+      border-color: rgba(255,91,125,0.40);
+      background: rgba(255,91,125,0.07);
+      color: #ffd7df;
+    }
+    .btn-mini.danger:hover {
+      border-color: rgba(255,91,125,0.62);
+      background: rgba(255,91,125,0.10);
+    }
+
+    /* CONTENT */
+    .content { display: flex; gap: 22px; padding: 22px; max-width: 1280px; }
+    .main-column { flex: 1.9; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .side-column { flex: 1; max-width: 360px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+
+    /* CARD */
+    .card {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: 0.2s ease;
+      animation: fadeCardUp 0.28s ease both;
+    }
+
+    @keyframes fadeCardUp {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover { box-shadow: 0 12px 34px rgba(0,0,0,.60); border-color: rgba(123,107,255,0.6); }
+
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card-sub { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; line-height: 1.45; }
+
+    .card-title::after {
+      content: "";
+      display: block;
+      width: 28px;
+      height: 2px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0.95;
+    }
+
+    /* STATUS SUMMARY */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .summary-box {
+      background: #15172b;
+      border-radius: 14px;
+      padding: 9px 10px;
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(91,75,255,0.18), transparent 55%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .summary-box > * { position: relative; z-index: 1; }
+
+    .summary-label { font-size: 11px; color: var(--text-soft); margin-bottom: 2px; }
+    .summary-value { font-size: 15px; font-weight: 600; }
+    .summary-sub { font-size: 11px; color: var(--text-soft); }
+
+    /* LIST TOOLBAR */
+    .list-toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .tabs-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #101123;
+      border-radius: 999px;
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .tab-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: var(--text-soft);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: .15s ease;
+      background: transparent;
+      user-select: none;
+    }
+
+    .tab-pill:hover { color: #fff; }
+
+    .tab-pill.active {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.4), transparent 60%),
+        #191b35;
+      color: #f4f4fb;
+      border-color: rgba(123,107,255,0.9);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+    }
+
+    .search-wrap {
+      position: relative;
+      min-width: 240px;
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .search-wrap i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 34px;
+      border-radius: 999px;
+      background: rgba(20,21,41,0.75);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text-main);
+      outline: none;
+      font-size: 12px;
+      transition: 0.15s ease;
+    }
+
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .search-input:focus {
+      border-color: rgba(123,107,255,0.85);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.7);
+      background: rgba(20,21,41,0.92);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.45;
+      display: none;
+    }
+    .empty-state strong { color: var(--text-main); }
+
+    /* APPLICATIONS LIST */
+    .applications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .application-item {
+      background: #15172b;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      padding: 10px 11px;
+      display: grid;
+      grid-template-columns: 1.9fr 1.1fr 0.9fr;
+      gap: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .application-item:hover {
+      transform: translateY(-1px);
+      border-color: rgba(91,75,255,.8);
+      box-shadow: 0 10px 24px rgba(0,0,0,.85);
+    }
+
+    .application-item.selected {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,.32), transparent 60%),
+        #171731;
+      border-color: rgba(91,75,255,.95);
+      box-shadow: 0 14px 30px rgba(0,0,0,.9);
+    }
+
+    .application-main-title { font-size: 13px; font-weight: 500; }
+    .application-brand { font-size: 11px; color: var(--text-soft); }
+
+    .application-meta { font-size: 11px; color: var(--text-soft); line-height: 1.35; }
+    .application-meta strong { color: #fff; }
+
+    .status-pill {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(20,21,41,0.8);
+      color: var(--text-soft);
+    }
+
+    .status-pill.review {
+      border-color: rgba(255,200,87,0.85);
+      color: var(--warning);
+      background: rgba(255,200,87,0.08);
+    }
+
+    .status-pill.accepted {
+      border-color: rgba(91,255,148,0.85);
+      color: var(--success);
+      background: rgba(91,255,148,0.08);
+    }
+
+    .status-pill.rejected {
+      border-color: rgba(255,91,125,0.75);
+      color: var(--danger);
+      background: rgba(255,91,125,0.08);
+    }
+
+    .date-hint { font-size: 11px; color: var(--text-soft); margin-top: 3px; text-align: right; }
+
+    /* SIDE – APPLICATION PREVIEW */
+    .side-highlight {
+      background:
+        linear-gradient(135deg, rgba(91,75,255,0.2), rgba(91,255,148,0.16)),
+        var(--bg-soft);
+      border-radius: 22px;
+      border: 1px solid rgba(91,75,255,0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 86px;
+    }
+
+    .side-label { font-size: 11px; color: var(--text-soft); }
+    .side-title { font-size: 15px; font-weight: 600; margin-top: 4px; }
+    .side-brand { font-size: 12px; color: var(--text-soft); margin-top: 2px; }
+
+    .side-status-row {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .side-fee {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .side-fee span { font-size: 12px; color: var(--text-soft); font-weight: 400; }
+
+    .side-list {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      line-height: 1.4;
+    }
+
+    .side-list li { margin-bottom: 4px; }
+    .side-note { margin-top: 10px; font-size: 11px; color: var(--text-soft); line-height: 1.35; }
+
+    .btn-ghost {
+      margin-top: 10px;
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: 0.18s ease;
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.16);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    .btn-danger {
+      margin-top: 8px;
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,91,125,0.45);
+      background: rgba(255,91,125,0.08);
+      color: #ffd7df;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.18s ease;
+    }
+    .btn-danger:hover {
+      transform: translateY(-1px);
+      background: rgba(255,91,125,0.12);
+      border-color: rgba(255,91,125,0.65);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.75);
+    }
+
+    /* SIDE – BRAND VIEW / TIPS */
+    .brand-view-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      margin-top: 4px;
+      line-height: 1.45;
+    }
+
+    .brand-view-list li { margin-bottom: 3px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 340px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-sub { margin-top: 4px; color: var(--text-soft); font-size: 11px; line-height: 1.35; }
+
+    @media (max-width: 1120px) {
+      .summary-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar { display:none; }
+      .content { flex-direction: column; padding: 16px; }
+      .main-column, .side-column { max-width: 100%; }
+      .side-highlight { position: relative; top: 0; }
+      .application-item {
+        grid-template-columns: 1.8fr 1.2fr;
+        grid-template-rows: auto auto;
+      }
+      .date-hint { text-align: left; }
+    }
+
+    @media (max-width: 720px) {
+      .application-item { grid-template-columns: 1fr; }
+      .search-wrap { min-width: 100%; max-width: 100%; }
+      .list-toolbar { align-items: stretch; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">STREAM<span>LATAM</span></div>
+
+    <div>
+      <div class="sidebar-section-title">Navigation</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="dashboard.html">🏠 Dashboard</a></div>
+        <div class="nav-item"><a href="campaigns.html">🎯 Campaigns</a></div>
+        <div class="nav-item active"><a href="applications.html">📩 My applications</a></div>
+      </nav>
+    </div>
+
+    <div>
+      <div class="sidebar-section-title">Account</div>
+      <nav class="sidebar-nav">
+        <div class="nav-item"><a href="profile.html">🧑‍💻 Profile</a></div>
+        <div class="nav-item">⚙️ Settings</div>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">My applications</div>
+        <div class="topbar-sub">Demo tracking for your applied campaigns (local-only).</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-tag">
+          <i class="fa-solid fa-flask"></i> Demo version
+        </span>
+        <span class="pill-small ok" id="syncPill"><i class="fa-solid fa-link"></i> Sync: ON</span>
+        <span class="topbar-sub" id="updatedText">Updated: —</span>
+        <button class="btn-mini" id="resetDemoBtn" type="button">
+          <i class="fa-solid fa-rotate-left"></i> Reset demo data
+        </button>
+        <button class="btn-mini danger" id="clearAllTopBtn" type="button">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- MAIN COLUMN -->
+      <div class="main-column">
+
+        <!-- SUMMARY -->
+        <div class="card">
+          <div class="card-title">Status summary</div>
+          <div class="card-sub">
+            Calculated from your locally saved applications (demo).
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-box">
+              <div class="summary-label">Total applications</div>
+              <div class="summary-value" id="sumTotal">0</div>
+              <div class="summary-sub">From this browser</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">In review</div>
+              <div class="summary-value" id="sumReview">0</div>
+              <div class="summary-sub">Waiting for a response</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Accepted</div>
+              <div class="summary-value" id="sumAccepted">0</div>
+              <div class="summary-sub">Good news</div>
+            </div>
+            <div class="summary-box">
+              <div class="summary-label">Rejected / didn’t move forward</div>
+              <div class="summary-value" id="sumRejected">0</div>
+              <div class="summary-sub">Normal in one-off campaigns</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- APPLICATIONS LIST -->
+        <div class="card">
+          <div class="card-title">Applications</div>
+          <div class="card-sub">
+            Filter, search by brand/title, and select one to view details on the right.
+          </div>
+
+          <div class="list-toolbar">
+            <div class="tabs-row" id="tabsRow">
+              <button class="tab-pill active" data-filter="all">All</button>
+              <button class="tab-pill" data-filter="review">In review</button>
+              <button class="tab-pill" data-filter="accepted">Accepted</button>
+              <button class="tab-pill" data-filter="rejected">Rejected</button>
+            </div>
+
+            <div class="search-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input class="search-input" id="searchInput" type="text" placeholder="Search by brand or campaign..." aria-label="Search applications" />
+            </div>
+          </div>
+
+          <div class="applications-list" id="applicationsList"></div>
+
+          <div class="empty-state" id="emptyState">
+            <strong>No applications to show.</strong><br />
+            Tip: open <b>Campaigns</b> and click “Apply” on a campaign so it appears here (demo).
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SIDE COLUMN -->
+      <aside class="side-column">
+
+        <!-- APPLICATION PREVIEW -->
+        <div class="card side-highlight" id="appPreviewCard">
+          <div class="side-label">Application preview (demo)</div>
+          <div class="side-title" id="pvTitle">Select an application</div>
+          <div class="side-brand" id="pvBrand">Brand · Category</div>
+
+          <div class="side-status-row">
+            <div id="pvStatusText">Status: —</div>
+            <div id="pvStatusPill" class="status-pill">—</div>
+          </div>
+
+          <div class="side-fee" id="pvFee"></div>
+
+          <ul class="side-list">
+            <li id="pvSummary">Quick summary of what the campaign includes.</li>
+            <li id="pvNext">Expected next steps for this application.</li>
+            <li id="pvTip">A short tip to improve your chances for this kind of campaign.</li>
+          </ul>
+
+          <button class="btn-ghost" id="openCampaignBtn" type="button">
+            <i class="fa-solid fa-up-right-from-square"></i>
+            Open campaign (detail)
+          </button>
+
+          <button class="btn-ghost" id="goCampaignsBtn" type="button">
+            <i class="fa-solid fa-arrow-left"></i>
+            View available campaigns
+          </button>
+
+          <button class="btn-danger" id="clearAllBtn" type="button">
+            <i class="fa-solid fa-trash"></i>
+            Clear history (demo)
+          </button>
+
+          <div class="side-note">
+            No backend in demo: this lives in <b>localStorage</b> so you can show the end-to-end flow.
+          </div>
+        </div>
+
+        <!-- BRAND VIEW -->
+        <div class="card">
+          <div class="card-title">What the brand sees when reviewing your application</div>
+          <div class="card-sub">
+            This card summarizes a simplified example of the key info.
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Average viewers and your main streaming category.</li>
+            <li>Region, language, and timezone to coordinate activations.</li>
+            <li>Basic campaign history (if you’ve worked with brands before).</li>
+            <li>Connected socials and reach beyond Twitch.</li>
+          </ul>
+
+          <div class="side-note">
+            Use this in the demo to tell a streamer:
+            “This is what a brand sees on the other side when you apply.”
+          </div>
+        </div>
+
+        <!-- TIPS -->
+        <div class="card">
+          <div class="card-title>Tips to improve your chances</div>
+          <div class="card-sub">
+            Quick ideas that often help when campaigns are competitive.
+          </div>
+
+          <ul class="brand-view-list">
+            <li>Apply only to campaigns aligned with your content and community.</li>
+            <li>Complete your profile: categories, schedule, socials.</li>
+            <li>Reply to brand messages clearly and fast.</li>
+            <li>If a campaign doesn’t move forward, it’s often just a reach fit issue.</li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <div id="toastTitle">Done (demo)</div>
+  <div class="toast-sub" id="toastSub">—</div>
+</div>
+
+<script>
+  // ---------------- Shared demo key (matches campaigns + campaign-detail) ----------------
+  const APPLICATIONS_KEY = "streamlatamApplicationsDemo";
+
+  // ---------------- Demo seed (used by "Reset demo data") ----------------
+  const FALLBACK_DEMO = [
+    {
+      campaignId: "c1",
+      title: "Headset Pro LATAM · Stream mention",
+      brand: "Headset Pro",
+      category: "Hardware / gamer peripherals",
+      fee: "USD 50 + product",
+      status: "In review",
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c2",
+      title: "LATAM finance app · Mention + panel",
+      brand: "Fintech LATAM",
+      category: "Digital payments",
+      fee: "USD 30 / month",
+      status: "Accepted",
+      createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c3",
+      title: "Gamer snacks · Casual mention",
+      brand: "SnackBoost",
+      category: "Food / snacks",
+      fee: "USD 20 + products",
+      status: "In review",
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+    },
+    {
+      campaignId: "c4",
+      title: "Campaign “Energy Drink LATAM”",
+      brand: "Energy Drink Co.",
+      category: "Energy drinks",
+      fee: "USD 80 + product",
+      status: "Rejected",
+      createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    }
+  ];
+
+  // ---------------- Utils ----------------
+  function safeJsonParse(str) { try { return JSON.parse(str); } catch { return null; } }
+
+  function getStoredApplications() {
+    const data = safeJsonParse(localStorage.getItem(APPLICATIONS_KEY));
+    return Array.isArray(data) ? data : [];
+  }
+  function setStoredApplications(arr) {
+    localStorage.setItem(APPLICATIONS_KEY, JSON.stringify(arr));
+  }
+
+  function stampUpdated() {
+    const updatedText = document.getElementById("updatedText");
+    if (!updatedText) return;
+    const now = new Date();
+    const stamp = now.toLocaleString("en-US", { month: "short", day: "2-digit", hour: "2-digit", minute: "2-digit" });
+    updatedText.textContent = `Updated: ${stamp} (local demo)`;
+  }
+
+  function ensureSeededIfEmpty() {
+    const current = getStoredApplications();
+    if (current.length === 0) {
+      // No auto-seed here. Keeps the empty state honest.
+      // Use "Reset demo data" if you want seeded content.
+    }
+  }
+
+  function formatAgo(iso) {
+    if (!iso) return "";
+    const t = new Date(iso).getTime();
+    if (!isFinite(t)) return "";
+    const diff = Date.now() - t;
+
+    const min = Math.floor(diff / 60000);
+    const hr = Math.floor(diff / 3600000);
+    const day = Math.floor(diff / 86400000);
+
+    if (day >= 60) return `${Math.floor(day/30)} months ago`;
+    if (day >= 30) return `1 month ago`;
+    if (day >= 14) return `${Math.floor(day/7)} weeks ago`;
+    if (day >= 7) return `1 week ago`;
+    if (day >= 2) return `${day} days ago`;
+    if (day === 1) return `Yesterday`;
+    if (hr >= 2) return `${hr} hours ago`;
+    if (hr === 1) return `1 hour ago`;
+    if (min >= 2) return `${min} min ago`;
+    return `Just now`;
+  }
+
+  function mapStatusToType(status) {
+    const s = String(status || "").toLowerCase();
+    if (s.includes("review")) return "review";
+    if (s.includes("accept")) return "accepted";
+    if (s.includes("reject")) return "rejected";
+    return "other";
+  }
+
+  function mapStatusToLabel(status) {
+    const t = mapStatusToType(status);
+    if (t === "review") return "In review";
+    if (t === "accepted") return "Accepted (demo)";
+    if (t === "rejected") return "Didn’t move forward";
+    return "—";
+  }
+
+  function buildSummaryAndNext(statusType) {
+    if (statusType === "accepted") {
+      return {
+        summary: "The brand approved your application and the campaign is active with the agreed scope.",
+        next: "Confirm schedule/deliverables and save evidence (clips, screenshots, links).",
+        tip: "Prepare a mini media kit with 2–3 clips showing natural integrations."
+      };
+    }
+    if (statusType === "rejected") {
+      return {
+        summary: "This campaign didn’t move forward. It’s often a fit/reach or targeting match.",
+        next: "Keep applying to aligned campaigns and strengthen your public profile with clear data.",
+        tip: "Not personal: improve one metric (schedule consistency or categories) and try again."
+      };
+    }
+    return {
+      summary: "Application sent. The brand is reviewing your public profile and target fit.",
+      next: "They may request clips/VODs, audience by country, or confirm your availability.",
+      tip: "Reply fast with data: avg viewers, schedule, and 1–2 content examples."
+    };
+  }
+
+  // ---------------- DOM refs ----------------
+  const sumTotal = document.getElementById("sumTotal");
+  const sumReview = document.getElementById("sumReview");
+  const sumAccepted = document.getElementById("sumAccepted");
+  const sumRejected = document.getElementById("sumRejected");
+
+  const tabs = document.querySelectorAll(".tab-pill");
+  const searchInput = document.getElementById("searchInput");
+
+  const listEl = document.getElementById("applicationsList");
+  const emptyState = document.getElementById("emptyState");
+
+  const pvTitle = document.getElementById("pvTitle");
+  const pvBrand = document.getElementById("pvBrand");
+  const pvStatusText = document.getElementById("pvStatusText");
+  const pvStatusPill = document.getElementById("pvStatusPill");
+  const pvFee = document.getElementById("pvFee");
+  const pvSummary = document.getElementById("pvSummary");
+  const pvNext = document.getElementById("pvNext");
+  const pvTip = document.getElementById("pvTip");
+
+  const openCampaignBtn = document.getElementById("openCampaignBtn");
+  const goCampaignsBtn = document.getElementById("goCampaignsBtn");
+  const clearAllBtn = document.getElementById("clearAllBtn");
+
+  const resetDemoBtn = document.getElementById("resetDemoBtn");
+  const clearAllTopBtn = document.getElementById("clearAllTopBtn");
+
+  const toast = document.getElementById("toast");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastSub = document.getElementById("toastSub");
+
+  // ---------------- State ----------------
+  let currentFilter = "all";
+  let currentQuery = "";
+  let selectedId = null;
+
+  function showToast(title, sub) {
+    if (!toast) return;
+    toastTitle.textContent = title || "Done (demo)";
+    toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1500);
+  }
+
+  function applyStatusStyle(el, type) {
+    if (!el) return;
+    el.className = "status-pill";
+    if (type === "review") el.classList.add("review");
+    else if (type === "accepted") el.classList.add("accepted");
+    else if (type === "rejected") el.classList.add("rejected");
+  }
+
+  function computeAndRenderSummary(apps) {
+    const total = apps.length;
+    const review = apps.filter(a => mapStatusToType(a.status) === "review").length;
+    const accepted = apps.filter(a => mapStatusToType(a.status) === "accepted").length;
+    const rejected = apps.filter(a => mapStatusToType(a.status) === "rejected").length;
+
+    if (sumTotal) sumTotal.textContent = String(total);
+    if (sumReview) sumReview.textContent = String(review);
+    if (sumAccepted) sumAccepted.textContent = String(accepted);
+    if (sumRejected) sumRejected.textContent = String(rejected);
+  }
+
+  function renderList(apps) {
+    if (!listEl) return;
+    listEl.innerHTML = "";
+
+    const normalizedQuery = currentQuery.trim().toLowerCase();
+    const filtered = apps.filter(a => {
+      const type = mapStatusToType(a.status);
+      const matchesTab = (currentFilter === "all" || currentFilter === type);
+
+      const hay = `${a.title || ""} ${a.brand || ""} ${a.category || ""}`.toLowerCase();
+      const matchesSearch = !normalizedQuery || hay.includes(normalizedQuery);
+
+      return matchesTab && matchesSearch;
+    });
+
+    if (!filtered.length) {
+      if (emptyState) emptyState.style.display = "block";
+      selectedId = null;
+
+      if (pvTitle) pvTitle.textContent = "No applications";
+      if (pvBrand) pvBrand.textContent = "Try applying from “Campaigns”";
+      if (pvStatusText) pvStatusText.textContent = "Status: —";
+      if (pvStatusPill) { pvStatusPill.textContent = "—"; applyStatusStyle(pvStatusPill, "other"); }
+      if (pvFee) pvFee.innerHTML = "";
+      if (pvSummary) pvSummary.textContent = "Applying creates a local record and it appears in this list (demo).";
+      if (pvNext) pvNext.textContent = "Open Campaigns and click “Apply (demo)” on any campaign.";
+      if (pvTip) pvTip.textContent = "Tip: complete your Profile to make the flow look more realistic.";
+      if (openCampaignBtn) openCampaignBtn.dataset.id = "";
+      return;
+    }
+
+    if (emptyState) emptyState.style.display = "none";
+
+    filtered.forEach(a => {
+      const type = mapStatusToType(a.status);
+      const label = mapStatusToLabel(a.status);
+
+      const item = document.createElement("div");
+      item.className = "application-item";
+      item.dataset.id = a.campaignId || "";
+      item.dataset.type = type;
+
+      const metaLine = type === "accepted"
+        ? `Contract: <strong>active</strong><br/>Mode: campaign approved`
+        : (type === "rejected"
+          ? `Reason: <strong>fit / reach</strong><br/>You can try again later`
+          : `Status: <strong>waiting</strong><br/>Reviewing public profile`);
+
+      const dateText = formatAgo(a.createdAt);
+
+      const icon = (type === "accepted")
+        ? "fa-circle-check"
+        : (type === "rejected" ? "fa-circle-xmark" : "fa-hourglass-half");
+
+      item.innerHTML = `
+        <div>
+          <div class="application-main-title">${a.title || "Demo campaign"}</div>
+          <div class="application-brand">${a.brand || "Brand"}${a.category ? " · " + a.category : ""}</div>
+        </div>
+
+        <div class="application-meta">${metaLine}</div>
+
+        <div style="text-align:right;">
+          <div class="status-pill ${type}">
+            <i class="fa-solid ${icon}"></i>
+            ${label}
+          </div>
+          <div class="date-hint">${dateText ? dateText : ""}</div>
+        </div>
+      `;
+
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".application-item").forEach(x => x.classList.remove("selected"));
+        item.classList.add("selected");
+        selectedId = a.campaignId || null;
+        updatePreview(a);
+      });
+
+      listEl.appendChild(item);
+    });
+
+    const keep = selectedId
+      ? listEl.querySelector(`.application-item[data-id="${CSS.escape(selectedId)}"]`)
+      : null;
+
+    if (keep) keep.click();
+    else {
+      const first = listEl.querySelector(".application-item");
+      if (first) first.click();
+    }
+  }
+
+  function updatePreview(app) {
+    const type = mapStatusToType(app.status);
+    const label = mapStatusToLabel(app.status);
+
+    if (pvTitle) pvTitle.textContent = app.title || "Demo campaign";
+    if (pvBrand) pvBrand.textContent = `${app.brand || "Brand"}${app.category ? " · " + app.category : ""}`;
+
+    if (pvStatusText) {
+      const when = app.createdAt ? ` · ${formatAgo(app.createdAt)}` : "";
+      pvStatusText.textContent = `Status: ${label}${when}`;
+    }
+
+    if (pvStatusPill) {
+      pvStatusPill.textContent = label;
+      applyStatusStyle(pvStatusPill, type);
+    }
+
+    if (pvFee) {
+      pvFee.innerHTML = app.fee ? `${app.fee} <span>· Demo mode</span>` : "";
+    }
+
+    const { summary, next, tip } = buildSummaryAndNext(type);
+    if (pvSummary) pvSummary.textContent = summary;
+    if (pvNext) pvNext.textContent = next;
+    if (pvTip) pvTip.textContent = tip;
+
+    if (openCampaignBtn) openCampaignBtn.dataset.id = app.campaignId || "c1";
+  }
+
+  function setActiveTab(filter) {
+    currentFilter = filter;
+    tabs.forEach(t => t.classList.toggle("active", (t.dataset.filter || "all") === filter));
+    refresh();
+  }
+
+  function refresh() {
+    const apps = getStoredApplications();
+    computeAndRenderSummary(apps);
+    renderList(apps);
+    stampUpdated();
+  }
+
+  // ---------------- Actions ----------------
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => setActiveTab(tab.dataset.filter || "all"));
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      currentQuery = e.target.value || "";
+      refresh();
+    });
+  }
+
+  if (goCampaignsBtn) {
+    goCampaignsBtn.addEventListener("click", () => window.location.href = "campaigns.html");
+  }
+
+  if (openCampaignBtn) {
+    openCampaignBtn.addEventListener("click", () => {
+      const id = openCampaignBtn.dataset.id || "";
+      if (!id) {
+        showToast("No selection", "Pick an application to open its campaign.");
+        return;
+      }
+      window.location.href = `campaign-detail.html?id=${encodeURIComponent(id)}`;
+    });
+  }
+
+  function clearAllNow() {
+    localStorage.removeItem(APPLICATIONS_KEY);
+    selectedId = null;
+    showToast("History cleared (demo)", "Local applications were removed.");
+    refresh();
+  }
+
+  if (clearAllBtn) clearAllBtn.addEventListener("click", clearAllNow);
+  if (clearAllTopBtn) clearAllTopBtn.addEventListener("click", clearAllNow);
+
+  if (resetDemoBtn) {
+    resetDemoBtn.addEventListener("click", () => {
+      setStoredApplications(FALLBACK_DEMO);
+      selectedId = null;
+      currentFilter = "all";
+      currentQuery = "";
+      if (searchInput) searchInput.value = "";
+      tabs.forEach(t => t.classList.toggle("active", (t.dataset.filter || "all") === "all"));
+      showToast("Reset demo data", "Loaded sample applications.");
+      refresh();
+    });
+  }
+
+  // ---------------- Init ----------------
+  ensureSeededIfEmpty();
+  refresh();
+</script>
+
+</body>
+</html>

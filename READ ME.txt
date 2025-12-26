@@ -1,0 +1,115 @@
+# STREAMLATAM — Creator x Brand Profile MVP (Premium Demo)
+
+A **premium, brand-friendly MVP** that shows how a streamer can maintain a single profile and instantly power:
+- a dynamic dashboard (insights + readiness),
+- a clean public-facing brand profile,
+- and a “mini media kit” export — **without any backend**.
+
+Built to be **easy to review, easy to demo, easy to sell**.
+
+---
+
+## Why this MVP exists
+
+Most creator/streamer tools fail at the first 10 seconds:
+brands don’t understand the creator fast enough, and creators don’t want friction.
+
+STREAMLATAM solves that with a single source of truth:
+**one profile → multiple brand-ready outputs**.
+
+---
+
+## What you can demo in 60 seconds
+
+1. Open `profile.html`  
+2. Edit the streamer profile + base data  
+3. Click **Save / Update**  
+4. Open `dashboard.html` → see KPIs/insights update  
+5. Open `profile-public.html` → see the brand profile update instantly  
+
+Everything stays synced via `localStorage`.
+
+---
+
+## Key features (MVP)
+
+### ✅ Single Source of Truth
+All pages read from:
+- `localStorage["streamerBaseData"]`
+
+This powers:
+- dashboard KPIs,
+- readiness scoring,
+- public profile rendering,
+- pitch/summary content.
+
+### ✅ Streamer Profile Editor (Creator-side)
+- Premium UI layout
+- Edit mode (demo)
+- Base data form → Save/Update
+- Schedule + timezone included
+- Socials support (optional, still clean if empty)
+
+### ✅ Dynamic Dashboard (Creator-side)
+- Reads live data from the saved profile
+- Shows scannable insights / metrics
+- “Data loaded + updated” signals
+
+### ✅ Brand-Ready Public Profile (Shareable)
+- Clean, brand-friendly presentation
+- “Fit” and “Reliability” demo heuristics
+- Copy public link CTA
+- Optional `?id=s1` / `?id=s2` shareable demo profiles
+
+### ✅ Mini Media Kit Export (Demo)
+- One-click export as `.txt` (production-ready idea for future PDF export)
+
+---
+
+## What this MVP proves (the value)
+
+- A creator can maintain **one profile** and keep it updated in seconds.
+- Brands can evaluate a creator quickly with:
+  - avg viewers
+  - category focus
+  - schedule + timezone
+  - optional social proof
+  - a short pitch line that feels real
+- The product concept is **ready to scale** into:
+  - authentication
+  - database storage
+  - real matching & campaigns
+  - PDF exports
+  - brand-side CRM / application flows
+
+This is a **high-signal prototype** for buyers or investors:
+it demonstrates UI/UX, data model, and the full loop.
+
+---
+
+## Tech stack
+
+- HTML / CSS / Vanilla JS
+- No framework
+- No backend
+- No build step
+- Runs locally or on any static hosting
+
+---
+
+## Files
+
+```text
+/
+├─ index.html            # Land page
+├─ profile.html          # Creator profile editor (writes streamerBaseData)
+├─ dashboard.html        # Dynamic dashboard (reads streamerBaseData)
+├─ profile-public.html   # Public brand profile (reads streamerBaseData / or ?id=demo)
+├─ campaigns.html        # Campaigns demo view
+├─ campaing-detail.html  # Campaign detail view
+├─ applications.html     # Applications demo view
+└─ README.md
+
+## How to run
+
+- Just open: index.html and from there you can click on "Open live demo" to start navigating 

@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>STREAMLATAM — Navigable MVP for acquisition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ICONS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-elevated: #080816;
+      --bg-card: #101222;
+      --bg-soft: #181a2f;
+      --border-soft: #1f213a;
+      --border-subtle: #141626;
+      --text-main: #f4f4fb;
+      --text-soft: #9c9fc2;
+      --text-muted: #7a7ea5;
+      --accent: #5b4bff;
+      --accent-soft: #7b6bff;
+      --success: #5bff94;
+      --danger: #ff5b7d;
+      --warning: #ffc857;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --shadow-soft: 0 20px 55px rgba(0,0,0,0.75);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.22), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(91,255,148,0.14), transparent 55%),
+        linear-gradient(140deg, #05060a, #05050d 40%, #05060a);
+      color: var(--text-main);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 22px 18px 44px;
+    }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 650;
+      letter-spacing: .16em;
+    }
+    .logo span { color: var(--accent-soft); }
+
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-soft);
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .nav-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(8,8,20,0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.55);
+      white-space: nowrap;
+    }
+
+    .lang-select {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(8,8,20,0.85);
+      color: var(--text-main);
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.05fr);
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-kicker {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 32px;
+      line-height: 1.12;
+      font-weight: 720;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title .grad {
+      background: linear-gradient(120deg, #5b4bff, #5bff94);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      color: var(--text-soft);
+      max-width: 520px;
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(16,18,37,0.85);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-soft);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #5b4bff, #7b6bff);
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.85);
+      transition: 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 46px rgba(0,0,0,0.95);
+    }
+
+    .btn-ghost {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(12,12,32,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      transition: 0.18s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(123,107,255,0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+    }
+
+    .hero-note {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* HERO CARD */
+    .hero-card {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.22), transparent 55%),
+        linear-gradient(135deg, rgba(91,75,255,0.20), rgba(7,8,24,0.98)),
+        #090816;
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(91,75,255,0.55);
+      box-shadow: var(--shadow-soft);
+      font-size: 12px;
+    }
+
+    .hero-card-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero-card-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.45;
+      margin-top: 2px;
+    }
+
+    .pill-soft {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-soft);
+      background: rgba(8,8,28,0.9);
+      white-space: nowrap;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .metric-box {
+      background: rgba(8,8,26,0.82);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 10px;
+      font-size: 11px;
+    }
+
+    .metric-label {
+      color: var(--text-soft);
+      margin-bottom: 3px;
+    }
+
+    .metric-value {
+      font-size: 13px;
+      font-weight: 720;
+      color: #fff;
+    }
+
+    .hero-bottom-note {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    /* SECTIONS */
+    .section { margin-top: 34px; }
+
+    .section-header { margin-bottom: 14px; }
+
+    .section-kicker {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      max-width: 740px;
+      line-height: 1.55;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .card-soft {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        linear-gradient(130deg, rgba(255,255,255,0.03), transparent 45%),
+        var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(255,255,255,0.07);
+      font-size: 12px;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: 0.2s ease;
+    }
+    .card-soft:hover { border-color: rgba(123,107,255,0.55); box-shadow: 0 14px 38px rgba(0,0,0,.62); }
+
+    .card-soft-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-soft-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .bullet-list {
+      padding-left: 18px;
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+    .bullet-list li { margin-bottom: 6px; }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3,minmax(0,1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .feature-pill {
+      background:
+        radial-gradient(circle at top left, rgba(91,75,255,0.08), transparent 55%),
+        #15172a;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      padding: 12px 12px 11px;
+      font-size: 12px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+      transition: .2s ease;
+    }
+    .feature-pill:hover { border-color: rgba(123,107,255,0.55); transform: translateY(-1px); }
+
+    .feature-label {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .feature-main {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    /* TAG ROW */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(17,19,38,0.85);
+      font-size: 11px;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* PACKAGE */
+    .package-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1.2fr;
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .package-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 16px;
+      line-height: 1.55;
+    }
+    .package-list li { margin-bottom: 6px; }
+
+    .package-highlight {
+      background:
+        radial-gradient(circle at top left, rgba(91,255,148,0.16), transparent 55%),
+        linear-gradient(135deg, rgba(91,75,255,0.28), rgba(7,8,24,0.98));
+      border-radius: var(--radius-md);
+      padding: 14px 14px 13px;
+      border: 1px solid rgba(91,75,255,0.65);
+      font-size: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .package-highlight-title {
+      font-size: 13px;
+      font-weight: 750;
+      margin-bottom: 6px;
+    }
+
+    /* PRICING / CONTACT */
+    .pricing-card {
+      background:
+        radial-gradient(circle at top left, rgba(91,255,148,0.18), transparent 55%),
+        linear-gradient(135deg, rgba(6,140,93,0.20), rgba(12,14,32,0.98));
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 16px;
+      border: 1px solid rgba(91,255,148,0.55);
+      box-shadow: var(--shadow-soft);
+      font-size: 12px;
+    }
+
+    .price-range {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .price-note {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .contact-row {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .contact-chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(8,8,26,0.90);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-soft);
+    }
+
+    .contact-chip a {
+      color: var(--text-main);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 40px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      font-size: 11px;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      cursor: pointer;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(20,21,41,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75);
+      color: var(--text-main);
+      font-size: 12px;
+      max-width: 360px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: 0.2s ease;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast-sub { margin-top: 4px; color: var(--text-soft); font-size: 11px; line-height: 1.35; }
+
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-card { order: -1; }
+      .grid-2, .package-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 26px; }
+      .nav { align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+  <div class="shell">
+
+    <!-- NAV -->
+    <header class="nav">
+      <div class="logo">STREAM<span>LATAM</span></div>
+
+      <div class="nav-right">
+        <span id="navContext">Creator economy · Streamers</span>
+
+        <span class="nav-pill" id="navPill">
+          <i class="fa-solid fa-circle"></i>
+          <span id="navPillText">MVP ready for acquisition</span>
+        </span>
+
+        <select class="lang-select" id="langSelect" aria-label="Language">
+          <option value="en" selected>EN</option>
+          <option value="es">ES</option>
+          <option value="pt">PT</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="hero-kicker" id="heroKicker">Acquisition starter kit · Creator economy</div>
+
+        <h1 class="hero-title" id="heroTitle">
+          A polished, navigable MVP to connect <span class="grad">mid-tier LATAM streamers</span> with sponsors.
+        </h1>
+
+        <p class="hero-sub" id="heroSub">
+          Not a mockup: a complete demo flow (dashboard → campaigns → apply → applications → public profile → brand view)
+          designed to be turned into a real SaaS fast.
+        </p>
+
+        <div class="hero-badges">
+          <div class="badge" id="b1"><i class="fa-solid fa-code"></i> Static HTML · CSS · Vanilla JS</div>
+          <div class="badge" id="b2"><i class="fa-solid fa-diagram-project"></i> End-to-end demo flow</div>
+          <div class="badge" id="b3"><i class="fa-solid fa-users"></i> Built for 80–300 avg viewers</div>
+        </div>
+
+        <div class="hero-cta-row">
+          <button class="btn-primary" id="ctaPrimary" type="button">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span id="ctaPrimaryText">Discuss acquisition</span>
+          </button>
+
+          <button class="btn-ghost" id="ctaSecondary" type="button">
+            <i class="fa-solid fa-laptop-code"></i>
+            <span id="ctaSecondaryText">What’s inside</span>
+          </button>
+
+          <a href="dashboard.html" class="btn-ghost" id="ctaDemo">
+            <i class="fa-solid fa-display"></i>
+            <span id="ctaDemoText">Open live demo</span>
+          </a>
+        </div>
+
+        <div class="hero-note" id="heroNote">
+          One-time sale of the full package: product narrative, UX/UI system, navigable MVP code, and a clear SaaS roadmap direction.
+        </div>
+      </div>
+
+      <!-- HERO CARD -->
+      <aside class="hero-card">
+        <div class="hero-card-top">
+          <div>
+            <div class="hero-card-title" id="cardTitle">Demo preview</div>
+            <div class="hero-card-sub" id="cardSub">
+              Streamer side + sponsor-facing views aligned under one UI system.
+            </div>
+          </div>
+          <div class="pill-soft" id="cardPill">
+            <i class="fa-solid fa-bolt"></i>
+            <span id="cardPillText">Navigable MVP</span>
+          </div>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-box">
+            <div class="metric-label" id="m1Label">Key screens</div>
+            <div class="metric-value" id="m1Value">7+</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="m2Label">Flows covered</div>
+            <div class="metric-value" id="m2Value">3</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label" id="m3Label">Best for</div>
+            <div class="metric-value" id="m3Value">SaaS / pilot</div>
+          </div>
+        </div>
+
+        <div class="hero-bottom-note" id="cardNote">
+          Runs as a static website and simulates “real usage” using localStorage so buyers can feel the product flow immediately.
+        </div>
+      </aside>
+    </section>
+
+    <!-- CONTEXT -->
+    <section class="section" id="context">
+      <div class="section-header">
+        <div class="section-kicker" id="ctxKicker">Context</div>
+        <h2 class="section-title" id="ctxTitle">The mid-tier streamer gap in LATAM.</h2>
+        <p class="section-sub" id="ctxSub">
+          Most creator tools target top-tier creators or massive campaigns. The 80–300 avg viewers segment in LATAM
+          is often under-served—yet it’s attractive for brands running focused pilots and repeatable micro-activations.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card-soft">
+          <div class="card-soft-title" id="painStreamerTitle">Streamer-side pain</div>
+          <div class="card-soft-sub" id="painStreamerSub">
+            Real communities, but hard to turn that into clean sponsorship deals.
+          </div>
+          <ul class="bullet-list" id="painStreamerList">
+            <li>No consistent, sponsor-friendly profile to present.</li>
+            <li>Unclear packaging: what to offer and how to price it.</li>
+            <li>No single place for metrics, campaigns, and social reach.</li>
+          </ul>
+        </div>
+
+        <div class="card-soft">
+          <div class="card-soft-title" id="painBrandTitle">Brand-side pain</div>
+          <div class="card-soft-sub" id="painBrandSub">
+            Moderate budgets need niche reach, but the process is still manual.
+          </div>
+          <ul class="bullet-list" id="painBrandList">
+            <li>Hard to find the right streamer for a specific range/category.</li>
+            <li>No standardized “cards” to compare creators quickly.</li>
+            <li>Low structure to scale small pilots into repeatable campaigns.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREENS -->
+    <section class="section" id="screens">
+      <div class="section-header">
+        <div class="section-kicker" id="scrKicker">Solution</div>
+        <h2 class="section-title" id="scrTitle">A demo MVP that shows the full value flow.</h2>
+        <p class="section-sub" id="scrSub">
+          STREAMLATAM is navigable end-to-end: a streamer can see a snapshot, browse campaigns, apply, track status,
+          and share a sponsor-facing public profile. The brand view is included to sell the “payer side”.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-pill">
+          <div class="feature-label" id="f1Label">Screen</div>
+          <div class="feature-main" id="f1Title">Streamer dashboard</div>
+          <div class="card-soft-sub" id="f1Sub">
+            Sponsor-oriented insights, progress signals, and a clean layout system.
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <div class="feature-label" id="f2Label">Screen</div>
+          <div class="feature-main" id="f2Title">Campaign list</div>
+          <div class="card-soft-sub" id="f2Sub">
+            Filters, structured cards, and a live preview panel for fast evaluation.
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <div class="feature-label" id="f3Label">Screen</div>
+          <div class="feature-main" id="f3Title">Campaign detail</div>
+          <div class="card-soft-sub" id="f3Sub">
+            Corporate-friendly requirements, terms and a clear “apply” story.
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <div class="feature-label" id="f4Label">Screen</div>
+          <div class="feature-main" id="f4Title">Applications</div>
+          <div class="card-soft-sub" id="f4Sub">
+            Shows how a streamer tracks status and next steps (demo).
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <div class="feature-label" id="f5Label">Screen</div>
+          <div class="feature-main" id="f5Title">Streamer profile</div>
+          <div class="card-soft-sub" id="f5Sub">
+            Single source of truth for base data (localStorage) used across the MVP.
+          </div>
+        </div>
+
+        <div class="feature-pill">
+          <div class="feature-label" id="f6Label">Screen</div>
+          <div class="feature-main" id="f6Title">Brand-facing views</div>
+          <div class="card-soft-sub" id="f6Sub">
+            Public profile + a “brand dashboard” for search/compare (demo).
+          </div>
+        </div>
+      </div>
+
+      <div class="tag-row">
+        <div class="tag" id="t1"><i class="fa-solid fa-layer-group"></i> Unified UI system (sidebar/topbar/cards)</div>
+        <div class="tag" id="t2"><i class="fa-solid fa-bolt"></i> Easy migration to React/Next without redesign</div>
+        <div class="tag" id="t3"><i class="fa-solid fa-wand-magic-sparkles"></i> Pitch-ready aesthetics</div>
+      </div>
+    </section>
+
+    <!-- WHAT YOU BUY -->
+    <section class="section" id="package">
+      <div class="section-header">
+        <div class="section-kicker" id="pkgKicker">What you acquire</div>
+        <h2 class="section-title" id="pkgTitle">A complete package: MVP + code + narrative.</h2>
+        <p class="section-sub" id="pkgSub">
+          The goal is not to operate the SaaS today, but to hand off a strong product kit that a team can ship fast,
+          rebrand, or use as a base for a new creator-economy vertical.
+        </p>
+      </div>
+
+      <div class="package-grid">
+        <div class="card-soft">
+          <div class="card-soft-title" id="incProdTitle">Product / design assets</div>
+          <ul class="package-list" id="incProdList">
+            <li>Complete concept for a mid-tier LATAM streamer sponsorship platform.</li>
+            <li>Navigation architecture + consistent layout system.</li>
+            <li>7+ aligned screens (streamer side + sponsor-facing views).</li>
+            <li>Copy that speaks to both creators and brands.</li>
+            <li>Clear demo flow: discover → understand → apply → track → share profile.</li>
+          </ul>
+
+          <div class="card-soft-title" style="margin-top:10px;" id="incTechTitle">Technical assets</div>
+          <ul class="package-list" id="incTechList">
+            <li>Static HTML/CSS/JS codebase (simple and portable).</li>
+            <li>Ready to migrate into a modern framework (React / Next / Vue).</li>
+            <li>localStorage used to simulate “real data” and end-to-end flow.</li>
+            <li>Reusable components: cards, pills, grids, panels.</li>
+          </ul>
+        </div>
+
+        <div class="package-highlight">
+          <div class="package-highlight-title" id="optionalTitle">Optional (by agreement):</div>
+          <ul class="package-list" id="optionalList">
+            <li>Short SaaS roadmap document (production MVP plan).</li>
+            <li>Pricing ideas (take rate / subscription / hybrid).</li>
+            <li>Feature backlog (auth, brand portal, onboarding, messaging).</li>
+            <li>Editable pitch deck handoff.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="section-header">
+        <div class="section-kicker" id="dealKicker">Deal</div>
+        <h2 class="section-title" id="dealTitle">One-time acquisition.</h2>
+        <p class="section-sub" id="dealSub">
+          A single transaction for the MVP and associated assets, with a clean handoff and no ongoing operational dependency.
+        </p>
+      </div>
+
+      <div class="pricing-card">
+        <div class="price-range" id="priceRange">Indicative range: USD 1,200 – 2,500</div>
+        <div class="price-note" id="priceNote">
+          The exact range can flex based on the handoff scope (extra docs, pitch deck, walkthrough calls, etc.).
+        </div>
+
+        <div class="hero-cta-row" style="margin-top:10px;">
+          <a class="btn-primary" id="mailBtn"
+             href="mailto:fq162162@gmail.com?subject=Interest%20in%20STREAMLATAM%20MVP%20acquisition">
+            <i class="fa-solid fa-envelope"></i>
+            <span id="mailBtnText">Contact for proposal</span>
+          </a>
+
+          <a class="btn-ghost" id="demoBtn" href="dashboard.html">
+            <i class="fa-solid fa-display"></i>
+            <span id="demoBtnText">Open live demo</span>
+          </a>
+
+          <button class="btn-ghost" id="copyBtn" type="button">
+            <i class="fa-solid fa-copy"></i>
+            <span id="copyBtnText">Copy email</span>
+          </button>
+        </div>
+
+        <div class="contact-row">
+          <div class="contact-chip" id="contactChip">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="contactChipText">Contact: Franco Quiroz — </span>
+            <a href="mailto:fq162162@gmail.com">fq162162@gmail.com</a>
+          </div>
+          <div class="contact-chip" id="ndaChip">
+            <i class="fa-solid fa-file-signature"></i>
+            <span id="ndaChipText">NDA can be signed before sharing deeper details if needed.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div id="footerLeft">STREAMLATAM · Navigable demo MVP · One-time acquisition</div>
+      <div class="footer-links">
+        <span class="footer-link" id="footerLink1">What’s inside</span>
+        <span class="footer-link" id="footerLink2">Contact</span>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div id="toastTitle">Done</div>
+  <div class="toast-sub" id="toastSub">—</div>
+</div>
+
+<script>
+  // ---------------- i18n copy ----------------
+  const I18N = {
+    en: {
+      navContext: "Creator economy · Streamers",
+      navPillText: "MVP ready for acquisition",
+
+      heroKicker: "Acquisition starter kit · Creator economy",
+      heroTitle: `A polished, navigable MVP to connect <span class="grad">mid-tier LATAM streamers</span> with sponsors.`,
+      heroSub: "Not a mockup: a complete demo flow (dashboard → campaigns → apply → applications → public profile → brand view) designed to be turned into a real SaaS fast.",
+      b1: `<i class="fa-solid fa-code"></i> Static HTML · CSS · Vanilla JS`,
+      b2: `<i class="fa-solid fa-diagram-project"></i> End-to-end demo flow`,
+      b3: `<i class="fa-solid fa-users"></i> Built for 80–300 avg viewers`,
+      ctaPrimaryText: "Discuss acquisition",
+      ctaSecondaryText: "What’s inside",
+      ctaDemoText: "Open live demo",
+      heroNote: "One-time sale of the full package: product narrative, UX/UI system, navigable MVP code, and a clear SaaS roadmap direction.",
+
+      cardTitle: "Demo preview",
+      cardSub: "Streamer side + sponsor-facing views aligned under one UI system.",
+      cardPillText: "Navigable MVP",
+      m1Label: "Key screens",
+      m2Label: "Flows covered",
+      m3Label: "Best for",
+      m3Value: "SaaS / pilot",
+      cardNote: "Runs as a static website and simulates “real usage” using localStorage so buyers can feel the product flow immediately.",
+
+      ctxKicker: "Context",
+      ctxTitle: "The mid-tier streamer gap in LATAM.",
+      ctxSub: "Most creator tools target top-tier creators or massive campaigns. The 80–300 avg viewers segment in LATAM is often under-served—yet it’s attractive for brands running focused pilots and repeatable micro-activations.",
+
+      painStreamerTitle: "Streamer-side pain",
+      painStreamerSub: "Real communities, but hard to turn that into clean sponsorship deals.",
+      painStreamerList: [
+        "No consistent, sponsor-friendly profile to present.",
+        "Unclear packaging: what to offer and how to price it.",
+        "No single place for metrics, campaigns, and social reach."
+      ],
+
+      painBrandTitle: "Brand-side pain",
+      painBrandSub: "Moderate budgets need niche reach, but the process is still manual.",
+      painBrandList: [
+        "Hard to find the right streamer for a specific range/category.",
+        "No standardized “cards” to compare creators quickly.",
+        "Low structure to scale small pilots into repeatable campaigns."
+      ],
+
+      scrKicker: "Solution",
+      scrTitle: "A demo MVP that shows the full value flow.",
+      scrSub: "STREAMLATAM is navigable end-to-end: a streamer can see a snapshot, browse campaigns, apply, track status, and share a sponsor-facing public profile. The brand view is included to sell the “payer side”.",
+      f1Label: "Screen",
+      f1Title: "Streamer dashboard",
+      f1Sub: "Sponsor-oriented insights, progress signals, and a clean layout system.",
+      f2Label: "Screen",
+      f2Title: "Campaign list",
+      f2Sub: "Filters, structured cards, and a live preview panel for fast evaluation.",
+      f3Label: "Screen",
+      f3Title: "Campaign detail",
+      f3Sub: "Corporate-friendly requirements, terms and a clear “apply” story.",
+      f4Label: "Screen",
+      f4Title: "Applications",
+      f4Sub: "Shows how a streamer tracks status and next steps (demo).",
+      f5Label: "Screen",
+      f5Title: "Streamer profile",
+      f5Sub: "Single source of truth for base data (localStorage) used across the MVP.",
+      f6Label: "Screen",
+      f6Title: "Brand-facing views",
+      f6Sub: "Public profile + a “brand dashboard” for search/compare (demo).",
+      t1: `<i class="fa-solid fa-layer-group"></i> Unified UI system (sidebar/topbar/cards)`,
+      t2: `<i class="fa-solid fa-bolt"></i> Easy migration to React/Next without redesign`,
+      t3: `<i class="fa-solid fa-wand-magic-sparkles"></i> Pitch-ready aesthetics`,
+
+      pkgKicker: "What you acquire",
+      pkgTitle: "A complete package: MVP + code + narrative.",
+      pkgSub: "The goal is not to operate the SaaS today, but to hand off a strong product kit that a team can ship fast, rebrand, or use as a base for a new creator-economy vertical.",
+
+      incProdTitle: "Product / design assets",
+      incProdList: [
+        "Complete concept for a mid-tier LATAM streamer sponsorship platform.",
+        "Navigation architecture + consistent layout system.",
+        "7+ aligned screens (streamer side + sponsor-facing views).",
+        "Copy that speaks to both creators and brands.",
+        "Clear demo flow: discover → understand → apply → track → share profile."
+      ],
+
+      incTechTitle: "Technical assets",
+      incTechList: [
+        "Static HTML/CSS/JS codebase (simple and portable).",
+        "Ready to migrate into a modern framework (React / Next / Vue).",
+        "localStorage used to simulate “real data” and end-to-end flow.",
+        "Reusable components: cards, pills, grids, panels."
+      ],
+
+      optionalTitle: "Optional (by agreement):",
+      optionalList: [
+        "Short SaaS roadmap document (production MVP plan).",
+        "Pricing ideas (take rate / subscription / hybrid).",
+        "Feature backlog (auth, brand portal, onboarding, messaging).",
+        "Editable pitch deck handoff."
+      ],
+
+      dealKicker: "Deal",
+      dealTitle: "One-time acquisition.",
+      dealSub: "A single transaction for the MVP and associated assets, with a clean handoff and no ongoing operational dependency.",
+      priceRange: "Indicative range: USD 1,200 – 2,500",
+      priceNote: "The exact range can flex based on the handoff scope (extra docs, pitch deck, walkthrough calls, etc.).",
+      mailBtnText: "Contact for proposal",
+      demoBtnText: "Open live demo",
+      copyBtnText: "Copy email",
+      contactChipText: "Contact: Franco Quiroz — ",
+      ndaChipText: "NDA can be signed before sharing deeper details if needed.",
+
+      footerLeft: "STREAMLATAM · Navigable demo MVP · One-time acquisition",
+      footerLink1: "What’s inside",
+      footerLink2: "Contact",
+
+      toastCopiedTitle: "Copied",
+      toastCopiedSub: "Email copied to clipboard",
+      toastScrollTitle: "Scroll",
+      toastScrollSub: "Jumping to section"
+    },
+
+    es: {
+      navContext: "Creator economy · Streamers",
+      navPillText: "MVP listo para adquirir",
+
+      heroKicker: "Starter kit de adquisición · Creator economy",
+      heroTitle: `MVP premium y navegable para conectar <span class="grad">streamers mid-tier LATAM</span> con sponsors.`,
+      heroSub: "No es mockup: es un flujo demo completo (dashboard → campañas → aplicar → postulaciones → perfil público → brand view) listo para convertir en SaaS rápido.",
+      b1: `<i class="fa-solid fa-code"></i> HTML · CSS · JS plano`,
+      b2: `<i class="fa-solid fa-diagram-project"></i> Flujo end-to-end demo`,
+      b3: `<i class="fa-solid fa-users"></i> Pensado para 80–300 viewers`,
+      ctaPrimaryText: "Hablar sobre la adquisición",
+      ctaSecondaryText: "Ver qué incluye",
+      ctaDemoText: "Abrir demo navegable",
+      heroNote: "Venta única del paquete completo: narrativa de producto, sistema UI/UX, MVP navegable y una dirección clara de roadmap a SaaS.",
+
+      cardTitle: "Vista demo",
+      cardSub: "Lado streamer + vistas para marcas bajo un mismo sistema UI.",
+      cardPillText: "MVP navegable",
+      m1Label: "Pantallas clave",
+      m2Label: "Flujos cubiertos",
+      m3Label: "Ideal para",
+      m3Value: "SaaS / piloto",
+      cardNote: "Corre como sitio estático y simula uso “real” con localStorage para que el comprador sienta el flujo al instante.",
+
+      ctxKicker: "Contexto",
+      ctxTitle: "La brecha del segmento mid-tier en LATAM.",
+      ctxSub: "La mayoría de herramientas apuntan a streamers gigantes o campañas masivas. El rango 80–300 viewers en LATAM queda subatendido, pero es atractivo para marcas que quieren pilotos enfocados y micro-activaciones repetibles.",
+
+      painStreamerTitle: "Dolor del lado del streamer",
+      painStreamerSub: "Comunidades reales, pero difícil convertir eso en acuerdos claros.",
+      painStreamerList: [
+        "Sin un perfil estándar y sponsor-friendly para presentarse.",
+        "Packaging poco claro: qué ofrecer y cómo valorarlo.",
+        "Sin un lugar único para métricas, campañas y alcance social."
+      ],
+
+      painBrandTitle: "Dolor del lado de la marca",
+      painBrandSub: "Presupuestos moderados buscan nicho, pero el proceso sigue siendo artesanal.",
+      painBrandList: [
+        "Cuesta encontrar streamers por rango/categoría específica.",
+        "Faltan fichas estándar para comparar creadores rápido.",
+        "Poca estructura para escalar pilotos chicos a campañas repetibles."
+      ],
+
+      scrKicker: "Solución",
+      scrTitle: "Un MVP demo que muestra el flujo completo de valor.",
+      scrSub: "STREAMLATAM es navegable end-to-end: un streamer ve snapshot, explora campañas, aplica, trackea estado y comparte un perfil público para marcas. Incluye brand view para vender el “lado pagador”.",
+      f1Label: "Pantalla",
+      f1Title: "Dashboard del streamer",
+      f1Sub: "Insights para sponsors, señales de progreso y layout consistente.",
+      f2Label: "Pantalla",
+      f2Title: "Listado de campañas",
+      f2Sub: "Filtros, cards estructuradas y panel preview para decidir rápido.",
+      f3Label: "Pantalla",
+      f3Title: "Detalle de campaña",
+      f3Sub: "Requisitos, condiciones y un story claro de “aplicar”.",
+      f4Label: "Pantalla",
+      f4Title: "Mis postulaciones",
+      f4Sub: "Cómo se sigue el estado y próximos pasos (demo).",
+      f5Label: "Pantalla",
+      f5Title: "Perfil del streamer",
+      f5Sub: "Fuente única de datos base (localStorage) para todo el MVP.",
+      f6Label: "Pantalla",
+      f6Title: "Vistas para marcas",
+      f6Sub: "Perfil público + “brand dashboard” para buscar/comparar (demo).",
+      t1: `<i class="fa-solid fa-layer-group"></i> Sistema UI unificado (sidebar/topbar/cards)`,
+      t2: `<i class="fa-solid fa-bolt"></i> Migración fácil a React/Next sin rediseñar`,
+      t3: `<i class="fa-solid fa-wand-magic-sparkles"></i> Estética lista para pitch`,
+
+      pkgKicker: "Qué se adquiere",
+      pkgTitle: "Paquete completo: MVP + código + narrativa.",
+      pkgSub: "La intención no es operar el SaaS hoy, sino entregar un kit fuerte para que un equipo lo lleve a producción rápido, lo rebrandee o lo use como base.",
+
+      incProdTitle: "Assets de producto / diseño",
+      incProdList: [
+        "Concepto completo para plataforma de sponsorships mid-tier LATAM.",
+        "Arquitectura de navegación + sistema de layout consistente.",
+        "7+ pantallas alineadas (streamer + marca).",
+        "Copy orientado a creadores y marcas.",
+        "Flujo demo claro: descubrir → entender → aplicar → trackear → compartir perfil."
+      ],
+
+      incTechTitle: "Assets técnicos",
+      incTechList: [
+        "Código HTML/CSS/JS estático (simple y portable).",
+        "Listo para migrar a framework moderno (React / Next / Vue).",
+        "localStorage para simular datos y flujo end-to-end.",
+        "Componentes reutilizables: cards, pills, grids, panels."
+      ],
+
+      optionalTitle: "Opcional (a acordar):",
+      optionalList: [
+        "Documento corto de roadmap a SaaS (plan de MVP real).",
+        "Ideas de pricing (take rate / suscripción / híbrido).",
+        "Backlog de features (auth, portal marcas, onboarding, mensajería).",
+        "Pitch deck editable."
+      ],
+
+      dealKicker: "Acuerdo",
+      dealTitle: "Venta única.",
+      dealSub: "Una sola transacción por el MVP y sus activos, con handoff claro y sin dependencia operativa posterior.",
+      priceRange: "Rango orientativo: USD 1.200 – 2.500",
+      priceNote: "El rango puede ajustarse según el alcance del handoff (docs extra, pitch deck, llamadas de walkthrough, etc.).",
+      mailBtnText: "Contactar para propuesta",
+      demoBtnText: "Abrir demo navegable",
+      copyBtnText: "Copiar email",
+      contactChipText: "Contacto: Franco Quiroz — ",
+      ndaChipText: "Se puede firmar NDA antes de compartir más detalles si hace falta.",
+
+      footerLeft: "STREAMLATAM · MVP demo navegable · Venta única",
+      footerLink1: "Ver qué incluye",
+      footerLink2: "Contacto",
+
+      toastCopiedTitle: "Copiado",
+      toastCopiedSub: "Email copiado al portapapeles",
+      toastScrollTitle: "Scroll",
+      toastScrollSub: "Yendo a la sección"
+    },
+
+    pt: {
+      navContext: "Creator economy · Streamers",
+      navPillText: "MVP pronto para aquisição",
+
+      heroKicker: "Starter kit de aquisição · Creator economy",
+      heroTitle: `MVP premium e navegável para conectar <span class="grad">streamers mid-tier LATAM</span> com patrocinadores.`,
+      heroSub: "Não é mockup: é um fluxo demo completo (dashboard → campanhas → aplicar → candidaturas → perfil público → brand view) pronto para virar um SaaS rápido.",
+      b1: `<i class="fa-solid fa-code"></i> HTML · CSS · JS puro`,
+      b2: `<i class="fa-solid fa-diagram-project"></i> Fluxo demo ponta a ponta`,
+      b3: `<i class="fa-solid fa-users"></i> Feito para 80–300 viewers`,
+      ctaPrimaryText: "Falar sobre a aquisição",
+      ctaSecondaryText: "Ver o que inclui",
+      ctaDemoText: "Abrir demo navegável",
+      heroNote: "Venda única do pacote completo: narrativa do produto, sistema UI/UX, MVP navegável e direção clara de roadmap para SaaS.",
+
+      cardTitle: "Prévia demo",
+      cardSub: "Lado streamer + vistas para marcas alinhadas em um único sistema UI.",
+      cardPillText: "MVP navegável",
+      m1Label: "Telas-chave",
+      m2Label: "Fluxos cobertos",
+      m3Label: "Melhor para",
+      m3Value: "SaaS / piloto",
+      cardNote: "Roda como site estático e simula uso “real” com localStorage para o comprador sentir o fluxo imediatamente.",
+
+      ctxKicker: "Contexto",
+      ctxTitle: "A lacuna do segmento mid-tier na LATAM.",
+      ctxSub: "A maioria das ferramentas foca em criadores top ou campanhas massivas. O segmento 80–300 viewers na LATAM é pouco atendido, mas é atraente para marcas que querem pilotos focados e micro-ativações repetíveis.",
+
+      painStreamerTitle: "Dor do lado do streamer",
+      painStreamerSub: "Comunidades reais, mas difícil transformar em acordos claros.",
+      painStreamerList: [
+        "Sem um perfil padrão e sponsor-friendly para apresentar.",
+        "Packaging pouco claro: o que oferecer e como precificar.",
+        "Sem um lugar único para métricas, campanhas e alcance social."
+      ],
+
+      painBrandTitle: "Dor do lado da marca",
+      painBrandSub: "Orçamentos moderados querem nicho, mas o processo ainda é manual.",
+      painBrandList: [
+        "Difícil encontrar streamers por faixa/categoria específica.",
+        "Falta um padrão para comparar criadores rapidamente.",
+        "Pouca estrutura para escalar pilotos pequenos em campanhas repetíveis."
+      ],
+
+      scrKicker: "Solução",
+      scrTitle: "Um MVP demo que mostra o fluxo completo de valor.",
+      scrSub: "STREAMLATAM é navegável ponta a ponta: streamer vê snapshot, explora campanhas, aplica, acompanha status e compartilha um perfil público para marcas. Inclui brand view para vender o “lado pagador”.",
+      f1Label: "Tela",
+      f1Title: "Dashboard do streamer",
+      f1Sub: "Insights para patrocinadores, sinais de progresso e layout consistente.",
+      f2Label: "Tela",
+      f2Title: "Lista de campanhas",
+      f2Sub: "Filtros, cards estruturados e painel preview para avaliar rápido.",
+      f3Label: "Tela",
+      f3Title: "Detalhe da campanha",
+      f3Sub: "Requisitos, termos e uma história clara de “aplicar”.",
+      f4Label: "Tela",
+      f4Title: "Candidaturas",
+      f4Sub: "Como acompanhar status e próximos passos (demo).",
+      f5Label: "Tela",
+      f5Title: "Perfil do streamer",
+      f5Sub: "Fonte única de dados base (localStorage) para todo o MVP.",
+      f6Label: "Tela",
+      f6Title: "Vistas para marcas",
+      f6Sub: "Perfil público + “brand dashboard” para buscar/comparar (demo).",
+      t1: `<i class="fa-solid fa-layer-group"></i> Sistema UI unificado (sidebar/topbar/cards)`,
+      t2: `<i class="fa-solid fa-bolt"></i> Migração fácil para React/Next sem redesign`,
+      t3: `<i class="fa-solid fa-wand-magic-sparkles"></i> Estética pronta para pitch`,
+
+      pkgKicker: "O que você adquire",
+      pkgTitle: "Pacote completo: MVP + código + narrativa.",
+      pkgSub: "A ideia não é operar o SaaS hoje, mas entregar um kit forte para um time colocar em produção rápido, rebrandear ou usar como base.",
+
+      incProdTitle: "Assets de produto / design",
+      incProdList: [
+        "Conceito completo para plataforma de patrocínios mid-tier LATAM.",
+        "Arquitetura de navegação + sistema de layout consistente.",
+        "7+ telas alinhadas (streamer + marca).",
+        "Copy para criadores e marcas.",
+        "Fluxo demo claro: descobrir → entender → aplicar → acompanhar → compartilhar perfil."
+      ],
+
+      incTechTitle: "Assets técnicos",
+      incTechList: [
+        "Código estático HTML/CSS/JS (simples e portátil).",
+        "Pronto para migrar para framework moderno (React / Next / Vue).",
+        "localStorage para simular dados e fluxo ponta a ponta.",
+        "Componentes reutilizáveis: cards, pills, grids, panels."
+      ],
+
+      optionalTitle: "Opcional (a combinar):",
+      optionalList: [
+        "Documento curto de roadmap para SaaS (plano de MVP real).",
+        "Ideias de pricing (take rate / assinatura / híbrido).",
+        "Backlog de features (auth, portal de marcas, onboarding, mensagens).",
+        "Pitch deck editável."
+      ],
+
+      dealKicker: "Acordo",
+      dealTitle: "Aquisição única.",
+      dealSub: "Uma única transação pelo MVP e ativos associados, com handoff claro e sem dependência operacional contínua.",
+      priceRange: "Faixa indicativa: USD 1.200 – 2.500",
+      priceNote: "A faixa pode variar conforme o escopo do handoff (docs extras, pitch deck, calls de walkthrough, etc.).",
+      mailBtnText: "Contato para proposta",
+      demoBtnText: "Abrir demo navegável",
+      copyBtnText: "Copiar email",
+      contactChipText: "Contato: Franco Quiroz — ",
+      ndaChipText: "É possível assinar NDA antes de compartilhar mais detalhes, se necessário.",
+
+      footerLeft: "STREAMLATAM · MVP demo navegável · Aquisição única",
+      footerLink1: "Ver o que inclui",
+      footerLink2: "Contato",
+
+      toastCopiedTitle: "Copiado",
+      toastCopiedSub: "Email copiado para a área de transferência",
+      toastScrollTitle: "Scroll",
+      toastScrollSub: "Indo para a seção"
+    }
+  };
+
+  // ---------------- helpers ----------------
+  const $ = (id) => document.getElementById(id);
+  function setText(id, text){ const el=$(id); if(el) el.textContent = text; }
+  function setHTML(id, html){ const el=$(id); if(el) el.innerHTML = html; }
+  function setList(id, showItems){
+    const el = $(id);
+    if (!el) return;
+    el.innerHTML = "";
+    showItems.forEach(t => {
+      const li = document.createElement("li");
+      li.textContent = t;
+      el.appendChild(li);
+    });
+  }
+
+  const toast = $("toast");
+  const toastTitle = $("toastTitle");
+  const toastSub = $("toastSub");
+
+  function showToast(title, sub){
+    if (!toast) return;
+    toastTitle.textContent = title || "Done";
+    toastSub.textContent = sub || "";
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1400);
+  }
+
+  // ---------------- language switch ----------------
+  function applyLang(lang){
+    const dict = I18N[lang] || I18N.en;
+
+    setText("navContext", dict.navContext);
+    setText("navPillText", dict.navPillText);
+
+    setText("heroKicker", dict.heroKicker);
+    setHTML("heroTitle", dict.heroTitle);
+    setText("heroSub", dict.heroSub);
+    setHTML("b1", dict.b1);
+    setHTML("b2", dict.b2);
+    setHTML("b3", dict.b3);
+
+    setText("ctaPrimaryText", dict.ctaPrimaryText);
+    setText("ctaSecondaryText", dict.ctaSecondaryText);
+    setText("ctaDemoText", dict.ctaDemoText);
+    setText("heroNote", dict.heroNote);
+
+    setText("cardTitle", dict.cardTitle);
+    setText("cardSub", dict.cardSub);
+    setText("cardPillText", dict.cardPillText);
+
+    setText("m1Label", dict.m1Label);
+    setText("m2Label", dict.m2Label);
+    setText("m3Label", dict.m3Label);
+    setText("m3Value", dict.m3Value);
+    setText("cardNote", dict.cardNote);
+
+    setText("ctxKicker", dict.ctxKicker);
+    setText("ctxTitle", dict.ctxTitle);
+    setText("ctxSub", dict.ctxSub);
+
+    setText("painStreamerTitle", dict.painStreamerTitle);
+    setText("painStreamerSub", dict.painStreamerSub);
+    setList("painStreamerList", dict.painStreamerList);
+
+    setText("painBrandTitle", dict.painBrandTitle);
+    setText("painBrandSub", dict.painBrandSub);
+    setList("painBrandList", dict.painBrandList);
+
+    setText("scrKicker", dict.scrKicker);
+    setText("scrTitle", dict.scrTitle);
+    setText("scrSub", dict.scrSub);
+
+    setText("f1Label", dict.f1Label);
+    setText("f1Title", dict.f1Title);
+    setText("f1Sub", dict.f1Sub);
+
+    setText("f2Label", dict.f2Label);
+    setText("f2Title", dict.f2Title);
+    setText("f2Sub", dict.f2Sub);
+
+    setText("f3Label", dict.f3Label);
+    setText("f3Title", dict.f3Title);
+    setText("f3Sub", dict.f3Sub);
+
+    setText("f4Label", dict.f4Label);
+    setText("f4Title", dict.f4Title);
+    setText("f4Sub", dict.f4Sub);
+
+    setText("f5Label", dict.f5Label);
+    setText("f5Title", dict.f5Title);
+    setText("f5Sub", dict.f5Sub);
+
+    setText("f6Label", dict.f6Label);
+    setText("f6Title", dict.f6Title);
+    setText("f6Sub", dict.f6Sub);
+
+    setHTML("t1", dict.t1);
+    setHTML("t2", dict.t2);
+    setHTML("t3", dict.t3);
+
+    setText("pkgKicker", dict.pkgKicker);
+    setText("pkgTitle", dict.pkgTitle);
+    setText("pkgSub", dict.pkgSub);
+
+    setText("incProdTitle", dict.incProdTitle);
+    setList("incProdList", dict.incProdList);
+
+    setText("incTechTitle", dict.incTechTitle);
+    setList("incTechList", dict.incTechList);
+
+    setText("optionalTitle", dict.optionalTitle);
+    setList("optionalList", dict.optionalList);
+
+    setText("dealKicker", dict.dealKicker);
+    setText("dealTitle", dict.dealTitle);
+    setText("dealSub", dict.dealSub);
+    setText("priceRange", dict.priceRange);
+    setText("priceNote", dict.priceNote);
+
+    setText("mailBtnText", dict.mailBtnText);
+    setText("demoBtnText", dict.demoBtnText);
+    setText("copyBtnText", dict.copyBtnText);
+
+    setText("contactChipText", dict.contactChipText);
+    setText("ndaChipText", dict.ndaChipText);
+
+    setText("footerLeft", dict.footerLeft);
+    setText("footerLink1", dict.footerLink1);
+    setText("footerLink2", dict.footerLink2);
+
+    // store language
+    localStorage.setItem("streamlatamLang", lang);
+  }
+
+  // ---------------- scroll actions ----------------
+  function scrollToId(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // ---------------- event wiring ----------------
+  const langSelect = $("langSelect");
+  const saved = localStorage.getItem("streamlatamLang");
+  if (saved && I18N[saved]) {
+    langSelect.value = saved;
+    applyLang(saved);
+  } else {
+    applyLang("en");
+  }
+
+  langSelect.addEventListener("change", () => applyLang(langSelect.value));
+
+  // CTAs
+  $("ctaPrimary").addEventListener("click", () => scrollToId("contact"));
+  $("ctaSecondary").addEventListener("click", () => scrollToId("screens"));
+
+  // Footer links
+  $("footerLink1").addEventListener("click", () => scrollToId("screens"));
+  $("footerLink2").addEventListener("click", () => scrollToId("contact"));
+
+  // Copy email
+  const EMAIL = "fq162162@gmail.com";
+  $("copyBtn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      const lang = langSelect.value;
+      const dict = I18N[lang] || I18N.en;
+      showToast(dict.toastCopiedTitle, dict.toastCopiedSub);
+    } catch {
+      // fallback: open mailto
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  });
+</script>
+</body>
+</html>
